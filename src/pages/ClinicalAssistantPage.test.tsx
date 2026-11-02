@@ -89,12 +89,14 @@ describe('ClinicalAssistantPage', () => {
     expect(localStorage.length).toBe(1)
   })
 
-  it('is unavailable outside development builds', () => {
+  it('keeps the authorized clinical workspace available in production builds', () => {
     vi.stubEnv('DEV', false)
     renderAssistant()
     expect(screen.getByRole('heading', { name: 'Assistente Clínico' })).toBeInTheDocument()
-    expect(screen.getByText('Recurso restrito ao ambiente de desenvolvimento')).toBeInTheDocument()
-    expect(screen.queryByRole('combobox', { name: 'Queixa principal' })).not.toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: 'Queixa principal' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Descrição clínica')).toBeInTheDocument()
+    expect(screen.getByText('Ferramenta de organização, não de decisão clínica')).toBeInTheDocument()
+    expect(screen.getByText(/aceita somente casos clínicos/)).toBeInTheDocument()
   })
 
   it('structures a synthetic description, preserves unknown findings and allows correction', async () => {
@@ -141,6 +143,7 @@ describe('ClinicalAssistantPage', () => {
   })
 
   it('shows a safe failure state when the function is unavailable', async () => {
+    vi.stubEnv('DEV', false)
     vi.stubGlobal('fetch', vi.fn(async () => new Response(
       JSON.stringify({ error: 'Assistente de IA indisponível neste ambiente.' }),
       { status: 503 },
@@ -152,5 +155,6 @@ describe('ClinicalAssistantPage', () => {
 
     expect(await screen.findByText('Falha na consulta')).toBeInTheDocument()
     expect(screen.getByRole('alert')).toHaveTextContent('Assistente de IA indisponível neste ambiente.')
+    expect(screen.getByRole('combobox', { name: 'Queixa principal' })).toBeInTheDocument()
   })
 })

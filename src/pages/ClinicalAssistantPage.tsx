@@ -101,26 +101,6 @@ export function ClinicalAssistantPage() {
 
   useEffect(() => () => aiRequestController.current?.abort(), [])
 
-  if (!import.meta.env.DEV) {
-    return (
-      <div className="page-stack">
-        <header className="page-heading">
-          <span className="eyebrow">Em desenvolvimento</span>
-          <h1 data-page-heading tabIndex={-1}>Assistente Clínico</h1>
-          <p>Esta experiência ainda não está disponível nesta versão. A Biblioteca e os catálogos de referência continuam acessíveis.</p>
-        </header>
-        <section className="clinical-assistant__notice" role="status">
-          <Info size={20} aria-hidden="true" />
-          <div>
-            <strong>Recurso restrito ao ambiente de desenvolvimento</strong>
-            <p>A avaliação não está validada para uso assistencial. A habilitação depende de regras revisadas, validação clínica e avaliação regulatória.</p>
-            <Link to="/protocolos">Acessar a Biblioteca</Link>
-          </div>
-        </section>
-      </div>
-    )
-  }
-
   const updateCase = <K extends keyof ClinicalCase>(field: K, value: ClinicalCase[K]) => {
     setClinicalCase((current) => ({ ...current, [field]: value }))
   }
@@ -288,6 +268,13 @@ export function ClinicalAssistantPage() {
         <h1 data-page-heading tabIndex={-1}>Assistente Clínico</h1>
         <p>Organize achados sem identificadores. Os dados ficam somente na memória desta página e são descartados ao limpar ou sair.</p>
       </header>
+      <section className="clinical-assistant__notice" role="status">
+        <Info size={20} aria-hidden="true" />
+        <div>
+          <strong>Ferramenta de organização, não de decisão clínica</strong>
+          <p>A estruturação por IA depende da disponibilidade da Function e aceita somente casos sintéticos. Hipóteses, investigações e opções terapêuticas permanecem indisponíveis sem regras e validação clínica aprovadas.</p>
+        </div>
+      </section>
       <section className="clinical-assistant__ai-panel" aria-labelledby="clinical-assistant-ai-heading">
         <div className="clinical-assistant__section-heading">
           <Sparkles size={20} aria-hidden="true" />

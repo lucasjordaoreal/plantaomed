@@ -220,6 +220,12 @@ describe('Netlify clinical assistant function', () => {
     expect(quotaResponse.status).toBe(429)
     expect(mocks.generateContent).not.toHaveBeenCalled()
 
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('quota service unavailable', { status: 503 })))
+    const redisResponse = await handler(makeRequest(validStructureRequest()))
+    expect(redisResponse.status).toBe(503)
+    expect(await redisResponse.json()).toEqual({ error: 'Assistente de IA indisponível neste ambiente.' })
+    expect(mocks.generateContent).not.toHaveBeenCalled()
+
     vi.stubGlobal('fetch', vi.fn(async () => new Response('[{"result":1}]')))
     mocks.generateContent.mockRejectedValueOnce(new (await import('@google/genai')).ApiError(429))
     const providerResponse = await handler(makeRequest(validStructureRequest()))

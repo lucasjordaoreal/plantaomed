@@ -2,7 +2,7 @@
 
 ## Status
 
-O Assistente Clínico continua restrito a builds de desenvolvimento e casos. Não está liberado para atendimento real. A implementação técnica não substitui validação clínica independente nem determina prontidão para uso assistencial.
+A interface do Assistente Clínico está disponível em produção somente para usuários autenticados com o papel `clinical-assistant`. Não está liberada para atendimento real. A implementação técnica não substitui validação clínica independente nem determina prontidão para uso assistencial.
 
 ## Auditoria das lacunas
 
@@ -10,8 +10,8 @@ O Assistente Clínico continua restrito a builds de desenvolvimento e casos. Nã
 - **Motor:** havia apenas um retorno vazio. Agora existe um avaliador de regras declarativas com condições, escopo de população/contexto, perguntas contextuais, predicados de exclusão, achados ausentes, associação rastreável a hipóteses/investigações/terapias e controle de unidades sem conversões.
 - **Base executável:** continua sem regras, hipóteses, investigações ou tratamentos clínicos. O conteúdo existente na Biblioteca não tem referências e revisão aptas para o motor.
 - **Terapêutica:** qualquer relação que venha a ser cadastrada exige critérios de aplicabilidade, entradas de segurança conhecidas e revisão explícita de contraindicações, interações e restrições populacionais. Nenhum produto/dose é sugerido atualmente.
-- **Privacidade:** dados do caso são estado transitório da página, não vão para URL, armazenamento ou serviço externo; saída e descarte limpam a avaliação. Não há retenção do caso.
-- **Produção:** a avaliação está indisponível fora do ambiente de desenvolvimento; não foi executada avaliação regulatória, de segurança clínica ou de validação profissional.
+- **Privacidade:** os campos da avaliação ficam em memória e não são salvos automaticamente. Ao solicitar estruturação, somente a descrição clínica é enviada à Function e ao provedor Gemini. A integração deve usar exclusivamente casos sintéticos; não há comprovação de conformidade para dados reais.
+- **Produção:** a interface pode ser acessada por usuários autorizados, mas cada recurso depende de sua disponibilidade e dos controles de servidor. Não foi executada avaliação regulatória, de segurança clínica ou de validação profissional.
 
 ## Conteúdo e fonte efetivamente auditados
 
@@ -44,8 +44,9 @@ Nenhuma dessas atividades de validação clínica ou avaliação regulatória é
 
 ## Segurança, privacidade e limitações
 
-- A avaliação em funcionamento é exibida somente quando `import.meta.env.DEV` está habilitado; no build de produção, a rota informa que o recurso está indisponível.
-- Usar somente casos no ambiente de desenvolvimento. Não inserir identificadores pessoais.
+- A interface não é ocultada em builds de produção. A rota exige autenticação e o papel `clinical-assistant`; a Function repete a autorização no servidor.
+- Usar somente casos sintéticos. Não inserir informações de pacientes reais: ao acionar a estruturação, o texto informado é enviado ao Gemini por meio da Function. A confirmação no cliente e a detecção de padrões comuns de identificadores são controles auxiliares, não certificam que o caso é sintético ou anonimizado.
+- Se a Function, a configuração Gemini ou o serviço de cotas estiver indisponível, a estruturação por IA falha de forma isolada e a interface permanece acessível; não há garantia de chamada real até validá-la no ambiente Netlify.
 - A ausência de alerta não exclui risco; a interface explicita essa limitação.
 - Nenhum valor de sinal vital é classificado como normal, anormal ou grave.
 - A lista de sinais/sintomas é um vocabulário de organização, não uma lista de hipóteses.

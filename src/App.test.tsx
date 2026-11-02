@@ -52,6 +52,7 @@ describe('PlantãoMed independent routes', () => {
   afterEach(() => {
     cleanup()
     vi.restoreAllMocks()
+    vi.unstubAllEnvs()
     vi.unstubAllGlobals()
     window.fetch = originalWindowFetch
     window.history.replaceState(null, '', '/')
@@ -124,6 +125,31 @@ describe('PlantãoMed independent routes', () => {
     expect(await screen.findByRole('heading', { name: 'Redefina sua senha' })).toBeInTheDocument()
     expect(screen.getByLabelText('Nova senha')).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'PlantãoMed' })).not.toBeInTheDocument()
+  })
+
+  it('allows an authenticated clinical-assistant role to open the production workspace', async () => {
+    vi.stubEnv('DEV', false)
+    identity.getUser.mockResolvedValue({
+      id: 'synthetic-authorized-doctor',
+      email: 'doctor@example.test',
+      roles: ['clinical-assistant'],
+    })
+    renderRoute('/assistente-clinico')
+
+    expect(await screen.findByRole('heading', { name: 'Assistente Clínico' })).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: 'Queixa principal' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Descrição clínica')).toBeInTheDocument()
+  })
+
+  it('keeps an authenticated account without the clinical role restricted', async () => {
+    identity.getUser.mockResolvedValue({
+      id: 'synthetic-unprivileged-user',
+      roles: ['authenticated'],
+    })
+    renderRoute('/assistente-clinico')
+
+    expect(await screen.findByRole('heading', { name: 'Acesso não habilitado' })).toBeInTheDocument()
+    expect(screen.queryByRole('combobox', { name: 'Queixa principal' })).not.toBeInTheDocument()
   })
 
   it('searches Anvisa records by active ingredient and registration and opens source fields', async () => {
