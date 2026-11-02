@@ -2153,6 +2153,96 @@
   text-decoration: none;
 }
 
+.clinical-assistant__ai-panel {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: #fff;
+  box-shadow: 0 5px 20px rgb(16 17 20 / 3%);
+}
+
+.clinical-assistant__synthetic-confirmation {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.clinical-assistant__synthetic-confirmation input {
+  flex: 0 0 auto;
+  margin: 2px 0 0;
+  accent-color: var(--color-blue);
+}
+
+.clinical-assistant__ai-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.clinical-assistant__ai-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.clinical-assistant__spinner {
+  animation: clinical-assistant-spin 1s linear infinite;
+}
+
+@keyframes clinical-assistant-spin {
+  to { transform: rotate(360deg); }
+}
+
+.clinical-assistant__ai-result,
+.clinical-assistant__ai-chat {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.clinical-assistant__ai-findings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.clinical-assistant__ai-findings > :first-child,
+.clinical-assistant__ai-findings > :nth-child(3),
+.clinical-assistant__ai-findings > :last-child {
+  grid-column: 1 / -1;
+}
+
+.clinical-assistant__ai-chat {
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: #fafcff;
+}
+
+.clinical-assistant__ai-chat h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.clinical-assistant__ai-references {
+  margin: 0;
+  padding-left: 20px;
+  overflow-wrap: anywhere;
+}
+
+.clinical-assistant__ai-references a {
+  color: var(--color-blue-hover);
+}
+
 .clinical-assistant__steps {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2761,9 +2851,18 @@
   }
 
   .clinical-assistant__panel,
-  .clinical-assistant__aside {
+  .clinical-assistant__aside,
+  .clinical-assistant__ai-panel {
     padding: 16px;
     border-radius: 18px;
+  }
+
+  .clinical-assistant__ai-findings {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .clinical-assistant__ai-findings > * {
+    grid-column: auto;
   }
 
   .page-heading--actions .action-button {

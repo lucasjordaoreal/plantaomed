@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { ClinicalAssistantPage } from './ClinicalAssistantPage'
@@ -16,6 +16,7 @@ function renderAssistant() {
 afterEach(() => {
   cleanup()
   vi.unstubAllEnvs()
+  vi.unstubAllGlobals()
 })
 
 describe('ClinicalAssistantPage', () => {
@@ -94,5 +95,62 @@ describe('ClinicalAssistantPage', () => {
     expect(screen.getByRole('heading', { name: 'Assistente Clínico' })).toBeInTheDocument()
     expect(screen.getByText('Recurso restrito ao ambiente de desenvolvimento')).toBeInTheDocument()
     expect(screen.queryByRole('combobox', { name: 'Queixa principal' })).not.toBeInTheDocument()
+  })
+
+  it('structures a synthetic description, preserves unknown findings and allows correction', async () => {
+    const result = {
+      summary: 'Caso sintético para revisão.',
+      answer: '',
+      findings: {
+        chiefComplaint: 'Dor torácica',
+        associatedSymptoms: ['Dispneia', 'Sudorese'],
+        evolution: 'Há aproximadamente uma hora.',
+        reportedHistory: ['Hipertensão informada'],
+        positiveFindings: ['Dor torácica', 'Dispneia', 'Sudorese'],
+        explicitNegativeFindings: [],
+        unknownInformation: ['Sinais vitais não informados', 'Exames não informados'],
+      },
+      references: [],
+      evidenceSummary: 'Nenhum documento foi recuperado.',
+      limitations: ['Não constitui diagnóstico.'],
+    }
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ result, model: 'gemini-2.5-flash' }), { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    renderAssistant()
+
+    fireEvent.change(screen.getByLabelText('Descrição clínica'), {
+      target: { value: 'Caso: paciente adulto com dor torácica, dispneia e sudorese há uma hora. Antecedente de hipertensão.' },
+    })
+    fireEvent.click(screen.getByLabelText(/Confirmo que não me devo basear nas informações fornecidas/))
+    fireEvent.click(screen.getByRole('button', { name: 'Analisar descrição' }))
+
+    await waitFor(() => expect(screen.getByText('Resumo para conferência — não é diagnóstico')).toBeInTheDocument())
+    expect(screen.getByLabelText('Informações desconhecidas / não informadas')).toHaveValue('Sinais vitais não informados\nExames não informados')
+    expect(screen.getByText(/Nenhum trecho documental foi recuperado/)).toBeInTheDocument()
+    expect(screen.getByText(/Solicitando informações adicionais/)).toBeInTheDocument()
+
+    const confirmFindings = screen.getByLabelText(/Revisei e confirmei os achados acima/)
+    fireEvent.click(confirmFindings)
+    expect(confirmFindings).toBeChecked()
+    fireEvent.change(screen.getByLabelText('Achados positivos informados'), { target: { value: 'Dor torácica\nDispneia corrigida' } })
+    expect(confirmFindings).not.toBeChecked()
+    expect(fetchMock).toHaveBeenCalledWith('/.netlify/functions/ai-assistant', expect.objectContaining({
+      method: 'POST',
+      body: expect.stringContaining('"syntheticOnly":true'),
+    }))
+  })
+
+  it('shows a safe failure state when the function is unavailable', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(
+      JSON.stringify({ error: 'Assistente de IA indisponível neste ambiente.' }),
+      { status: 503 },
+    )))
+    renderAssistant()
+    fireEvent.change(screen.getByLabelText('Descrição clínica '), { target: { value: 'Caso clínico' } })
+    fireEvent.click(screen.getByLabelText(/Confirmo que não me devo basear nas informações fornecidas/))
+    fireEvent.click(screen.getByRole('button', { name: 'Analisar descrição' }))
+
+    expect(await screen.findByText('Falha na consulta')).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toHaveTextContent('Assistente de IA indisponível neste ambiente.')
   })
 })

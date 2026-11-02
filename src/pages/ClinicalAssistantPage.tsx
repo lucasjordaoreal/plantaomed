@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ArrowLeft,
   ArrowRight,
@@ -6,10 +6,13 @@ import {
   ClipboardList,
   FlaskConical,
   Info,
+  LoaderCircle,
+  MessageCircle,
   Pill,
   Plus,
   RotateCcw,
   ShieldAlert,
+  Sparkles,
   Stethoscope,
   X,
 } from 'lucide-react'
@@ -19,6 +22,8 @@ import { assessClinicalCase } from '../features/clinical-assistant/engine/assess
 import { clinicalKnowledgeBase } from '../features/clinical-assistant/rules'
 import type { ClinicalCase, VitalSignId, VitalSignObservation } from '../features/clinical-assistant/types'
 import { validateVitalSigns, vitalSignDefinitions } from '../features/clinical-assistant/validation/vitalSigns'
+import { AiRequestError, requestAssistantReply } from '../lib/ai'
+import type { AiAssistantResult, ClinicalQuestionType } from '../lib/ai'
 
 const steps = [
   { label: 'Avaliação clínica', icon: ClipboardList },
@@ -65,6 +70,7 @@ const createEmptyCase = (): ClinicalCase => ({
 })
 
 const fieldClass = 'clinical-assistant__field'
+type AiStatus = 'ready' | 'analyzing' | 'additional' | 'result' | 'failed' | 'limited'
 
 export function ClinicalAssistantPage() {
   const [clinicalCase, setClinicalCase] = useState(createEmptyCase)
@@ -72,7 +78,17 @@ export function ClinicalAssistantPage() {
   const [symptomQuery, setSymptomQuery] = useState('')
   const [symptomToAdd, setSymptomToAdd] = useState('')
   const [vitalErrors, setVitalErrors] = useState<ReturnType<typeof validateVitalSigns>>([])
+  const [aiDescription, setAiDescription] = useState('')
+  const [syntheticConfirmed, setSyntheticConfirmed] = useState(false)
+  const [aiStatus, setAiStatus] = useState<AiStatus>('ready')
+  const [aiResult, setAiResult] = useState<AiAssistantResult | null>(null)
+  const [aiFindingsConfirmed, setAiFindingsConfirmed] = useState(false)
+  const [aiModel, setAiModel] = useState('')
+  const [aiError, setAiError] = useState('')
+  const [aiQuestion, setAiQuestion] = useState('')
+  const [aiQuestionType, setAiQuestionType] = useState<ClinicalQuestionType>('clarify')
   const findingSequence = useRef(0)
+  const aiRequestController = useRef<AbortController | null>(null)
 
   const assessment = useMemo(() => assessClinicalCase(clinicalCase), [clinicalCase])
   const primaryPresentation = clinicalPresentations.find(({ id }) => id === clinicalCase.primaryPresentationId)
@@ -82,6 +98,8 @@ export function ClinicalAssistantPage() {
   const availableSymptoms = searchClinicalPresentations(symptomQuery)
     .filter(({ id }) => id !== clinicalCase.primaryPresentationId && !clinicalCase.associatedPresentationIds.includes(id))
   const currentVitalErrors = new Map(vitalErrors.map(({ id, message }) => [id, message]))
+
+  useEffect(() => () => aiRequestController.current?.abort(), [])
 
   if (!import.meta.env.DEV) {
     return (
@@ -144,6 +162,10 @@ export function ClinicalAssistantPage() {
 
   const advance = () => {
     if (step === 0) {
+      if (aiResult && !aiFindingsConfirmed) {
+        setAiError('Revise e confirme os achados estruturados antes de prosseguir.')
+        return
+      }
       const age = clinicalCase.ageYears.trim() ? Number(clinicalCase.ageYears) : null
       const weight = clinicalCase.weightKg.trim() ? Number(clinicalCase.weightKg) : null
       if (age !== null && (!Number.isInteger(age) || age < 0 || age > 120)) return
@@ -159,28 +181,207 @@ export function ClinicalAssistantPage() {
   }
 
   const reset = () => {
+    aiRequestController.current?.abort()
     setClinicalCase(createEmptyCase())
     setStep(0)
     setSymptomQuery('')
     setSymptomToAdd('')
     setVitalErrors([])
+    setAiDescription('')
+    setSyntheticConfirmed(false)
+    setAiStatus('ready')
+    setAiResult(null)
+    setAiFindingsConfirmed(false)
+    setAiModel('')
+    setAiError('')
+    setAiQuestion('')
     findingSequence.current = 0
+  }
+
+  const runAiRequest = async (action: 'structure' | 'contextual') => {
+    if (!syntheticConfirmed || !aiDescription.trim()) {
+      setAiStatus('additional')
+      setAiError('Informe uma descrição sintética e confirme que não contém dados de pacientes reais.')
+      return
+    }
+
+    const confirmedSummary = aiResult
+      ? JSON.stringify(Object.fromEntries(Object.entries(aiResult.findings).map(([field, value]) => [
+        field,
+        typeof value === 'string'
+          ? value.slice(0, 250)
+          : value.slice(0, 5).map((item) => item.slice(0, 120)),
+      ])))
+      : ''
+    const description = action === 'contextual' && aiResult
+      ? `${aiDescription}\n\nAchados revisados pelo médico:\n${confirmedSummary}`
+      : aiDescription
+    const controller = new AbortController()
+    aiRequestController.current = controller
+    setAiStatus('analyzing')
+    setAiError('')
+
+    try {
+      const request = action === 'structure'
+        ? { action, description, syntheticOnly: true as const }
+        : {
+          action,
+          description,
+          question: aiQuestion.trim(),
+          questionType: aiQuestionType,
+          syntheticOnly: true as const,
+        }
+      const response = await requestAssistantReply(request, { signal: controller.signal })
+      setAiResult(response.result)
+      setAiFindingsConfirmed(false)
+      setAiModel(response.model)
+      setAiStatus(response.result.findings.unknownInformation.length > 0 ? 'additional' : 'result')
+      if (action === 'contextual') setAiQuestion('')
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        setAiStatus('failed')
+        setAiError('Consulta cancelada. Nenhuma avaliação clínica foi alterada.')
+      } else if (error instanceof AiRequestError && error.status === 429) {
+        setAiStatus('limited')
+        setAiError(error.message)
+      } else {
+        setAiStatus('failed')
+        setAiError(error instanceof Error ? error.message : 'Falha ao consultar o Assistente Clínico.')
+      }
+    } finally {
+      if (aiRequestController.current === controller) aiRequestController.current = null
+    }
+  }
+
+  const updateAiFindingList = (field: keyof AiAssistantResult['findings'], value: string) => {
+    if (!aiResult) return
+    const parsed = field === 'chiefComplaint' || field === 'evolution'
+      ? value
+      : value.split('\n').map((item) => item.trim()).filter(Boolean)
+    setAiResult({
+      ...aiResult,
+      findings: { ...aiResult.findings, [field]: parsed },
+    })
+    setAiFindingsConfirmed(false)
+  }
+
+  const handleAiQuestion = () => {
+    if (!aiQuestion.trim()) {
+      setAiError('Escreva uma pergunta para continuar.')
+      return
+    }
+    if (aiQuestionType !== 'clarify') {
+      setAiStatus('failed')
+      setAiError('A biblioteca contém metadados, mas ainda não há texto documental indexado. Critérios, referências e perguntas sobre trechos recuperados estão indisponíveis.')
+      return
+    }
+    void runAiRequest('contextual')
   }
 
   return (
     <div className="page-stack">
       <header className="page-heading">
-        <span className="eyebrow">Protótipo · apenas casos fictícios</span>
         <h1 data-page-heading tabIndex={-1}>Assistente Clínico</h1>
         <p>Organize achados sem identificadores. Os dados ficam somente na memória desta página e são descartados ao limpar ou sair.</p>
       </header>
-
-      <section className="clinical-assistant__notice" role="note">
-        <Info size={20} aria-hidden="true" />
-        <div>
-          <strong>Não validado para atendimento real</strong>
-          <p>Use apenas casos fictícios. Este protótipo não determina gravidade, diagnóstico, exames ou tratamento; não substitui julgamento profissional nem protocolo institucional.</p>
+      <section className="clinical-assistant__ai-panel" aria-labelledby="clinical-assistant-ai-heading">
+        <div className="clinical-assistant__section-heading">
+          <Sparkles size={20} aria-hidden="true" />
+          <div>
+            <h2 id="clinical-assistant-ai-heading">Estruturar descrição com Gemini</h2>
+            <p>A IA organiza somente o que foi escrito. A resposta precisa ser revisada e não confirma diagnóstico.</p>
+          </div>
         </div>
+        <label className={fieldClass}>
+          <span>Descrição clínica sintética</span>
+          <textarea
+            rows={4}
+            maxLength={5_000}
+            value={aiDescription}
+            onChange={(event) => {
+              setAiDescription(event.target.value)
+              setAiResult(null)
+              setAiFindingsConfirmed(false)
+              setAiStatus('ready')
+              setAiError('')
+            }}
+            placeholder="Ex.: Paciente adulto com dor torácica, dispneia e sudorese há cerca de uma hora. Antecedente de hipertensão."
+            autoComplete="off"
+            disabled={aiStatus === 'analyzing'}
+          />
+        </label>
+        <label className="clinical-assistant__synthetic-confirmation">
+          <input
+            type="checkbox"
+            checked={syntheticConfirmed}
+            onChange={(event) => setSyntheticConfirmed(event.target.checked)}
+            disabled={aiStatus === 'analyzing'}
+          />
+          <span>Confirmo que não me devo basear nas informações fornecidas.</span>
+        </label>
+        <div className="clinical-assistant__ai-actions">
+          {aiStatus === 'analyzing'
+            ? <button className="clinical-assistant__secondary-button" type="button" onClick={() => aiRequestController.current?.abort()}><X size={16} aria-hidden="true" /> Cancelar consulta</button>
+            : <button className="clinical-assistant__primary-button" type="button" onClick={() => void runAiRequest('structure')} disabled={!aiDescription.trim() || !syntheticConfirmed}><Sparkles size={16} aria-hidden="true" /> Analisar descrição</button>}
+          <span className="clinical-assistant__ai-status" role="status" aria-live="polite">
+            {aiStatus === 'analyzing' && <><LoaderCircle size={15} className="clinical-assistant__spinner" aria-hidden="true" /> Analisando</>}
+            {aiStatus === 'ready' && 'Pronto para análise'}
+            {aiStatus === 'additional' && 'Solicitando informações adicionais'}
+            {aiStatus === 'result' && 'Resultado disponível · revisão médica necessária'}
+            {aiStatus === 'failed' && 'Falha na consulta'}
+            {aiStatus === 'limited' && 'Limite de utilização atingido'}
+          </span>
+        </div>
+        {aiError && <p className="clinical-assistant__error" role="alert">{aiError}</p>}
+
+        {aiResult && (
+          <div className="clinical-assistant__ai-result">
+            <div className="clinical-assistant__result-card">
+              <strong>Resumo para conferência — não é diagnóstico</strong>
+              <p>{aiResult.summary || 'Sem resumo informado.'}</p>
+            </div>
+            <div className="clinical-assistant__ai-findings">
+              <label className={fieldClass}><span>Queixa principal extraída</span><textarea rows={2} value={aiResult.findings.chiefComplaint} onChange={(event) => updateAiFindingList('chiefComplaint', event.target.value)} /></label>
+              <label className={fieldClass}><span>Sintomas associados</span><textarea rows={3} value={aiResult.findings.associatedSymptoms.join('\n')} onChange={(event) => updateAiFindingList('associatedSymptoms', event.target.value)} /></label>
+              <label className={fieldClass}><span>Tempo e evolução</span><textarea rows={2} value={aiResult.findings.evolution} onChange={(event) => updateAiFindingList('evolution', event.target.value)} /></label>
+              <label className={fieldClass}><span>Antecedentes informados</span><textarea rows={3} value={aiResult.findings.reportedHistory.join('\n')} onChange={(event) => updateAiFindingList('reportedHistory', event.target.value)} /></label>
+              <label className={fieldClass}><span>Achados positivos informados</span><textarea rows={3} value={aiResult.findings.positiveFindings.join('\n')} onChange={(event) => updateAiFindingList('positiveFindings', event.target.value)} /></label>
+              <label className={fieldClass}><span>Achados negativos explicitamente mencionados</span><textarea rows={3} value={aiResult.findings.explicitNegativeFindings.join('\n')} onChange={(event) => updateAiFindingList('explicitNegativeFindings', event.target.value)} /></label>
+              <label className={fieldClass}><span>Informações desconhecidas / não informadas</span><textarea rows={3} value={aiResult.findings.unknownInformation.join('\n')} onChange={(event) => updateAiFindingList('unknownInformation', event.target.value)} /></label>
+            </div>
+            <p className="clinical-assistant__muted">Confirme ou corrija cada campo antes de usá-lo. Os campos desconhecidos não são tratados como negativos. Revisão: {aiModel || 'modelo não identificado'}.</p>
+            {aiResult.answer && <div className="clinical-assistant__result-card"><strong>Resposta</strong><p>{aiResult.answer}</p></div>}
+            {aiResult.evidenceSummary && <div className="clinical-assistant__result-card"><strong>Base documental</strong><p>{aiResult.evidenceSummary}</p></div>}
+            {aiResult.references.length > 0
+              ? <ul className="clinical-assistant__ai-references">{aiResult.references.map((reference) => <li key={reference.id}><a href={reference.url} target="_blank" rel="noreferrer">{reference.title} — {reference.section} ({reference.version})</a></li>)}</ul>
+              : <p className="clinical-assistant__muted">Nenhum trecho documental foi recuperado; não são apresentadas referências geradas pela IA.</p>}
+            {aiResult.limitations.map((limitation) => <p className="clinical-assistant__muted" key={limitation}>{limitation}</p>)}
+            <label className="clinical-assistant__synthetic-confirmation">
+              <input type="checkbox" checked={aiFindingsConfirmed} onChange={(event) => {
+                setAiFindingsConfirmed(event.target.checked)
+                setAiError('')
+              }} />
+              <span>Revisei e confirmei os achados acima. Vou preencher o formulário clínico existente manualmente; a IA não altera regras nem dados objetivos.</span>
+            </label>
+            <div className="clinical-assistant__ai-chat">
+              <div className="clinical-assistant__section-heading"><MessageCircle size={18} aria-hidden="true" /><div><h3>Interação contextual</h3><p>O contexto permanece nesta página e será enviado somente após a confirmação de caso fictício.</p></div></div>
+              <label className={fieldClass}>
+                <span>Tipo de interação</span>
+                <select value={aiQuestionType} onChange={(event) => setAiQuestionType(event.target.value as ClinicalQuestionType)}>
+                  <option value="clarify">Esclarecer um termo do texto</option>
+                  <option value="criteria">Consultar critérios documentados</option>
+                  <option value="references">Buscar referências</option>
+                  <option value="recovered_content">Perguntar sobre conteúdo recuperado</option>
+                </select>
+              </label>
+              <label className={fieldClass}>
+                <span>Pergunta ou correção contextual</span>
+                <textarea rows={2} maxLength={500} value={aiQuestion} onChange={(event) => setAiQuestion(event.target.value)} placeholder="Ex.: O que significa o termo X nesta descrição?" disabled={aiStatus === 'analyzing'} />
+              </label>
+              <button className="clinical-assistant__secondary-button" type="button" onClick={handleAiQuestion} disabled={aiStatus === 'analyzing'}><MessageCircle size={16} aria-hidden="true" /> Enviar pergunta</button>
+            </div>
+          </div>
+        )}
       </section>
 
       <nav className="clinical-assistant__steps" aria-label="Etapas da avaliação">
