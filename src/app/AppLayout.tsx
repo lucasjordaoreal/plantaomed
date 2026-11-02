@@ -31,6 +31,12 @@ const mobileLinks: NavigationLink[] = [
   mainLinks[6],
 ]
 const moreLinks = mainLinks.filter(({ to }) => ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre'].includes(to))
+const clinicalAssistantLink: NavigationLink = {
+  to: '/assistente-clinico',
+  label: 'Assistente Clínico',
+  icon: Stethoscope,
+  end: true,
+}
 
 function RouteEffects() {
   const location = useLocation()
@@ -66,7 +72,7 @@ export function AppLayout() {
   const location = useLocation()
   const [moreOpen, setMoreOpen] = useState(false)
   const moreMenuRef = useRef<HTMLDivElement>(null)
-  const moreActive = ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre'].includes(location.pathname)
+  const moreActive = ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre', clinicalAssistantLink.to].includes(location.pathname)
 
   useEffect(() => {
     if (!moreOpen) return
@@ -91,6 +97,14 @@ export function AppLayout() {
       <div className="app-frame">
         <aside className="desktop-sidebar glass-surface" aria-label="Navegação principal">
           <nav>
+            <NavLink
+              to={clinicalAssistantLink.to}
+              end={clinicalAssistantLink.end}
+              className={({ isActive }) => `sidebar-link${isActive ? ' is-active' : ''}`}
+            >
+              <Stethoscope size={18} aria-hidden="true" />
+              <span>{clinicalAssistantLink.label}</span>
+            </NavLink>
             {mainLinks.map(({ to, label, icon: Icon, end }) => (
               <NavLink key={to} to={to} end={end} className={({ isActive }) => `sidebar-link${isActive ? ' is-active' : ''}`}>
                 <Icon size={18} aria-hidden="true" />
@@ -120,7 +134,7 @@ export function AppLayout() {
           </button>
           {moreOpen && (
             <div className="mobile-more__menu glass-surface" role="menu" aria-label="Mais páginas">
-              {moreLinks.map(({ to, label, icon: Icon }) => (
+              {[clinicalAssistantLink, ...moreLinks].map(({ to, label, icon: Icon }) => (
                 <NavLink key={to} to={to} role="menuitem" className={({ isActive }) => `mobile-more__link${isActive ? ' is-active' : ''}`} onClick={() => setMoreOpen(false)}>
                   <Icon size={17} aria-hidden="true" />
                   <span>{label}</span>

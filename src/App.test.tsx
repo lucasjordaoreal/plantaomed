@@ -33,21 +33,25 @@ describe('PlantãoMed independent routes', () => {
     window.history.replaceState(null, '', '/')
   })
 
-  it('redirects the root and renders only the dashboard page', () => {
+  it('redirects the root to the onboarding page on a first visit', () => {
     renderRoute('/')
+    expect(screen.getByRole('heading', { name: /PlantãoMed\. Conhecimento clínico/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Entrar no PlantãoMed/i })).toBeInTheDocument()
+    expect(screen.queryByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).not.toBeInTheDocument()
+  })
+
+  it('stores onboarding completion and skips the welcome page later', async () => {
+    renderRoute('/')
+    fireEvent.click(screen.getByRole('button', { name: /Entrar no PlantãoMed/i }))
+    expect(localStorage.getItem('plantaomed.onboarding.completed')).toBe('true')
     expect(screen.getByRole('heading', { name: 'PlantãoMed' })).toBeInTheDocument()
-    expect(within(screen.getByRole('banner')).queryByRole('searchbox')).not.toBeInTheDocument()
-    expect(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'Biblioteca' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('heading', { name: 'Favoritos' })).not.toBeInTheDocument()
-    expect(document.querySelector('.protocol-list')).toBeNull()
-    expect(document.querySelector('.document-catalog-section')).toBeNull()
   })
 
   it.each([
     ['/inicio', 'PlantãoMed'],
     ['/protocolos', 'Biblioteca'],
     ['/sinais-e-sintomas', 'Sinais e sintomas'],
+    ['/assistente-clinico', 'Assistente Clínico'],
     ['/diretrizes', 'Diretrizes e documentos'],
     ['/calculadoras', 'Calculadoras'],
     ['/favoritos', 'Favoritos'],

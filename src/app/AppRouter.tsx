@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { AppLayout } from './AppLayout'
 import { AboutPage } from '../pages/AboutPage'
 import { CalculatorsPage } from '../pages/CalculatorsPage'
+import { ClinicalAssistantPage } from '../pages/ClinicalAssistantPage'
 import { FavoritesPage } from '../pages/FavoritesPage'
 import { GuidelinesPage } from '../pages/GuidelinesPage'
 import { HistoryPage } from '../pages/HistoryPage'
@@ -10,9 +11,11 @@ import { HomePage } from '../pages/HomePage'
 import { LibraryPage } from '../pages/LibraryPage'
 import { MedicationsPage } from '../pages/MedicationsPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
+import { OnboardingPage } from '../pages/OnboardingPage'
 import { PresentationDetailPage } from '../pages/PresentationDetailPage'
 import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
 import { SymptomsPage } from '../pages/SymptomsPage'
+import { getOnboardingCompleted } from '../lib/storage'
 
 export function AppRouter() {
   const location = useLocation()
@@ -20,43 +23,47 @@ export function AppRouter() {
 
   useEffect(() => {
     const hash = window.location.hash
-    if (!hash) {
-      if (location.pathname === '/') navigate('/inicio', { replace: true })
-      return
-    }
+    if (hash) {
+      const legacyRoute = hash.slice(1)
 
-    const legacyRoute = hash.slice(1)
-    if (legacyRoute.startsWith('/')) {
+      if (legacyRoute.startsWith('/')) {
+        const [legacyPath, ...queryParts] = legacyRoute.split('?')
+        const destination = legacyPath === '/documentos' ? '/diretrizes' : legacyPath || '/inicio'
+        const query = queryParts.length ? `?${queryParts.join('?')}` : ''
+        navigate(`${destination}${query}`, { replace: true })
+        return
+      }
+
       const [legacyPath, ...queryParts] = legacyRoute.split('?')
-      const destination = legacyPath === '/documentos' ? '/diretrizes' : legacyPath || '/inicio'
-      const query = queryParts.length ? `?${queryParts.join('?')}` : ''
-      navigate(`${destination}${query}`, { replace: true })
+      const destinations: Record<string, string> = {
+        inicio: '/inicio',
+        protocolos: '/protocolos',
+        documentos: '/diretrizes',
+        diretrizes: '/diretrizes',
+        medicamentos: '/medicamentos',
+        calculadoras: '/calculadoras',
+        sintomas: '/sinais-e-sintomas',
+        'sinais-e-sintomas': '/sinais-e-sintomas',
+        favoritos: '/favoritos',
+        historico: '/historico',
+        sobre: '/sobre',
+      }
+      const destination = destinations[legacyPath]
+      if (destination) {
+        const query = queryParts.length ? `?${queryParts.join('?')}` : ''
+        navigate(`${destination}${query}`, { replace: true })
+      }
       return
     }
 
-    const [legacyPath, ...queryParts] = legacyRoute.split('?')
-    const destinations: Record<string, string> = {
-      inicio: '/inicio',
-      protocolos: '/protocolos',
-      documentos: '/diretrizes',
-      diretrizes: '/diretrizes',
-      medicamentos: '/medicamentos',
-      calculadoras: '/calculadoras',
-      sintomas: '/sinais-e-sintomas',
-      'sinais-e-sintomas': '/sinais-e-sintomas',
-      favoritos: '/favoritos',
-      historico: '/historico',
-      sobre: '/sobre',
+    if (location.pathname === '/') {
+      navigate(getOnboardingCompleted() ? '/inicio' : '/boas-vindas', { replace: true })
     }
-    const destination = destinations[legacyPath]
-    if (destination) {
-      const query = queryParts.length ? `?${queryParts.join('?')}` : ''
-      navigate(`${destination}${query}`, { replace: true })
-    }
-  }, [location.pathname, location.search, navigate])
+  }, [location.pathname, navigate])
 
   return (
     <Routes>
+      <Route path="boas-vindas" element={<OnboardingPage />} />
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="inicio" element={<HomePage />} />
@@ -67,6 +74,7 @@ export function AppRouter() {
         <Route path="diretrizes" element={<GuidelinesPage />} />
         <Route path="medicamentos" element={<MedicationsPage />} />
         <Route path="calculadoras" element={<CalculatorsPage />} />
+        <Route path="assistente-clinico" element={<ClinicalAssistantPage />} />
         <Route path="favoritos" element={<FavoritesPage />} />
         <Route path="historico" element={<HistoryPage />} />
         <Route path="sobre" element={<AboutPage />} />

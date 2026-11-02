@@ -1,4 +1,5 @@
-import { ExternalLink } from 'lucide-react'
+import { ArrowRight, ExternalLink } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { branding } from '../config/branding'
 import { officialSources } from '../data/sources'
 
@@ -15,6 +16,9 @@ export function AboutPage() {
         <article>
           <h2>Objetivo</h2>
           <p>Organizar referências e metadados para consulta, pesquisa e desenvolvimento de conteúdo. O catálogo documental não substitui avaliação profissional, protocolos institucionais nem revisão clínica.</p>
+          <Link className="text-link" to="/boas-vindas">
+            Conhecer o PlantãoMed <ArrowRight size={16} aria-hidden="true" />
+          </Link>
         </article>
         <article>
           <h2>Fontes e atualização</h2>

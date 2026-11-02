@@ -4,6 +4,8 @@ export const STORAGE_KEYS = {
   favorites: `${STORAGE_PREFIX}favorites`,
   history: `${STORAGE_PREFIX}history`,
   theme: `${STORAGE_PREFIX}theme`,
+  onboardingCompleted: 'plantaomed.onboarding.completed',
+  onboardingCompletedLegacy: `${STORAGE_PREFIX}onboarding:completed`,
 } as const
 
 export function readJson<T>(key: string, fallback: T): T {
@@ -17,6 +19,30 @@ export function readJson<T>(key: string, fallback: T): T {
 
 export function writeJson<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value))
+}
+
+export function getOnboardingCompleted(): boolean {
+  for (const key of [STORAGE_KEYS.onboardingCompleted, STORAGE_KEYS.onboardingCompletedLegacy]) {
+    try {
+      const value = localStorage.getItem(key)
+      if (value === null) continue
+      return value === 'true'
+    } catch {
+      return false
+    }
+  }
+  return false
+}
+
+export function setOnboardingCompleted(value: boolean): void {
+  const payload = String(value)
+  for (const key of [STORAGE_KEYS.onboardingCompleted, STORAGE_KEYS.onboardingCompletedLegacy]) {
+    try {
+      localStorage.setItem(key, payload)
+    } catch {
+      // localStorage may be unavailable; ignore the preference gracefully.
+    }
+  }
 }
 
 export function toggleFavorite(id: string, favorites: string[]): string[] {
