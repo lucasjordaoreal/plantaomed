@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { ProtocolCard } from '../components/ProtocolCard'
+import { AppSelect } from '../components/ui/AppSelect'
 import { useLibraryState } from '../app/useLibraryState'
 import { categories } from '../data/categories'
 import { protocols } from '../data/protocols'
@@ -90,10 +91,15 @@ export function LibraryPage() {
           </label>
           <label className="library-sort">
             <span>Ordenar</span>
-            <select value={sort} onChange={(event) => updateParam('ordem', event.target.value === 'alfabetica' ? 'alfabetica' : '')}>
-              <option value="relevancia">Relevância</option>
-              <option value="alfabetica">Ordem alfabética</option>
-            </select>
+            <AppSelect
+              value={sort}
+              onValueChange={(value) => updateParam('ordem', value === 'alfabetica' ? 'alfabetica' : '')}
+              className="app-select--compact"
+              options={[
+                { value: 'relevancia', label: 'Relevância' },
+                { value: 'alfabetica', label: 'Ordem alfabética' },
+              ]}
+            />
           </label>
         </div>
         <div className="category-filter" aria-label="Filtrar por especialidade">

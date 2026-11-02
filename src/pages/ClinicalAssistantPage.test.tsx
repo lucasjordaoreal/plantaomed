@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import { MemoryRouter } from 'react-router-dom'
@@ -19,12 +19,36 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 
+beforeEach(() => {
+  HTMLElement.prototype.scrollIntoView = vi.fn()
+  HTMLElement.prototype.setPointerCapture = vi.fn()
+  HTMLElement.prototype.hasPointerCapture = vi.fn(() => false)
+  HTMLElement.prototype.releasePointerCapture = vi.fn()
+  class TestPointerEvent extends MouseEvent {
+    pointerType: string
+    pointerId: number
+
+    constructor(type: string, init: PointerEventInit = {}) {
+      super(type, init)
+      this.pointerType = init.pointerType ?? 'mouse'
+      this.pointerId = init.pointerId ?? 1
+    }
+  }
+  vi.stubGlobal('PointerEvent', TestPointerEvent)
+})
+
+function chooseOption(triggerName: string, optionLabel: string, index = 0) {
+  const trigger = screen.getAllByRole('combobox', { name: triggerName })[index]
+  fireEvent.pointerDown(trigger, { button: 0, ctrlKey: false, pointerType: 'mouse' })
+  fireEvent.click(screen.getByRole('option', { name: optionLabel }))
+}
+
 describe('ClinicalAssistantPage', () => {
   it('collects symptoms without treating unselected findings as absent', () => {
     renderAssistant()
 
-    fireEvent.change(screen.getByRole('combobox', { name: 'Queixa principal' }), { target: { value: 'dor-toracica' } })
-    fireEvent.change(screen.getByLabelText('Adicionar manifestação'), { target: { value: 'dispneia' } })
+    chooseOption('Queixa principal', 'Dor torácica')
+    chooseOption('Adicionar manifestação', 'Dispneia')
     fireEvent.click(screen.getByRole('button', { name: 'Adicionar' }))
 
     expect(within(screen.getByRole('list', { name: 'Sintomas associados informados' })).getByText('Dispneia')).toBeInTheDocument()
@@ -33,12 +57,13 @@ describe('ClinicalAssistantPage', () => {
 
   it('validates recorded values and reports no reviewed clinical rules', () => {
     renderAssistant()
-    fireEvent.change(screen.getByRole('combobox', { name: 'Queixa principal' }), { target: { value: 'dor-toracica' } })
+    chooseOption('Queixa principal', 'Dor torácica')
     fireEvent.click(screen.getByRole('button', { name: 'Registrar avaliação' }))
 
     const pulseStatus = screen.getByRole('combobox', { name: 'Frequência cardíaca: estado da informação' })
-    expect(pulseStatus).toHaveValue('not_assessed')
-    fireEvent.change(pulseStatus, { target: { value: 'value' } })
+    expect(pulseStatus).toHaveTextContent('Não avaliado')
+    fireEvent.pointerDown(pulseStatus, { button: 0, ctrlKey: false, pointerType: 'mouse' })
+    fireEvent.click(screen.getByRole('option', { name: 'Valor registrado' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continuar' }))
     expect(screen.getByText(/Informe um valor numérico/)).toBeInTheDocument()
 
@@ -51,20 +76,20 @@ describe('ClinicalAssistantPage', () => {
 
   it('accepts structured exam and laboratory observations with explicit states and units', () => {
     renderAssistant()
-    fireEvent.change(screen.getByRole('combobox', { name: 'Queixa principal' }), { target: { value: 'febre' } })
+    chooseOption('Queixa principal', 'Febre')
     fireEvent.click(screen.getByRole('button', { name: 'Registrar avaliação' }))
     fireEvent.click(screen.getByText('Exame físico direcionado'))
     fireEvent.click(screen.getAllByRole('button', { name: 'Adicionar registro' })[0])
 
     fireEvent.change(screen.getByLabelText('Achado / exame'), { target: { value: 'Sinal de teste' } })
-    fireEvent.change(screen.getByLabelText('Estado da informação'), { target: { value: 'present' } })
+    chooseOption('Estado da informação', 'Presente')
     expect(screen.getByLabelText('Achado / exame')).toHaveValue('Sinal de teste')
-    expect(screen.getByLabelText('Estado da informação')).toHaveValue('present')
+    expect(screen.getAllByLabelText('Estado da informação')[0]).toHaveTextContent('Presente')
 
     fireEvent.click(screen.getByText('Resultados laboratoriais'))
     fireEvent.click(screen.getAllByRole('button', { name: 'Adicionar registro' })[1])
     fireEvent.change(screen.getAllByLabelText('Achado / exame')[1], { target: { value: 'Exame sintético' } })
-    fireEvent.change(screen.getAllByLabelText('Estado da informação')[1], { target: { value: 'value' } })
+    chooseOption('Estado da informação', 'Valor registrado', 1)
     expect(screen.getByLabelText('Valor numérico')).toBeInTheDocument()
     expect(screen.getByLabelText('Unidade')).toBeInTheDocument()
   })
@@ -72,7 +97,7 @@ describe('ClinicalAssistantPage', () => {
   it('does not store clinical case data and lets the user discard it', () => {
     localStorage.setItem('test:existing-setting', 'preserve')
     renderAssistant()
-    fireEvent.change(screen.getByRole('combobox', { name: 'Queixa principal' }), { target: { value: 'febre' } })
+    chooseOption('Queixa principal', 'Febre')
     fireEvent.change(screen.getByLabelText('Idade em anos (opcional; 0 a 120)'), { target: { value: '45' } })
 
     expect(localStorage.getItem('test:existing-setting')).toBe('preserve')
@@ -84,7 +109,7 @@ describe('ClinicalAssistantPage', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Continuar' }))
     fireEvent.click(screen.getByRole('button', { name: /Encerrar e descartar avaliação/ }))
 
-    expect(screen.getByRole('combobox', { name: 'Queixa principal' })).toHaveValue('')
+    expect(screen.getByRole('combobox', { name: 'Queixa principal' })).toHaveTextContent('Selecione uma manifestação')
     expect(localStorage.getItem('test:existing-setting')).toBe('preserve')
     expect(localStorage.length).toBe(1)
   })

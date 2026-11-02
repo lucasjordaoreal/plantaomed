@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { BookOpen, ExternalLink, Search } from 'lucide-react'
 import { useSearchParams } from 'react-router-dom'
+import { AppSelect } from './ui/AppSelect'
 import { useLibraryState } from '../app/useLibraryState'
 import type {
   CatalogSearchEntry,
@@ -180,17 +181,27 @@ export function OfficialDocumentCatalog() {
             </label>
             <label className="catalog-specialty">
               <span className="sr-only">Filtrar especialidade</span>
-              <select value={specialty} onChange={(event) => setSpecialty(event.target.value)}>
-                <option value="">Todas as especialidades</option>
-                {catalog.specialties.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
-              </select>
+              <AppSelect
+                value={specialty}
+                onValueChange={setSpecialty}
+                placeholder="Todas as especialidades"
+                options={[
+                  { value: '', label: 'Todas as especialidades' },
+                  ...catalog.specialties.map((item) => ({ value: item.name, label: item.name })),
+                ]}
+              />
             </label>
             <label className="catalog-specialty">
               <span className="sr-only">Filtrar por instituição</span>
-              <select value={institution} onChange={(event) => setInstitution(event.target.value)}>
-                <option value="">Todas as instituições</option>
-                {institutions.map((item) => <option key={item} value={item}>{item}</option>)}
-              </select>
+              <AppSelect
+                value={institution}
+                onValueChange={setInstitution}
+                placeholder="Todas as instituições"
+                options={[
+                  { value: '', label: 'Todas as instituições' },
+                  ...institutions.map((item) => ({ value: item, label: item })),
+                ]}
+              />
             </label>
           </div>
 

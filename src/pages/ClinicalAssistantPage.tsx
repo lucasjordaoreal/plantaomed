@@ -17,6 +17,7 @@ import {
   X,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { AppSelect } from '../components/ui/AppSelect'
 import { clinicalPresentations, searchClinicalPresentations } from '../data/clinicalPresentations'
 import { assessClinicalCase } from '../features/clinical-assistant/engine/assessCase'
 import { clinicalKnowledgeBase } from '../features/clinical-assistant/rules'
@@ -358,12 +359,16 @@ export function ClinicalAssistantPage() {
               <div className="clinical-assistant__section-heading"><MessageCircle size={18} aria-hidden="true" /><div><h3>Interação contextual</h3><p>O contexto permanece nesta página e será enviado somente após a confirmação de caso fictício.</p></div></div>
               <label className={fieldClass}>
                 <span>Tipo de interação</span>
-                <select value={aiQuestionType} onChange={(event) => setAiQuestionType(event.target.value as ClinicalQuestionType)}>
-                  <option value="clarify">Esclarecer um termo do texto</option>
-                  <option value="criteria">Consultar critérios documentados</option>
-                  <option value="references">Buscar referências</option>
-                  <option value="recovered_content">Perguntar sobre conteúdo recuperado</option>
-                </select>
+                <AppSelect
+                  value={aiQuestionType}
+                  onValueChange={(value) => setAiQuestionType(value as ClinicalQuestionType)}
+                  options={[
+                    { value: 'clarify', label: 'Esclarecer um termo do texto' },
+                    { value: 'criteria', label: 'Consultar critérios documentados' },
+                    { value: 'references', label: 'Buscar referências' },
+                    { value: 'recovered_content', label: 'Perguntar sobre conteúdo recuperado' },
+                  ]}
+                />
               </label>
               <label className={fieldClass}>
                 <span>Pergunta ou correção contextual</span>
@@ -407,15 +412,29 @@ export function ClinicalAssistantPage() {
                 </label>
                 <label className={fieldClass}>
                   <span>Sexo biológico <small>(quando relevante)</small></span>
-                  <select value={clinicalCase.biologicalSex} onChange={(event) => updateCase('biologicalSex', event.target.value as ClinicalCase['biologicalSex'])}>
-                    <option value="not_informed">Não informado</option><option value="female">Feminino</option><option value="male">Masculino</option><option value="other_or_intersex">Outra variação / intersexo</option>
-                  </select>
+                  <AppSelect
+                    value={clinicalCase.biologicalSex}
+                    onValueChange={(value) => updateCase('biologicalSex', value as ClinicalCase['biologicalSex'])}
+                    options={[
+                      { value: 'not_informed', label: 'Não informado' },
+                      { value: 'female', label: 'Feminino' },
+                      { value: 'male', label: 'Masculino' },
+                      { value: 'other_or_intersex', label: 'Outra variação / intersexo' },
+                    ]}
+                  />
                 </label>
                 <label className={fieldClass}>
                   <span>Gestação</span>
-                  <select value={clinicalCase.pregnancyStatus} onChange={(event) => updateCase('pregnancyStatus', event.target.value as ClinicalCase['pregnancyStatus'])}>
-                    <option value="unknown">Desconhecida / não informada</option><option value="not_applicable">Não se aplica</option><option value="pregnant">Gestante</option><option value="not_pregnant">Não gestante</option>
-                  </select>
+                  <AppSelect
+                    value={clinicalCase.pregnancyStatus}
+                    onValueChange={(value) => updateCase('pregnancyStatus', value as ClinicalCase['pregnancyStatus'])}
+                    options={[
+                      { value: 'unknown', label: 'Desconhecida / não informada' },
+                      { value: 'not_applicable', label: 'Não se aplica' },
+                      { value: 'pregnant', label: 'Gestante' },
+                      { value: 'not_pregnant', label: 'Não gestante' },
+                    ]}
+                  />
                 </label>
                 <label className={fieldClass}>
                   <span>Peso <small>(opcional; kg)</small></span>
@@ -423,16 +442,30 @@ export function ClinicalAssistantPage() {
                 </label>
                 <label className={fieldClass}>
                   <span>Contexto de atendimento</span>
-                  <select value={clinicalCase.careSetting} onChange={(event) => updateCase('careSetting', event.target.value)}>
-                    <option value="">Não informado</option><option>Urgência / emergência</option><option>Ambulatório</option><option>Enfermaria</option><option>Outro</option>
-                  </select>
+                  <AppSelect
+                    value={clinicalCase.careSetting}
+                    onValueChange={(value) => updateCase('careSetting', value)}
+                    placeholder="Não informado"
+                    options={[
+                      { value: '', label: 'Não informado' },
+                      { value: 'Urgência / emergência', label: 'Urgência / emergência' },
+                      { value: 'Ambulatório', label: 'Ambulatório' },
+                      { value: 'Enfermaria', label: 'Enfermaria' },
+                      { value: 'Outro', label: 'Outro' },
+                    ]}
+                  />
                 </label>
                 <label className={`${fieldClass} clinical-assistant__field--wide`}>
                   <span>Queixa principal</span>
-                  <select value={clinicalCase.primaryPresentationId} onChange={(event) => updateCase('primaryPresentationId', event.target.value)}>
-                    <option value="">Selecione uma manifestação</option>
-                    {clinicalPresentations.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}
-                  </select>
+                  <AppSelect
+                    value={clinicalCase.primaryPresentationId}
+                    onValueChange={(value) => updateCase('primaryPresentationId', value)}
+                    placeholder="Selecione uma manifestação"
+                    options={[
+                      { value: '', label: 'Selecione uma manifestação' },
+                      ...clinicalPresentations.map(({ id, name }) => ({ value: id, label: name })),
+                    ]}
+                  />
                 </label>
               </div>
 
@@ -445,10 +478,15 @@ export function ClinicalAssistantPage() {
                   <div className="clinical-assistant__add-symptom">
                     <label className={`${fieldClass} clinical-assistant__field--wide`}>
                       <span>Adicionar manifestação</span>
-                      <select value={symptomToAdd} onChange={(event) => setSymptomToAdd(event.target.value)}>
-                        <option value="">Selecione um sintoma</option>
-                        {availableSymptoms.map(({ id, name }) => <option value={id} key={id}>{name}</option>)}
-                      </select>
+                      <AppSelect
+                        value={symptomToAdd}
+                        onValueChange={setSymptomToAdd}
+                        placeholder="Selecione um sintoma"
+                        options={[
+                          { value: '', label: 'Selecione um sintoma' },
+                          ...availableSymptoms.map(({ id, name }) => ({ value: id, label: name })),
+                        ]}
+                      />
                     </label>
                     <button className="clinical-assistant__secondary-button" type="button" onClick={addAssociatedSymptom} disabled={!symptomToAdd}><Plus size={16} aria-hidden="true" /> Adicionar</button>
                   </div>
@@ -507,9 +545,16 @@ export function ClinicalAssistantPage() {
                     <div className="clinical-assistant__vital" key={id}>
                       <label className={fieldClass}>
                         <span>{label} <small>{unit}</small></span>
-                        <select aria-label={`${label}: estado da informação`} value={observation.state} onChange={(event) => updateVital(id, { state: event.target.value as VitalSignObservation['state'], value: event.target.value === 'value' ? observation.value : '' })}>
-                          <option value="not_assessed">Não avaliado</option><option value="unknown">Desconhecido</option><option value="value">Valor registrado</option>
-                        </select>
+                        <AppSelect
+                          aria-label={`${label}: estado da informação`}
+                          value={observation.state}
+                          onValueChange={(value) => updateVital(id, { state: value as VitalSignObservation['state'], value: value === 'value' ? observation.value : '' })}
+                          options={[
+                            { value: 'not_assessed', label: 'Não avaliado' },
+                            { value: 'unknown', label: 'Desconhecido' },
+                            { value: 'value', label: 'Valor registrado' },
+                          ]}
+                        />
                       </label>
                       {observation.state === 'value' && (
                         <label className={fieldClass}>
@@ -523,9 +568,16 @@ export function ClinicalAssistantPage() {
                 })}
                 <label className={fieldClass}>
                   <span>Estado de consciência</span>
-                  <select value={clinicalCase.consciousness} onChange={(event) => updateCase('consciousness', event.target.value as ClinicalCase['consciousness'])}>
-                    <option value="not_assessed">Não avaliado</option><option value="unknown">Desconhecido</option><option value="present">Alteração informada</option><option value="absent">Alteração explicitamente ausente</option>
-                  </select>
+                  <AppSelect
+                    value={clinicalCase.consciousness}
+                    onValueChange={(value) => updateCase('consciousness', value as ClinicalCase['consciousness'])}
+                    options={[
+                      { value: 'not_assessed', label: 'Não avaliado' },
+                      { value: 'unknown', label: 'Desconhecido' },
+                      { value: 'present', label: 'Alteração informada' },
+                      { value: 'absent', label: 'Alteração explicitamente ausente' },
+                    ]}
+                  />
                 </label>
               </div>
               <p className="clinical-assistant__muted">Os intervalos são validações técnicas de entrada para detectar erros de digitação; não são limites clínicos, critérios de gravidade ou recomendações.</p>
@@ -545,9 +597,17 @@ export function ClinicalAssistantPage() {
                         </label>
                         <label className={fieldClass}>
                           <span>Estado da informação</span>
-                          <select value={finding.state} onChange={(event) => updateClinicalFinding(field, finding.id, { state: event.target.value as ClinicalCase['physicalExamFindings'][number]['state'], value: undefined, unit: undefined })}>
-                            <option value="not_assessed">Não avaliado</option><option value="unknown">Desconhecido</option><option value="present">Presente</option><option value="absent">Ausente</option><option value="value">Valor registrado</option>
-                          </select>
+                          <AppSelect
+                            value={finding.state}
+                            onValueChange={(value) => updateClinicalFinding(field, finding.id, { state: value as ClinicalCase['physicalExamFindings'][number]['state'], value: undefined, unit: undefined })}
+                            options={[
+                              { value: 'not_assessed', label: 'Não avaliado' },
+                              { value: 'unknown', label: 'Desconhecido' },
+                              { value: 'present', label: 'Presente' },
+                              { value: 'absent', label: 'Ausente' },
+                              { value: 'value', label: 'Valor registrado' },
+                            ]}
+                          />
                         </label>
                         {finding.state === 'value' && (
                           <>

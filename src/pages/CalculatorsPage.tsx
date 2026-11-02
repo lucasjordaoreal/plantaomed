@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Activity, ArrowLeft, ArrowRight, Calculator, Search, Trash2 } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
+import { AppSelect } from '../components/ui/AppSelect'
 import { calculatorCategories, calculators, normalizeCalculatorSearch, type CalculatorDefinition } from '../features/calculators/catalog'
 import { calculate, parseCalculatorNumber, type CalculatorValues } from '../features/calculators/engine'
 
@@ -173,10 +174,12 @@ function CalculatorDetail({ calculator }: { calculator: CalculatorDefinition }) 
               <label className="calculator-detail__field" key={field.id}>
                 <span>{field.label}{field.unit && <small> · {field.unit}</small>}</span>
                 {field.options
-                  ? <select value={values[field.id] ?? ''} onChange={(event) => setFieldValue(field.id, event.target.value)}>
-                    <option value="">Selecione</option>
-                    {field.options.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}
-                  </select>
+                  ? <AppSelect
+                    value={values[field.id] ?? ''}
+                    onValueChange={(nextValue) => setFieldValue(field.id, nextValue)}
+                    options={field.options}
+                    placeholder="Selecione"
+                  />
                   : <input
                     type="text"
                     inputMode={field.inputMode ?? 'decimal'}
