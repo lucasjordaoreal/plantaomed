@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Activity, BookOpen, Bookmark, Clock3, Home, Info, LogOut, Menu, Pill, Search, Stethoscope } from 'lucide-react'
-import { Link, NavLink, Outlet, useLocation, useNavigationType } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigationType } from 'react-router-dom'
 import { branding } from '../config/branding'
-import { GlobalSearch } from '../components/GlobalSearch'
 import { useIdentityAuth } from '../auth/useIdentityAuth'
+import { RouteTransition } from '../components/transitions/RouteTransition'
 
 type NavigationLink = {
   to: string
@@ -127,8 +127,7 @@ export function AppLayout() {
         </aside>
 
         <main className="page-content" id="main-content" tabIndex={-1}>
-          {location.pathname !== '/inicio' && <GlobalSearch />}
-          <Outlet />
+          <RouteTransition />
         </main>
       </div>
 

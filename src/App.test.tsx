@@ -69,7 +69,43 @@ describe('PlantãoMed independent routes', () => {
     renderRoute('/')
     fireEvent.click(await screen.findByRole('button', { name: /Entrar no PlantãoMed/i }))
     expect(localStorage.getItem('plantaomed.onboarding.completed')).toBe('true')
-    expect(screen.getByRole('heading', { name: 'PlantãoMed' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'PlantãoMed' })).toBeInTheDocument()
+    expect(document.querySelector('.onboarding-transition')).toBeInTheDocument()
+  })
+
+  it('skips the onboarding reveal when reduced motion is requested', async () => {
+    vi.stubGlobal('matchMedia', vi.fn(() => ({ matches: true })))
+    renderRoute('/')
+    fireEvent.click(await screen.findByRole('button', { name: /Entrar no PlantãoMed/i }))
+
+    expect(await screen.findByRole('heading', { name: 'PlantãoMed' })).toBeInTheDocument()
+    expect(document.querySelector('.onboarding-transition')).not.toBeInTheDocument()
+  })
+
+  it('animates route content while keeping the application shell mounted', async () => {
+    renderRoute('/inicio')
+    const sidebar = screen.getByRole('complementary', { name: 'Navegação principal' })
+    const header = screen.getByRole('banner')
+
+    fireEvent.click(within(sidebar).getByRole('link', { name: 'Biblioteca' }))
+
+    expect(await screen.findByRole('heading', { name: 'Biblioteca' })).toBeInTheDocument()
+    expect(document.querySelector('.route-transition__page')).toHaveAttribute('data-route-transition', 'page')
+    expect(screen.getAllByRole('banner')[0]).toBe(header)
+    expect(screen.getByRole('complementary', { name: 'Navegação principal' })).toBe(sidebar)
+  })
+
+  it('uses contextual route motion when opening and returning from a calculator detail', async () => {
+    renderRoute('/calculadoras')
+    await screen.findByRole('heading', { name: 'Calculadoras Médicas' })
+    fireEvent.click(screen.getByRole('link', { name: /Quick SOFA/ }))
+
+    expect(await screen.findByRole('heading', { name: 'Quick SOFA' })).toBeInTheDocument()
+    expect(document.querySelector('.route-transition__page')).toHaveAttribute('data-route-transition', 'detail-forward')
+
+    fireEvent.click(screen.getByRole('link', { name: 'Todas as calculadoras' }))
+    expect(await screen.findByRole('heading', { name: 'Calculadoras Médicas' })).toBeInTheDocument()
+    expect(document.querySelector('.route-transition__page')).toHaveAttribute('data-route-transition', 'detail-back')
   })
 
   it.each([

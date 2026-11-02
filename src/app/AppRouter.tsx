@@ -19,6 +19,32 @@ import { PresentationDetailPage } from '../pages/PresentationDetailPage'
 import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
 import { SymptomsPage } from '../pages/SymptomsPage'
 import { getOnboardingCompleted } from '../lib/storage'
+import { OnboardingTransition } from '../components/transitions/OnboardingTransition'
+
+function getOnboardingTransition(state: unknown) {
+  if (!state || typeof state !== 'object' || !('onboardingTransition' in state)) return null
+  const transition = state.onboardingTransition
+  if (
+    !transition
+    || typeof transition !== 'object'
+    || !('id' in transition)
+    || !('x' in transition)
+    || !('y' in transition)
+  ) return null
+  const { id, x, y } = transition
+  if (
+    typeof id !== 'string'
+    || typeof x !== 'number'
+    || typeof y !== 'number'
+    || !Number.isFinite(x)
+    || !Number.isFinite(y)
+    || x < 0
+    || x > 1
+    || y < 0
+    || y > 1
+  ) return null
+  return { id, x, y }
+}
 
 const CalculatorsPage = lazy(() => import('../pages/CalculatorsPage').then(({ CalculatorsPage: page }) => ({ default: page })))
 
@@ -55,6 +81,7 @@ function ProtectedClinicalAssistant() {
 export function AppRouter() {
   const location = useLocation()
   const navigate = useNavigate()
+  const onboardingTransition = getOnboardingTransition(location.state)
   const callbackRedirectHandled = useRef(false)
   const { status, callbackType, callbackErrorType, callbackError } = useIdentityAuth()
 
@@ -140,6 +167,14 @@ export function AppRouter() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      {onboardingTransition && (
+        <OnboardingTransition
+          key={onboardingTransition.id}
+          id={onboardingTransition.id}
+          x={onboardingTransition.x}
+          y={onboardingTransition.y}
+        />
+      )}
     </>
   )
 }

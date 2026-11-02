@@ -1,4 +1,5 @@
 import { ArrowRight, BookOpenText, ChevronRight, HeartPulse, Search, ShieldCheck, Sparkles, Stethoscope } from 'lucide-react'
+import { useRef, useState, type MouseEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { setOnboardingCompleted } from '../lib/storage'
 
@@ -44,10 +45,29 @@ const showcaseItems = [
 
 export function OnboardingPage() {
   const navigate = useNavigate()
+  const enteringRef = useRef(false)
+  const [isEntering, setIsEntering] = useState(false)
 
-  const handleEnter = () => {
+  const handleEnter = (event: MouseEvent<HTMLButtonElement>) => {
+    if (enteringRef.current) return
+    enteringRef.current = true
+    setIsEntering(true)
     setOnboardingCompleted(true)
-    navigate('/inicio', { replace: true })
+    const bounds = event.currentTarget.getBoundingClientRect()
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
+    const transitionId = `${Date.now()}-${Math.random().toString(36).slice(2)}`
+    navigate('/inicio', {
+      replace: true,
+      state: reducedMotion || !window.innerWidth || !window.innerHeight
+        ? null
+        : {
+            onboardingTransition: {
+              id: transitionId,
+              x: (bounds.left + bounds.width / 2) / window.innerWidth,
+              y: (bounds.top + bounds.height / 2) / window.innerHeight,
+            },
+          },
+    })
   }
 
   return (
@@ -67,7 +87,7 @@ export function OnboardingPage() {
               diretrizes, medicamentos e ferramentas de consulta em uma experiência rápida e organizada.
             </p>
             <div className="onboarding-actions">
-              <button type="button" className="primary-button" onClick={handleEnter}>
+              <button type="button" className="primary-button" onClick={handleEnter} disabled={isEntering}>
                 Entrar no PlantãoMed
                 <ArrowRight size={16} aria-hidden="true" />
               </button>
@@ -130,7 +150,7 @@ export function OnboardingPage() {
               <span className="eyebrow">Seu ambiente de consulta</span>
               <h2>Seu ambiente de consulta clínica está pronto.</h2>
             </div>
-            <button type="button" className="primary-button" onClick={handleEnter}>
+            <button type="button" className="primary-button" onClick={handleEnter} disabled={isEntering}>
               Começar a explorar
               <ChevronRight size={16} aria-hidden="true" />
             </button>
