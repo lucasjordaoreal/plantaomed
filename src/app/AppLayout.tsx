@@ -74,7 +74,18 @@ export function AppLayout() {
   const [moreOpen, setMoreOpen] = useState(false)
   const { user, logout, error: authError } = useIdentityAuth()
   const moreMenuRef = useRef<HTMLDivElement>(null)
-  const moreActive = ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre', clinicalAssistantLink.to].includes(location.pathname)
+  const moreActive = ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre', clinicalAssistantLink.to]
+    .some((path) => location.pathname === path || location.pathname.startsWith(`${path}/`))
+
+  useEffect(() => {
+    if (!window.matchMedia) return
+    const desktopBreakpoint = window.matchMedia('(min-width: 921px)')
+    const closeMoreOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setMoreOpen(false)
+    }
+    desktopBreakpoint.addEventListener?.('change', closeMoreOnDesktop)
+    return () => desktopBreakpoint.removeEventListener?.('change', closeMoreOnDesktop)
+  }, [])
 
   useEffect(() => {
     if (!moreOpen) return
@@ -139,12 +150,20 @@ export function AppLayout() {
           </NavLink>
         ))}
         <div className="mobile-more" ref={moreMenuRef}>
-          <button type="button" className={`mobile-tab${moreActive ? ' is-active' : ''}`} aria-expanded={moreOpen} onClick={() => setMoreOpen((open) => !open)}>
+          <button
+            type="button"
+            className={`mobile-tab${moreActive ? ' is-active' : ''}`}
+            aria-expanded={moreOpen}
+            aria-haspopup="menu"
+            aria-current={moreActive ? 'page' : undefined}
+            aria-controls="mobile-more-menu"
+            onClick={() => setMoreOpen((open) => !open)}
+          >
             <Menu size={19} aria-hidden="true" />
             <span>Mais</span>
           </button>
           {moreOpen && (
-            <div className="mobile-more__menu glass-surface" role="menu" aria-label="Mais páginas">
+            <div id="mobile-more-menu" className="mobile-more__menu glass-surface" role="menu" aria-label="Mais páginas">
               {[clinicalAssistantLink, ...moreLinks].map(({ to, label, icon: Icon }) => (
                 <NavLink key={to} to={to} role="menuitem" className={({ isActive }) => `mobile-more__link${isActive ? ' is-active' : ''}`} onClick={() => setMoreOpen(false)}>
                   <Icon size={17} aria-hidden="true" />

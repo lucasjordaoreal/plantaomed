@@ -108,6 +108,25 @@ describe('PlantãoMed independent routes', () => {
     expect(document.querySelector('.route-transition__page')).toHaveAttribute('data-route-transition', 'detail-back')
   })
 
+  it('keeps the five mobile navigation items aligned structurally and opens More as a menu', async () => {
+    renderRoute('/inicio')
+    const mobileNavigation = screen.getByRole('navigation', { name: 'Navegação inferior' })
+    const moreButton = within(mobileNavigation).getByRole('button', { name: 'Mais' })
+
+    expect(mobileNavigation.children).toHaveLength(5)
+    expect(moreButton.parentElement).toHaveClass('mobile-more')
+    expect(within(moreButton).getByText('Mais')).toBeInTheDocument()
+    expect(moreButton.querySelector('svg')).toBeInTheDocument()
+    expect(moreButton).toHaveAttribute('aria-haspopup', 'menu')
+
+    fireEvent.click(moreButton)
+    const menu = screen.getByRole('menu', { name: 'Mais páginas' })
+    fireEvent.click(within(menu).getByRole('menuitem', { name: 'Medicamentos' }))
+
+    expect(await screen.findByRole('heading', { name: 'Medicamentos' })).toBeInTheDocument()
+    expect(screen.queryByRole('menu', { name: 'Mais páginas' })).not.toBeInTheDocument()
+  })
+
   it.each([
     ['/inicio', 'PlantãoMed'],
     ['/protocolos', 'Biblioteca'],
