@@ -20,6 +20,7 @@ import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
 import { SymptomsPage } from '../pages/SymptomsPage'
 import { getOnboardingCompleted } from '../lib/storage'
 import { OnboardingTransition } from '../components/transitions/OnboardingTransition'
+import { usePageMetadata } from '../seo/usePageMetadata'
 
 function getOnboardingTransition(state: unknown) {
   if (!state || typeof state !== 'object' || !('onboardingTransition' in state)) return null
@@ -79,6 +80,7 @@ function ProtectedClinicalAssistant() {
 }
 
 export function AppRouter() {
+  usePageMetadata()
   const location = useLocation()
   const navigate = useNavigate()
   const onboardingTransition = getOnboardingTransition(location.state)

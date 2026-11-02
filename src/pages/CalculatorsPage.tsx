@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { AppSelect } from '../components/ui/AppSelect'
 import { calculatorCategories, calculators, normalizeCalculatorSearch, type CalculatorDefinition } from '../features/calculators/catalog'
 import { calculate, parseCalculatorNumber, type CalculatorValues } from '../features/calculators/engine'
+import { SharePageButton } from '../components/SharePageButton'
 
 function CalculatorNotice() {
   const automatedTestsCount = calculators.filter(({ automatedTestsIncluded }) => automatedTestsIncluded).length
@@ -59,10 +60,13 @@ function CalculatorLibrary() {
 
   return (
     <div className="page-stack calculator-library">
-      <header className="page-heading">
-        <span className="eyebrow"><Activity size={14} aria-hidden="true" /> Ferramentas clínicas</span>
-        <h1 data-page-heading tabIndex={-1}>Calculadoras Médicas</h1>
-        <p>Escores, índices e equações clínicas para consulta profissional.</p>
+      <header className="page-heading page-heading--actions">
+        <div>
+          <span className="eyebrow"><Activity size={14} aria-hidden="true" /> Ferramentas clínicas</span>
+          <h1 data-page-heading tabIndex={-1}>Calculadoras Médicas</h1>
+          <p>Escores, índices e equações clínicas para consulta profissional.</p>
+        </div>
+        <SharePageButton />
       </header>
       <CalculatorNotice />
       <section className="calculator-library__controls" aria-label="Pesquisar e filtrar calculadoras">
@@ -159,6 +163,7 @@ function CalculatorDetail({ calculator }: { calculator: CalculatorDefinition }) 
         <span className="eyebrow">{calculator.category} · {calculator.specialty}</span>
         <h1 data-page-heading tabIndex={-1}>{calculator.name}</h1>
         <p>{calculator.purpose}</p>
+        <SharePageButton />
       </header>
       <CalculatorNotice />
       <div className="calculator-detail__layout">

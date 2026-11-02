@@ -5,6 +5,7 @@ import { useLibraryState } from '../app/useLibraryState'
 import { protocols } from '../data/protocols'
 import { getProtocolSectionsForDisplay, getProtocolSummaryForDisplay, isProtocolApproved } from '../utils/protocolValidation'
 import { NotFoundPage } from './NotFoundPage'
+import { SharePageButton } from '../components/SharePageButton'
 
 export function ProtocolDetailPage() {
   const { protocolId = '' } = useParams()
@@ -28,9 +29,12 @@ export function ProtocolDetailPage() {
       <article className="protocol-detail protocol-detail-page">
         <header className="protocol-detail__header">
           <div><span className="eyebrow">{protocol.category}</span><h1 data-page-heading tabIndex={-1}>{protocol.title}</h1></div>
-          <button type="button" className={`action-button${favorite ? ' is-favorite' : ''}`} onClick={() => toggleFavoriteId(protocol.id)} aria-pressed={favorite}>
-            <Heart size={17} fill={favorite ? 'currentColor' : 'none'} aria-hidden="true" />{favorite ? 'Salvo' : 'Salvar'}
-          </button>
+          <div className="protocol-detail__actions">
+            <SharePageButton />
+            <button type="button" className={`action-button${favorite ? ' is-favorite' : ''}`} onClick={() => toggleFavoriteId(protocol.id)} aria-pressed={favorite}>
+              <Heart size={17} fill={favorite ? 'currentColor' : 'none'} aria-hidden="true" />{favorite ? 'Salvo' : 'Salvar'}
+            </button>
+          </div>
         </header>
         {approved ? (
           <>

@@ -9,6 +9,7 @@ import { protocols } from '../data/protocols'
 import { getMedicalCatalogIndex } from '../lib/medicalCatalog'
 import type { CatalogSearchEntry, OfficialCatalogIndex } from '../types'
 import { searchProtocols } from '../utils/search'
+import { SharePageButton } from '../components/SharePageButton'
 
 export function LibraryPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -75,10 +76,13 @@ export function LibraryPage() {
 
   return (
     <div className="page-stack">
-      <header className="page-heading">
-        <span className="eyebrow">Temas cadastrados</span>
-        <h1 data-page-heading tabIndex={-1}>Biblioteca</h1>
-        <p>Pesquise temas e assuntos com documentos oficiais catalogados. Um documento listado não equivale a protocolo completo revisado.</p>
+      <header className="page-heading page-heading--actions">
+        <div>
+          <span className="eyebrow">Temas cadastrados</span>
+          <h1 data-page-heading tabIndex={-1}>Biblioteca</h1>
+          <p>Pesquise temas e assuntos com documentos oficiais catalogados. Um documento listado não equivale a protocolo completo revisado.</p>
+        </div>
+        <SharePageButton />
       </header>
 
       <section className="library-page" aria-label="Biblioteca de protocolos">

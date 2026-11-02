@@ -12,6 +12,7 @@ import { protocols } from './data/protocols'
 
 let originalWindowFetch: typeof window.fetch
 let originalWindowInnerWidth: PropertyDescriptor | undefined
+let originalNavigatorClipboard: PropertyDescriptor | undefined
 
 const identity = vi.hoisted(() => ({
   acceptInvite: vi.fn(),
@@ -38,6 +39,7 @@ function renderRoute(initialEntry = '/inicio') {
 describe('PlantãoMed independent routes', () => {
   beforeEach(() => {
     originalWindowInnerWidth = Object.getOwnPropertyDescriptor(window, 'innerWidth')
+    originalNavigatorClipboard = Object.getOwnPropertyDescriptor(navigator, 'clipboard')
     sessionStorage.clear()
     window.history.replaceState(null, '', '/')
     identity.acceptInvite.mockResolvedValue(null)
@@ -58,6 +60,8 @@ describe('PlantãoMed independent routes', () => {
     vi.unstubAllEnvs()
     vi.unstubAllGlobals()
     if (originalWindowInnerWidth) Object.defineProperty(window, 'innerWidth', originalWindowInnerWidth)
+    if (originalNavigatorClipboard) Object.defineProperty(navigator, 'clipboard', originalNavigatorClipboard)
+    else Reflect.deleteProperty(navigator, 'clipboard')
     window.fetch = originalWindowFetch
     window.history.replaceState(null, '', '/')
   })
@@ -129,6 +133,33 @@ describe('PlantãoMed independent routes', () => {
 
     expect(await screen.findByRole('heading', { name: 'Medicamentos' })).toBeInTheDocument()
     expect(screen.queryByRole('menu', { name: 'Mais páginas' })).not.toBeInTheDocument()
+  })
+
+  it('updates crawler metadata to the canonical URL of the current public page', async () => {
+    renderRoute('/calculadoras/qsofa')
+    expect(await screen.findByRole('heading', { name: 'Quick SOFA' })).toBeInTheDocument()
+
+    expect(document.title).toBe('Quick SOFA | PlantãoMed')
+    expect(document.querySelector('link[rel="canonical"]')).toHaveAttribute(
+      'href',
+      'https://plantaomeds.netlify.app/calculadoras/qsofa',
+    )
+    expect(document.querySelector('meta[property="og:url"]')).toHaveAttribute(
+      'content',
+      'https://plantaomeds.netlify.app/calculadoras/qsofa',
+    )
+  })
+
+  it('copies the production canonical URL when native sharing is unavailable', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } })
+    renderRoute('/protocolos')
+
+    const shareButton = await screen.findByRole('button', { name: 'Compartilhar' })
+    fireEvent.click(shareButton)
+
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('https://plantaomeds.netlify.app/protocolos'))
+    expect(screen.getByText('Link copiado.')).toBeInTheDocument()
   })
 
   it('moves the mobile tab bar when a Netlify iframe is injected after mount and restores its position when removed', async () => {

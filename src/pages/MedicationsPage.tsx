@@ -11,6 +11,7 @@ import type {
   MedicineSearchIndex,
   MedicineSearchRecord,
 } from '../types'
+import { SharePageButton } from '../components/SharePageButton'
 
 const medicationSources = [
   {
@@ -134,10 +135,13 @@ export function MedicationsPage() {
 
   return (
     <div className="page-stack">
-      <header className="page-heading">
-        <span className="eyebrow"><Pill size={14} aria-hidden="true" /> Consulta farmacológica</span>
-        <h1 data-page-heading tabIndex={-1}>Medicamentos</h1>
-        <p>Pesquisa em metadados do conjunto aberto de medicamentos registrados da Anvisa. A situação é reproduzida como publicada na fonte; confirme dados vigentes na consulta oficial.</p>
+      <header className="page-heading page-heading--actions">
+        <div>
+          <span className="eyebrow"><Pill size={14} aria-hidden="true" /> Consulta farmacológica</span>
+          <h1 data-page-heading tabIndex={-1}>Medicamentos</h1>
+          <p>Pesquisa em metadados do conjunto aberto de medicamentos registrados da Anvisa. A situação é reproduzida como publicada na fonte; confirme dados vigentes na consulta oficial.</p>
+        </div>
+        <SharePageButton />
       </header>
 
       <section className="medications-panel" aria-labelledby="medicine-catalog-title">

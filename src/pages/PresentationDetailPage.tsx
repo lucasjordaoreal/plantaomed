@@ -2,6 +2,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { clinicalPresentations } from '../data/clinicalPresentations'
 import { NotFoundPage } from './NotFoundPage'
+import { SharePageButton } from '../components/SharePageButton'
 
 export function PresentationDetailPage() {
   const { presentationId = '' } = useParams()
@@ -15,6 +16,7 @@ export function PresentationDetailPage() {
       <article className="protocol-detail protocol-detail-page">
         <header className="protocol-detail__header">
           <div><span className="eyebrow">{presentation.group}</span><h1 data-page-heading tabIndex={-1}>{presentation.name}</h1></div>
+          <SharePageButton />
         </header>
         <section className="reference-panel presentation-index-note">
           <h2>Índice de apresentações</h2>

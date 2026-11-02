@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /assistente-clinico
+Disallow: /login
+Disallow: /recuperar-senha
+Disallow: /aceitar-convite
+Disallow: /redefinir-senha
+Disallow: /favoritos
+Disallow: /historico

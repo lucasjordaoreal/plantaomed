@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { ArrowRight, Search } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { clinicalPresentations, searchClinicalPresentations } from '../data/clinicalPresentations'
+import { SharePageButton } from '../components/SharePageButton'
 
 export function SymptomsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -16,10 +17,13 @@ export function SymptomsPage() {
 
   return (
     <div className="page-stack">
-      <header className="page-heading">
-        <span className="eyebrow">Índice clínico</span>
-        <h1 data-page-heading tabIndex={-1}>Sinais e sintomas</h1>
-        <p>{clinicalPresentations.length} apresentações catalogadas para pesquisa e organização.</p>
+      <header className="page-heading page-heading--actions">
+        <div>
+          <span className="eyebrow">Índice clínico</span>
+          <h1 data-page-heading tabIndex={-1}>Sinais e sintomas</h1>
+          <p>{clinicalPresentations.length} apresentações catalogadas para pesquisa e organização.</p>
+        </div>
+        <SharePageButton />
       </header>
 
       <section className="library-page" aria-label="Índice de sinais e sintomas">
