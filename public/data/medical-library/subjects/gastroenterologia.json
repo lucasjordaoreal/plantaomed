@@ -3,6 +3,15 @@
   "specialty": "Gastroenterologia",
   "subjects": [
     {
+      "id": "colangite-biliar-primaria",
+      "title": "Colangite Biliar Primária",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-colangite-biliar-primaria"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
       "id": "doenca-celiaca",
       "title": "Doença Celíaca",
       "specialty": "Gastroenterologia",
@@ -26,6 +35,42 @@
       "specialty": "Gastroenterologia",
       "documentIds": [
         "pcdt-doenca-wilson"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "imunossupressao-no-transplante-hepatico-em-adulto",
+      "title": "Imunossupressão no Transplante Hepático em Adulto",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-imunossupressao-no-transplante-hepatico-em-adulto"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "imunossupressao-no-transplante-hepatico-em-pediatria",
+      "title": "Imunossupressão no Transplante Hepático em Pediatria",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-imunossupressao-no-transplante-hepatico-em-pediatria"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "insuficiencia-pancreatica-exocrina",
+      "title": "Insuficiência Pancreática Exócrina",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-insuficiencia-pancreatica-exocrina"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "retocolite-ulcerativa",
+      "title": "Retocolite Ulcerativa",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-retocolite-ulcerativa"
       ],
       "recordType": "bibliographic_subject"
     }

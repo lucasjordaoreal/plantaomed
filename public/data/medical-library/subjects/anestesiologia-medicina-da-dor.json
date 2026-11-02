@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Anestesiologia / Medicina da Dor",
+  "subjects": [
+    {
+      "id": "dor-cronica",
+      "title": "Dor Crônica",
+      "specialty": "Anestesiologia / Medicina da Dor",
+      "documentIds": [
+        "pcdt-dor-cronica"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

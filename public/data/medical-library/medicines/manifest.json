@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "anvisa-open-medicines-csv",
+  "sourceUrl": "https://dados.anvisa.gov.br/dados/DADOS_ABERTOS_MEDICAMENTOS.csv",
+  "dictionaryUrl": "https://dados.anvisa.gov.br/dados/Documentacao_e_Dicionario_de_Dados_Registros_Validos_Medicamento_V1.pdf",
+  "retrievedAt": "2026-11-02",
+  "sourceFile": "DADOS_ABERTOS_MEDICAMENTOS.csv",
+  "sourceFileBytes": 45920138,
+  "sourceSha256": "f0b546e2d3a737a90fbc866348356cd766344bd2f4b8f488a43d66a0d7a30877",
+  "sourceFormat": {
+    "encoding": "Windows-1252",
+    "delimiter": ";",
+    "quote": "\"",
+    "fields": [
+      "TIPO_PRODUTO",
+      "NOME_PRODUTO",
+      "DATA_FINALIZACAO_PROCESSO",
+      "CATEGORIA_REGULATORIA",
+      "NUMERO_REGISTRO_PRODUTO",
+      "DATA_VENCIMENTO_REGISTRO",
+      "NUMERO_PROCESSO",
+      "CLASSE_TERAPEUTICA",
+      "EMPRESA_DETENTORA_REGISTRO",
+      "SITUACAO_REGISTRO",
+      "PRINCIPIO_ATIVO"
+    ]
+  },
+  "datasetDefinition": "A documentação da Anvisa descreve esta base como registros válidos sem petição de cancelamento; a situação publicada no campo de cada registro é preservada literalmente.",
+  "recordsRead": 228869,
+  "recordsImported": 42660,
+  "duplicateRowsRemoved": 186209,
+  "rejectedRows": 0,
+  "recordsWithRegistrationNumber": 35229,
+  "uniqueRegistrationNumbers": 32800,
+  "situationCounts": {
+    "Ativo": 14501,
+    "Inativo": 28159
+  },
+  "searchIndexPath": "medicines/search-index.json",
+  "shards": [
+    {
+      "id": "0",
+      "path": "medicines/packs/0.json",
+      "recordCount": 1
+    },
+    {
+      "id": "1",
+      "path": "medicines/packs/1.json",
+      "recordCount": 7
+    },
+    {
+      "id": "2",
+      "path": "medicines/packs/2.json",
+      "recordCount": 2
+    },
+    {
+      "id": "3",
+      "path": "medicines/packs/3.json",
+      "recordCount": 1
+    },
+    {
+      "id": "5",
+      "path": "medicines/packs/5.json",
+      "recordCount": 1
+    },
+    {
+      "id": "6",
+      "path": "medicines/packs/6.json",
+      "recordCount": 1
+    },
+    {
+      "id": "a",
+      "path": "medicines/packs/a.json",
+      "recordCount": 4225
+    },
+    {
+      "id": "b",
+      "path": "medicines/packs/b.json",
+      "recordCount": 1943
+    },
+    {
+      "id": "c",
+      "path": "medicines/packs/c.json",
+      "recordCount": 5818
+    },
+    {
+      "id": "d",
+      "path": "medicines/packs/d.json",
+      "recordCount": 2850
+    },
+    {
+      "id": "e",
+      "path": "medicines/packs/e.json",
+      "recordCount": 1454
+    },
+    {
+      "id": "f",
+      "path": "medicines/packs/f.json",
+      "recordCount": 2066
+    },
+    {
+      "id": "g",
+      "path": "medicines/packs/g.json",
+      "recordCount": 1421
+    },
+    {
+      "id": "h",
+      "path": "medicines/packs/h.json",
+      "recordCount": 1189
+    },
+    {
+      "id": "i",
+      "path": "medicines/packs/i.json",
+      "recordCount": 1075
+    },
+    {
+      "id": "j",
+      "path": "medicines/packs/j.json",
+      "recordCount": 63
+    },
+    {
+      "id": "k",
+      "path": "medicines/packs/k.json",
+      "recordCount": 372
+    },
+    {
+      "id": "l",
+      "path": "medicines/packs/l.json",
+      "recordCount": 2154
+    },
+    {
+      "id": "m",
+      "path": "medicines/packs/m.json",
+      "recordCount": 2275
+    },
+    {
+      "id": "n",
+      "path": "medicines/packs/n.json",
+      "recordCount": 2337
+    },
+    {
+      "id": "o",
+      "path": "medicines/packs/o.json",
+      "recordCount": 1210
+    },
+    {
+      "id": "outros",
+      "path": "medicines/packs/outros.json",
+      "recordCount": 81
+    },
+    {
+      "id": "p",
+      "path": "medicines/packs/p.json",
+      "recordCount": 2938
+    },
+    {
+      "id": "q",
+      "path": "medicines/packs/q.json",
+      "recordCount": 104
+    },
+    {
+      "id": "r",
+      "path": "medicines/packs/r.json",
+      "recordCount": 1410
+    },
+    {
+      "id": "s",
+      "path": "medicines/packs/s.json",
+      "recordCount": 2873
+    },
+    {
+      "id": "t",
+      "path": "medicines/packs/t.json",
+      "recordCount": 2121
+    },
+    {
+      "id": "u",
+      "path": "medicines/packs/u.json",
+      "recordCount": 294
+    },
+    {
+      "id": "v",
+      "path": "medicines/packs/v.json",
+      "recordCount": 1687
+    },
+    {
+      "id": "w",
+      "path": "medicines/packs/w.json",
+      "recordCount": 53
+    },
+    {
+      "id": "x",
+      "path": "medicines/packs/x.json",
+      "recordCount": 171
+    },
+    {
+      "id": "y",
+      "path": "medicines/packs/y.json",
+      "recordCount": 31
+    },
+    {
+      "id": "z",
+      "path": "medicines/packs/z.json",
+      "recordCount": 432
+    }
+  ]
+}

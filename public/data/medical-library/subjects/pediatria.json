@@ -10,6 +10,51 @@
         "pcdt-artrite-idiopatica-juvenil"
       ],
       "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "deficiencia-de-biotinidase",
+      "title": "Deficiência de Biotinidase",
+      "specialty": "Pediatria",
+      "documentIds": [
+        "pcdt-deficiencia-de-biotinidase"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hemangioma-infantil",
+      "title": "Hemangioma Infantil",
+      "specialty": "Pediatria",
+      "documentIds": [
+        "pcdt-hemangioma-infantil"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "homocistinuria-classica",
+      "title": "Homocistinúria Clássica",
+      "specialty": "Pediatria",
+      "documentIds": [
+        "pcdt-homocistinuria-classica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "lipofuscinose-ceroide-neuronal-tipo-2",
+      "title": "Lipofuscinose Ceroide Neuronal tipo 2",
+      "specialty": "Pediatria",
+      "documentIds": [
+        "pcdt-lipofuscinose-ceroide-neuronal-tipo-2"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "osteogenese-imperfeita",
+      "title": "Osteogênese Imperfeita",
+      "specialty": "Pediatria",
+      "documentIds": [
+        "pcdt-osteogenese-imperfeita"
+      ],
+      "recordType": "bibliographic_subject"
     }
   ]
 }

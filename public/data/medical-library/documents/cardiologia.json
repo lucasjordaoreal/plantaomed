@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Cardiologia",
+  "documents": [
+    {
+      "id": "pcdt-hipertensao-arterial-sistemica",
+      "title": "Hipertensão Arterial Sistêmica",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Cardiologia",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2025-07-24",
+      "portariaDate": "2025-07-23",
+      "version": "Portaria SECTICS/MS nº 49 - 23/07/2025 (Publicada em 24/07/2025 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-hipertensao-arterial-sistemica.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-imunossupressao-no-transplante-cardiaco",
+      "title": "Imunossupressão no Transplante Cardíaco",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Cardiologia",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2021-01-11",
+      "portariaDate": "2021-01-05",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 2 - 05/01/2021 (Publicada em 11/01/2021 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/20210121_portaria_conjunta_pcdt_imunossupressao_transplante_cardiaco.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-insuficiencia-cardiaca-com-fracao-de-ejecao-reduzida",
+      "title": "Insuficiência Cardíaca com Fração de Ejeção Reduzida",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Cardiologia",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2024-09-26",
+      "portariaDate": "2024-09-13",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 10 - 13/09/2024 (Publicada em 26/09/2024 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-de-insuficiencia-cardiaca/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

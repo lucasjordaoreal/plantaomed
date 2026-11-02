@@ -34,8 +34,7 @@
   min-height: 72px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: flex-start;
 }
 
 .brand-lockup {
@@ -999,8 +998,14 @@
     color: #505862;
     font-size: 9px;
     font-weight: 580;
+    line-height: 1.1;
     text-decoration: none;
+    white-space: nowrap;
     transition: color 140ms ease, background 140ms ease;
+  }
+
+  .mobile-tab span {
+    white-space: nowrap;
   }
 
   .mobile-tab:hover,
@@ -1137,8 +1142,8 @@
   min-width: 0;
 }
 
-.app-header .global-search {
-  width: min(100%, 390px);
+.page-content > .global-search {
+  margin-bottom: 24px;
 }
 
 .global-search .search-field {
@@ -1756,26 +1761,11 @@
 @media (max-width: 680px) {
   .app-header__inner {
     width: calc(100% - 28px);
-    gap: 12px;
     min-height: 60px;
   }
 
   .brand-name {
     font-size: 16px;
-  }
-
-  .app-header .global-search {
-    width: min(58vw, 300px);
-  }
-
-  .app-header .search-field {
-    min-height: 38px;
-    gap: 6px;
-    padding-inline: 9px;
-  }
-
-  .app-header .search-field input {
-    font-size: 10px;
   }
 
   .app-frame {

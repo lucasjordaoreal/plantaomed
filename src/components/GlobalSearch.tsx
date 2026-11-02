@@ -108,7 +108,7 @@ export function GlobalSearch({ prominent = false }: Props) {
           {documentResults.map((entry) => (
             <button type="button" role="option" aria-selected="false" key={entry.id} onClick={() => openDocument(entry)}>
               <BookOpen size={16} aria-hidden="true" />
-              <span><strong>{entry.title}</strong><small>{entry.type} · {entry.specialty} · {entry.publicationYear}</small></span>
+              <span><strong>{entry.title}</strong><small>{entry.type} · {entry.specialty} · {entry.publicationYear ?? 'ano não informado'}</small></span>
             </button>
           ))}
           {error && <p role="alert">{error}</p>}

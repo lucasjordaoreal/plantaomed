@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Urologia",
+  "subjects": [
+    {
+      "id": "incontinencia-urinaria-nao-neurogenica",
+      "title": "Incontinência Urinária não Neurogênica",
+      "specialty": "Urologia",
+      "documentIds": [
+        "pcdt-incontinencia-urinaria-nao-neurogenica"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

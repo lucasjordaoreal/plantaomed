@@ -10,6 +10,51 @@
         "pcdt-asma"
       ],
       "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-pulmonar-obstrutiva-cronica",
+      "title": "Doença Pulmonar Obstrutiva Crônica",
+      "specialty": "Pneumologia",
+      "documentIds": [
+        "pcdt-doenca-pulmonar-obstrutiva-cronica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "fibrose-cistica",
+      "title": "Fibrose Cística",
+      "specialty": "Pneumologia",
+      "documentIds": [
+        "pcdt-fibrose-cistica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hipertensao-pulmonar",
+      "title": "Hipertensão Pulmonar",
+      "specialty": "Pneumologia",
+      "documentIds": [
+        "pcdt-hipertensao-pulmonar"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "linfangioleiomiomatose",
+      "title": "Linfangioleiomiomatose",
+      "specialty": "Pneumologia",
+      "documentIds": [
+        "pcdt-linfangioleiomiomatose"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "tabagismo",
+      "title": "Tabagismo",
+      "specialty": "Pneumologia",
+      "documentIds": [
+        "pcdt-tabagismo"
+      ],
+      "recordType": "bibliographic_subject"
     }
   ]
 }

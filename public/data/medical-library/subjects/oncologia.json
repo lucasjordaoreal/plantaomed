@@ -13,7 +13,7 @@
     },
     {
       "id": "adenocarcinoma-estomago",
-      "title": "Adenocarcinoma de Estômago",
+      "title": "Adenocarcinoma de estômago",
       "specialty": "Oncologia",
       "documentIds": [
         "pcdt-adenocarcinoma-estomago"
@@ -39,6 +39,15 @@
       "recordType": "bibliographic_subject"
     },
     {
+      "id": "cancer-epidermoide-de-cabeca-e-pescoco",
+      "title": "Câncer Epidermoide de Cabeça e Pescoço",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-cancer-epidermoide-de-cabeca-e-pescoco"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
       "id": "carcinoma-esofago",
       "title": "Carcinoma de Esôfago",
       "specialty": "Oncologia",
@@ -53,6 +62,78 @@
       "specialty": "Oncologia",
       "documentIds": [
         "pcdt-carcinoma-renal-celulas-claras"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "leucemia-mieloide-cronica-criancas-e-adolescentes",
+      "title": "Leucemia Mieloide Crônica - Crianças e Adolescentes",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-leucemia-mieloide-cronica-criancas-e-adolescentes"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "leucemia-mieloide-cronica-do-adulto",
+      "title": "Leucemia Mieloide Crônica do Adulto",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-leucemia-mieloide-cronica-do-adulto"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "linfoma-de-hodgkin-no-adulto",
+      "title": "Linfoma de Hodgkin no adulto",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-linfoma-de-hodgkin-no-adulto"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "linfoma-folicular",
+      "title": "Linfoma Folicular",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-linfoma-folicular"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "melanoma-cutaneo",
+      "title": "Melanoma Cutâneo",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-melanoma-cutaneo"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "mieloma-multiplo",
+      "title": "Mieloma Múltiplo",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-mieloma-multiplo"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "neoplasia-maligna-epitelial-de-ovario",
+      "title": "Neoplasia Maligna Epitelial de Ovário",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-neoplasia-maligna-epitelial-de-ovario"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "tumor-do-estroma-gastrointestinal",
+      "title": "Tumor do Estroma Gastrointestinal",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-tumor-do-estroma-gastrointestinal"
       ],
       "recordType": "bibliographic_subject"
     }

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Nefrologia",
+  "subjects": [
+    {
+      "id": "disturbio-mineral-osseo-na-doenca-renal-cronica",
+      "title": "Distúrbio Mineral Ósseo na Doença Renal Crônica",
+      "specialty": "Nefrologia",
+      "documentIds": [
+        "pcdt-disturbio-mineral-osseo-na-doenca-renal-cronica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "estrategias-para-atenuar-a-progressao-da-doenca-renal-cronica",
+      "title": "Estratégias para Atenuar a Progressão da Doença Renal Crônica",
+      "specialty": "Nefrologia",
+      "documentIds": [
+        "pcdt-estrategias-para-atenuar-a-progressao-da-doenca-renal-cronica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "imunossupressao-em-transplante-renal",
+      "title": "Imunossupressão em Transplante Renal",
+      "specialty": "Nefrologia",
+      "documentIds": [
+        "pcdt-imunossupressao-em-transplante-renal"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-nefrotica-primaria-em-adultos",
+      "title": "Síndrome Nefrótica Primária em Adultos",
+      "specialty": "Nefrologia",
+      "documentIds": [
+        "pcdt-sindrome-nefrotica-primaria-em-adultos"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-nefrotica-primaria-em-criancas-e-adolescentes",
+      "title": "Síndrome Nefrótica Primária em Crianças e Adolescentes",
+      "specialty": "Nefrologia",
+      "documentIds": [
+        "pcdt-sindrome-nefrotica-primaria-em-criancas-e-adolescentes"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

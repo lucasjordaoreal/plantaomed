@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Imunologia e Alergologia",
+  "documents": [
+    {
+      "id": "pcdt-angioedema-associado-a-deficiencia-de-c1-esterase",
+      "title": "Angioedema associado à deficiência de C1 esterase",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Imunologia e Alergologia",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2016-07-15",
+      "portariaDate": "2016-07-12",
+      "version": "Portaria SAS/MS nº 880 - 12/07/2016 (Publicada em 15/07/2016 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt_angioedema-deficincia-c1esterase_2016.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-imunodeficiencia-primaria-com-predominancia-de-defeitos-de-anticorpos",
+      "title": "Imunodeficiência Primária com predominância de defeitos de anticorpos",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Imunologia e Alergologia",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2007-09-12",
+      "portariaDate": "2007-09-11",
+      "version": "Portaria SAS/MS nº 495 - 11/09/2007 (Publicada em 12/09/2007 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-imunodeficienciaprimaria.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

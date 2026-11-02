@@ -5,13 +5,22 @@ import { buildCatalog, validateCatalog } from './lib.mjs'
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url))
 const readJson = async (name) => JSON.parse(await readFile(resolve(scriptDirectory, 'data', name), 'utf8'))
-const [sources, documents, medicines, legacySubjects] = await Promise.all([
+const readOptionalJson = async (name) => {
+  try {
+    return await readJson(name)
+  } catch (error) {
+    if (error?.code === 'ENOENT') return null
+    throw error
+  }
+}
+const [sources, documents, medicines, legacySubjects, medicineImport] = await Promise.all([
   readJson('sources.json'),
   readJson('documents.json'),
   readJson('medicines.json'),
   readJson('legacy-subjects.json'),
+  readOptionalJson('anvisa-import-manifest.json'),
 ])
-const errors = validateCatalog({ sources, documents, medicines, legacySubjects })
+const errors = validateCatalog({ sources, documents, medicines, legacySubjects, medicineImport })
 
 if (errors.length > 0) {
   console.error(errors.join('\n'))
@@ -22,7 +31,8 @@ if (errors.length > 0) {
     documents,
     medicines,
     legacySubjects,
-    catalogDate: '2026-11-02',
+    medicineImport,
+    catalogDate: new Date().toISOString().slice(0, 10),
   })
   const outputDirectory = resolve(scriptDirectory, '../../public/data/medical-library')
 
@@ -33,5 +43,5 @@ if (errors.length > 0) {
   }
 
   await writeFile(resolve(scriptDirectory, '../../docs/CONTENT_COVERAGE.md'), coverageReport, 'utf8')
-  console.log(`Generated ${outputFiles.size} static catalog files for ${index.counts.documentsCataloged} documents across ${index.specialties.length} specialties.`)
+  console.log(`Generated ${outputFiles.size} static catalog files for ${index.counts.documentsCataloged} documents and ${index.counts.medicinesCataloged} medicines across ${index.specialties.length} specialties.`)
 }

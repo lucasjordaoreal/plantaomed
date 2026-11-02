@@ -131,8 +131,10 @@ export type OfficialDocumentRecord = {
   title: string
   organization: string
   specialty: string
+  specialtyClassification?: 'existing_catalog_mapping' | 'title_keyword_match' | 'unclassified'
   type: string
-  publicationDate: string
+  publicationDate: string | null
+  portariaDate?: string | null
   version: string | null
   updatedAt: string | null
   officialUrl: string
@@ -150,7 +152,7 @@ export type CatalogSearchEntry = {
   title: string
   specialty: string
   type: string
-  publicationYear: string
+  publicationYear: string | null
   organization: string
   version: string | null
   officialUrl: string
@@ -179,12 +181,77 @@ export type OfficialCatalogIndex = {
     completeClinicallyReviewedProtocols: number
     medicinesWithConfirmedAnvisaRegistration: number
     medicinesCataloged: number
+    medicinesWithRegistrationNumber: number
+    medicinesUniqueRegistrationNumbers: number
     recordsPendingVerification: number
   }
   specialties: CatalogSpecialty[]
   sourcesPath: string
   medicinesPath: string
+  medicineSearchIndexPath: string
   searchEntries: CatalogSearchEntry[]
+}
+
+export type MedicineRecord = {
+  id: string
+  productName: string
+  activeIngredient: string | null
+  registrationNumber: string | null
+  processNumber: string | null
+  holder: string | null
+  holderCnpj: string | null
+  regulatoryCategory: string | null
+  therapeuticClass: string | null
+  registrationSituation: string | null
+  processFinalizedAt: string | null
+  registrationExpirationField: string | null
+  productType: string
+  sourceId: string
+  pack: string
+}
+
+export type MedicineSearchRecord = Pick<
+  MedicineRecord,
+  | 'id'
+  | 'productName'
+  | 'activeIngredient'
+  | 'registrationNumber'
+  | 'holder'
+  | 'regulatoryCategory'
+  | 'therapeuticClass'
+  | 'registrationSituation'
+  | 'pack'
+>
+
+export type MedicineImportManifest = {
+  schemaVersion: number
+  sourceId: string
+  sourceUrl: string
+  dictionaryUrl: string
+  retrievedAt: string
+  recordsRead: number
+  recordsImported: number
+  duplicateRowsRemoved: number
+  rejectedRows: number
+  recordsWithRegistrationNumber: number
+  uniqueRegistrationNumbers: number
+  searchIndexPath: string
+  shards: Array<{ id: string; path: string; recordCount: number }>
+}
+
+export type MedicineSearchIndex = {
+  schemaVersion: number
+  sourceId: string
+  retrievedAt: string
+  recordCount: number
+  records: MedicineSearchRecord[]
+}
+
+export type MedicineRecordPack = {
+  schemaVersion: number
+  sourceId: string
+  retrievedAt: string
+  records: MedicineRecord[]
 }
 
 export type Category = {

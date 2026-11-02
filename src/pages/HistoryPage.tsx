@@ -62,7 +62,7 @@ export function HistoryPage() {
               return (
                 <li key={id}>
                   <Link to={`/diretrizes?document=${encodeURIComponent(documentId)}`}>
-                    <span><strong>{entry.title}</strong><small>Documento · {entry.specialty} · {entry.publicationYear}</small></span>
+                    <span><strong>{entry.title}</strong><small>Documento · {entry.specialty} · {entry.publicationYear ?? 'ano não informado'}</small></span>
                     <ExternalLink size={16} aria-hidden="true" />
                   </Link>
                 </li>

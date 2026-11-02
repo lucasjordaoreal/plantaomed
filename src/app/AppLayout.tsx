@@ -4,7 +4,15 @@ import { Link, NavLink, Outlet, useLocation, useNavigationType } from 'react-rou
 import { branding } from '../config/branding'
 import { GlobalSearch } from '../components/GlobalSearch'
 
-const mainLinks = [
+type NavigationLink = {
+  to: string
+  label: string
+  icon: typeof Home
+  end: boolean
+  shortLabel?: string
+}
+
+const mainLinks: NavigationLink[] = [
   { to: '/inicio', label: 'Início', icon: Home, end: true },
   { to: '/protocolos', label: 'Biblioteca', icon: Stethoscope, end: false },
   { to: '/sinais-e-sintomas', label: 'Sinais e sintomas', icon: Search, end: false },
@@ -16,7 +24,12 @@ const mainLinks = [
   { to: '/sobre', label: 'Sobre', icon: Info, end: true },
 ]
 
-const mobileLinks = mainLinks.slice(0, 3).concat(mainLinks[6])
+const mobileLinks: NavigationLink[] = [
+  mainLinks[0],
+  mainLinks[1],
+  { ...mainLinks[2], shortLabel: 'Sintomas' },
+  mainLinks[6],
+]
 const moreLinks = mainLinks.filter(({ to }) => ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre'].includes(to))
 
 function RouteEffects() {
@@ -72,7 +85,6 @@ export function AppLayout() {
           <Link className="brand-lockup" to="/inicio" aria-label={`${branding.commercialName} - início`}>
             <span className="brand-name">{branding.commercialName}</span>
           </Link>
-          <GlobalSearch />
         </div>
       </header>
 
@@ -89,15 +101,16 @@ export function AppLayout() {
         </aside>
 
         <main className="page-content" id="main-content" tabIndex={-1}>
+          {location.pathname !== '/inicio' && <GlobalSearch />}
           <Outlet />
         </main>
       </div>
 
       <nav className="mobile-tab-bar glass-surface" aria-label="Navegação inferior">
-        {mobileLinks.map(({ to, label, icon: Icon, end }) => (
-          <NavLink key={to} to={to} end={end} className={({ isActive }) => `mobile-tab${isActive ? ' is-active' : ''}`}>
+        {mobileLinks.map(({ to, label, shortLabel, icon: Icon, end }) => (
+          <NavLink key={to} to={to} end={end} aria-label={label} className={({ isActive }) => `mobile-tab${isActive ? ' is-active' : ''}`}>
             <Icon size={19} aria-hidden="true" />
-            <span>{label}</span>
+            <span>{shortLabel ?? label}</span>
           </NavLink>
         ))}
         <div className="mobile-more" ref={moreMenuRef}>

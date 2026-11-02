@@ -12,6 +12,24 @@
       "recordType": "bibliographic_subject"
     },
     {
+      "id": "anemia-na-doenca-renal-cronica-alfaepoetina",
+      "title": "Anemia na Doença Renal Crônica - Alfaepoetina",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-anemia-na-doenca-renal-cronica-alfaepoetina"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "anemia-na-doenca-renal-cronica-reposicao-de-ferro",
+      "title": "Anemia na Doença Renal Crônica - Reposição de Ferro",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-anemia-na-doenca-renal-cronica-reposicao-de-ferro"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
       "id": "doenca-gaucher",
       "title": "Doença de Gaucher",
       "specialty": "Hematologia",
@@ -26,6 +44,60 @@
       "specialty": "Hematologia",
       "documentIds": [
         "pcdt-doenca-falciforme"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hemoglobinuria-paroxistica-noturna",
+      "title": "Hemoglobinúria Paroxística Noturna",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-hemoglobinuria-paroxistica-noturna"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "porfirias",
+      "title": "Porfirias",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-porfirias"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-de-falencia-medular",
+      "title": "Síndrome de Falência Medular",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-sindrome-de-falencia-medular"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-mielodisplasica-de-baixo-risco",
+      "title": "Síndrome Mielodisplásica de Baixo Risco",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-sindrome-mielodisplasica-de-baixo-risco"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sobrecarga-de-ferro",
+      "title": "Sobrecarga de Ferro",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-sobrecarga-de-ferro"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "trombocitopenia-imune-primaria",
+      "title": "Trombocitopenia Imune Primária",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-trombocitopenia-imune-primaria"
       ],
       "recordType": "bibliographic_subject"
     }

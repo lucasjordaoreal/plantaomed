@@ -21,6 +21,15 @@
       "recordType": "bibliographic_subject"
     },
     {
+      "id": "distonias-e-espasmo-hemifacial",
+      "title": "Distonias e Espasmo Hemifacial",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-distonias-e-espasmo-hemifacial"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
       "id": "doenca-alzheimer",
       "title": "Doença de Alzheimer",
       "specialty": "Neurologia",
@@ -44,6 +53,60 @@
       "specialty": "Neurologia",
       "documentIds": [
         "pcdt-doenca-pompe"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "epilepsia",
+      "title": "Epilepsia",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-epilepsia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "esclerose-lateral-amiotrofica",
+      "title": "Esclerose Lateral Amiotrófica",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-esclerose-lateral-amiotrofica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "esclerose-multipla",
+      "title": "Esclerose Múltipla",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-esclerose-multipla"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "espasticidade",
+      "title": "Espasticidade",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-espasticidade"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "miastenia-gravis",
+      "title": "Miastenia Gravis",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-miastenia-gravis"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-de-guillain-barre",
+      "title": "Síndrome de Guillain-Barré",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-sindrome-de-guillain-barre"
       ],
       "recordType": "bibliographic_subject"
     }

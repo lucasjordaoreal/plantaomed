@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Especialidade não classificada",
+  "subjects": [
+    {
+      "id": "dermatite-atopica",
+      "title": "Dermatite Atópica",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-dermatite-atopica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "ictioses-hereditarias",
+      "title": "Ictioses Hereditárias",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-ictioses-hereditarias"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "miopatias-inflamatorias",
+      "title": "Miopatias Inflamatórias",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-miopatias-inflamatorias"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "porfirias",
+      "title": "Porfirias",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-porfirias"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "prevencao-de-tromboembolismo-venoso-em-gestantes-com-trombofilia",
+      "title": "Prevenção de Tromboembolismo Venoso em Gestantes com Trombofilia",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-prevencao-de-tromboembolismo-venoso-em-gestantes-com-trombofilia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "retinopatia-diabetica",
+      "title": "Retinopatia Diabética",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-retinopatia-diabetica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-de-ovarios-policisticos",
+      "title": "Síndrome de Ovários Policísticos",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-sindrome-de-ovarios-policisticos"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "uveites-nao-infecciosas",
+      "title": "Uveítes Não-Infecciosas",
+      "specialty": "Especialidade não classificada",
+      "documentIds": [
+        "pcdt-uveites-nao-infecciosas"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

@@ -19,6 +19,51 @@
         "pcdt-doenca-fabry"
       ],
       "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "mucopolissacaridose-tipo-i",
+      "title": "Mucopolissacaridose tipo I",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-mucopolissacaridose-tipo-i"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "mucopolissacaridose-tipo-ii",
+      "title": "Mucopolissacaridose tipo II",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-mucopolissacaridose-tipo-ii"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "mucopolissacaridose-tipo-iv-a",
+      "title": "Mucopolissacaridose tipo IV A",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-mucopolissacaridose-tipo-iv-a"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "mucopolissacaridose-tipo-vi",
+      "title": "Mucopolissacaridose tipo VI",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-mucopolissacaridose-tipo-vi"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "mucopolissacaridose-tipo-vii",
+      "title": "Mucopolissacaridose tipo VII",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-mucopolissacaridose-tipo-vii"
+      ],
+      "recordType": "bibliographic_subject"
     }
   ]
 }

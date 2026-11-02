@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Urologia",
+  "documents": [
+    {
+      "id": "pcdt-incontinencia-urinaria-nao-neurogenica",
+      "title": "Incontinência Urinária não Neurogênica",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Urologia",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2020-01-13",
+      "portariaDate": "2020-01-09",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 01 - 09/01/2020 (Publicada em 13/01/2020 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-conjunta-pcdt-incontinencia-urinaria-nn-13-01-2020.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

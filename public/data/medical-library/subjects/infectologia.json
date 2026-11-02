@@ -28,6 +28,114 @@
         "pcdt-doenca-chagas"
       ],
       "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hanseniase",
+      "title": "Hanseníase",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-hanseniase"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hepatite-autoimune",
+      "title": "Hepatite Autoimune",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-hepatite-autoimune"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hepatite-b-e-coinfeccoes",
+      "title": "Hepatite B e Coinfecções",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-hepatite-b-e-coinfeccoes"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "manejo-da-infeccao-pelo-hiv-em-adultos",
+      "title": "Manejo da infecção pelo HIV em adultos",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-manejo-da-infeccao-pelo-hiv-em-adultos"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "manejo-da-infeccao-pelo-hiv-em-adultos-modulo-1-tratamento",
+      "title": "Manejo da Infecção pelo HIV em Adultos: Módulo 1 - Tratamento",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-manejo-da-infeccao-pelo-hiv-em-adultos-modulo-1-tratamento"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "manejo-da-infeccao-pelo-hiv-em-adultos-modulo-2-coinfeccoes-e-infeccoes-oportunistas",
+      "title": "Manejo da Infecção pelo HIV em Adultos: Módulo 2 - Coinfecções e Infecções Oportunistas",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-manejo-da-infeccao-pelo-hiv-em-adultos-modulo-2-coinfeccoes-e-infeccoes-oportunistas"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "manejo-da-infeccao-pelo-hiv-em-criancas-e-adolescentes",
+      "title": "Manejo da infecção pelo HIV em crianças e adolescentes",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-manejo-da-infeccao-pelo-hiv-em-criancas-e-adolescentes"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "manejo-da-infeccao-pelo-hiv-em-criancas-e-adolescentes-modulo-1-diagnostico-manejo-e-acompanhamento-de-criancas-expostas-ao-hiv",
+      "title": "Manejo da Infecção pelo HIV em Crianças e Adolescentes - Módulo 1 - Diagnóstico, Manejo e Acompanhamento de Crianças Expostas ao HIV",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-manejo-da-infeccao-pelo-hiv-em-criancas-e-adolescentes-modulo-1-diagnostico-manejo-e-acompanhamento-de-criancas-expostas-ao-hiv"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "manejo-da-infeccao-pelo-hiv-em-criancas-e-adolescentes-modulo-2-diagnostico-manejo-e-tratamento-de-criancas-e-adolescentes-vivendo-com-hiv",
+      "title": "Manejo da Infecção pelo HIV em Crianças e Adolescentes - Módulo 2 - Diagnóstico, Manejo e Tratamento de Crianças e Adolescentes Vivendo com HIV",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-manejo-da-infeccao-pelo-hiv-em-criancas-e-adolescentes-modulo-2-diagnostico-manejo-e-tratamento-de-criancas-e-adolescentes-vivendo-com-hiv"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "prevencao-da-transmissao-vertical-do-hiv-sifilis-e-hepatites-virais",
+      "title": "Prevenção da Transmissão Vertical do HIV, Sífilis e Hepatites Virais",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-prevencao-da-transmissao-vertical-do-hiv-sifilis-e-hepatites-virais"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "profilaxia-pos-exposicao-de-risco-pep-a-infeccao-pelo-hiv-ist-e-hepatites-virais",
+      "title": "Profilaxia Pós-Exposição de Risco (PEP) à Infecção pelo HIV, IST e Hepatites Virais.",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-profilaxia-pos-exposicao-de-risco-pep-a-infeccao-pelo-hiv-ist-e-hepatites-virais"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "profilaxia-preexposicao-prep-oral-a-infeccao-pelo-hiv",
+      "title": "Profilaxia PréExposição (PrEP) Oral à Infecção pelo HIV",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-profilaxia-preexposicao-prep-oral-a-infeccao-pelo-hiv"
+      ],
+      "recordType": "bibliographic_subject"
     }
   ]
 }

@@ -210,7 +210,7 @@ export function OfficialDocumentCatalog() {
                   aria-pressed={selectedId === entry.id}
                 >
                   <strong>{entry.title}</strong>
-                  <span>{entry.specialty} · {entry.type} · {entry.publicationYear}</span>
+                  <span>{entry.specialty} · {entry.type} · {entry.publicationYear ?? 'ano não informado'}</span>
                 </button>
               ))}
               {filteredEntries.length === 0 && <p className="empty-state">Nenhum documento corresponde à busca.</p>}
@@ -227,6 +227,8 @@ export function OfficialDocumentCatalog() {
                     {detail.version && <div><dt>Referência normativa</dt><dd>{detail.version}</dd></div>}
                     {detail.updatedAt && <div><dt>Atualização indicada na listagem</dt><dd>{detail.updatedAt}</dd></div>}
                     {source && <div><dt>Catálogo de origem</dt><dd><a href={source.url} target="_blank" rel="noreferrer">{source.title}</a></dd></div>}
+                    {detail.specialtyClassification === 'title_keyword_match' && <div><dt>Classificação temática</dt><dd>Atribuída por correspondência do título; requer confirmação.</dd></div>}
+                    {detail.specialtyClassification === 'unclassified' && <div><dt>Classificação temática</dt><dd>Especialidade não classificada.</dd></div>}
                     <div><dt>Situação da verificação</dt><dd>Listagem e link catalogados; conteúdo e vigência individual não conferidos.</dd></div>
                     <div><dt>Conteúdo e reprodução</dt><dd>Somente metadados e link; o conteúdo não foi reproduzido.</dd></div>
                     <div><dt>Catalogado em</dt><dd>{detail.catalogedAt}</dd></div>

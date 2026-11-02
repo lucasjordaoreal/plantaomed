@@ -12,6 +12,8 @@
     "test": "vitest run && npm run catalog:validate",
     "catalog:validate": "node scripts/medical-import/validate.mjs",
     "catalog:generate": "node scripts/medical-import/generate.mjs",
+    "catalog:import:anvisa": "node scripts/medical-import/import-anvisa-medicines.mjs",
+    "catalog:import:conitec": "node scripts/medical-import/import-conitec-pcdt.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

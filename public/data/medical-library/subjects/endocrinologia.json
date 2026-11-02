@@ -13,7 +13,7 @@
     },
     {
       "id": "carcinoma-tireoide",
-      "title": "Carcinoma Diferenciado da Tireoide",
+      "title": "Carcinoma diferenciado da Tireóide",
       "specialty": "Endocrinologia",
       "documentIds": [
         "pcdt-carcinoma-tireoide"
@@ -21,11 +21,11 @@
       "recordType": "bibliographic_subject"
     },
     {
-      "id": "diabetes-insipido",
-      "title": "Diabetes Insípido",
+      "id": "deficiencia-de-hormonio-do-crescimento-hipopituitarismo",
+      "title": "Deficiência de Hormônio do Crescimento - Hipopituitarismo",
       "specialty": "Endocrinologia",
       "documentIds": [
-        "pcdt-diabetes-insipido"
+        "pcdt-deficiencia-de-hormonio-do-crescimento-hipopituitarismo"
       ],
       "recordType": "bibliographic_subject"
     },
@@ -44,6 +44,123 @@
       "specialty": "Endocrinologia",
       "documentIds": [
         "pcdt-diabetes-mellitus-tipo-2"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "diabetes-insipido",
+      "title": "Diabetes Insípido",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-diabetes-insipido"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "dislipidemia-prevencao-de-eventos-cardiovasculares-e-pancreatite",
+      "title": "Dislipidemia: prevenção de eventos cardiovasculares e pancreatite",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-dislipidemia-prevencao-de-eventos-cardiovasculares-e-pancreatite"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-de-paget",
+      "title": "Doença de Paget",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-doenca-de-paget"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "fenilcetonuria",
+      "title": "Fenilcetonúria",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-fenilcetonuria"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hiperprolactinemia",
+      "title": "Hiperprolactinemia",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-hiperprolactinemia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hipoparatireoidismo",
+      "title": "Hipoparatireoidismo",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-hipoparatireoidismo"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hipotireoidismo-congenito",
+      "title": "Hipotireoidismo Congênito",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-hipotireoidismo-congenito"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "insuficiencia-adrenal",
+      "title": "Insuficiência Adrenal",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-insuficiencia-adrenal"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "osteoporose",
+      "title": "Osteoporose",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-osteoporose"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "puberdade-precoce-central",
+      "title": "Puberdade Precoce Central",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-puberdade-precoce-central"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "raquitismo-e-osteomalacia",
+      "title": "Raquitismo e Osteomalácia",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-raquitismo-e-osteomalacia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-de-turner",
+      "title": "Síndrome de Turner",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-sindrome-de-turner"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sobrepeso-e-obesidade-em-adultos",
+      "title": "Sobrepeso e Obesidade em Adultos",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-sobrepeso-e-obesidade-em-adultos"
       ],
       "recordType": "bibliographic_subject"
     }

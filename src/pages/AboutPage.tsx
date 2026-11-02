@@ -32,10 +32,6 @@ export function AboutPage() {
           <h2>Privacidade</h2>
           <p>Favoritos e histórico ficam armazenados localmente neste dispositivo. O projeto não apresenta esses dados como registros de conta ou sincronização entre dispositivos.</p>
         </article>
-        <article>
-          <h2>Versão</h2>
-          <p>{branding.commercialName} · versão {branding.appVersion} · aplicação web progressiva.</p>
-        </article>
       </section>
     </div>
   )

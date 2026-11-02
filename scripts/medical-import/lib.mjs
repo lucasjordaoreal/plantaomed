@@ -23,7 +23,7 @@ function slugify(value) {
     .replace(/^-|-$/g, '')
 }
 
-export function validateCatalog({ sources, documents, medicines, legacySubjects }) {
+export function validateCatalog({ sources, documents, medicines, legacySubjects, medicineImport = null }) {
   const errors = []
   const sourcesById = new Map()
   const documentsById = new Map()
@@ -44,7 +44,7 @@ export function validateCatalog({ sources, documents, medicines, legacySubjects 
     if (!document.title?.trim() || !document.specialty?.trim() || !document.type?.trim()) {
       errors.push(`${label}: title, specialty, or type missing.`)
     }
-    if (!isCalendarDate(document.publicationDate)) errors.push(`${label}: invalid publication date.`)
+    if (document.publicationDate !== null && !isCalendarDate(document.publicationDate)) errors.push(`${label}: invalid publication date.`)
     if (document.updatedAt !== null && !isCalendarDate(document.updatedAt)) errors.push(`${label}: invalid update date.`)
     if (!isHttpsUrl(document.officialUrl)) {
       errors.push(`${label}: official document URL must use HTTPS.`)
@@ -73,10 +73,37 @@ export function validateCatalog({ sources, documents, medicines, legacySubjects 
     }
   }
 
+  if (medicineImport) {
+    if (!sourcesById.has(medicineImport.sourceId)) errors.push(`Medicine import source ${medicineImport.sourceId} is not registered.`)
+    const importCounts = [
+      medicineImport.recordsRead,
+      medicineImport.recordsImported,
+      medicineImport.duplicateRowsRemoved,
+      medicineImport.rejectedRows,
+      medicineImport.recordsWithRegistrationNumber,
+      medicineImport.uniqueRegistrationNumbers,
+    ]
+    if (importCounts.some((count) => !Number.isInteger(count) || count < 0)) {
+      errors.push('Medicine import record counts must be non-negative integers.')
+    } else {
+      if (medicineImport.recordsRead !== medicineImport.recordsImported + medicineImport.duplicateRowsRemoved + medicineImport.rejectedRows) {
+        errors.push('Medicine import read, imported, duplicate, and rejected counts do not reconcile.')
+      }
+      if (medicineImport.recordsWithRegistrationNumber > medicineImport.recordsImported) {
+        errors.push('Medicine records with registration numbers exceed imported records.')
+      }
+      if (medicineImport.uniqueRegistrationNumbers > medicineImport.recordsWithRegistrationNumber) {
+        errors.push('Unique medicine registration numbers exceed records with registration numbers.')
+      }
+    }
+    if (!isCalendarDate(medicineImport.retrievedAt)) errors.push('Medicine import retrieval date is invalid.')
+    if (medicineImport.searchIndexPath !== 'medicines/search-index.json') errors.push('Medicine search index path is invalid.')
+  }
+
   return errors
 }
 
-export function buildCatalog({ sources, documents, medicines, legacySubjects, catalogDate }) {
+export function buildCatalog({ sources, documents, medicines, legacySubjects, medicineImport = null, catalogDate }) {
   const packs = new Map()
   const subjects = new Map()
 
@@ -121,7 +148,7 @@ export function buildCatalog({ sources, documents, medicines, legacySubjects, ca
       title: document.title,
       specialty: document.specialty,
       type: document.type,
-      publicationYear: document.publicationDate.slice(0, 4),
+      publicationYear: document.publicationDate?.slice(0, 4) ?? null,
       organization: document.organization,
       version: document.version,
       officialUrl: document.officialUrl,
@@ -140,13 +167,18 @@ export function buildCatalog({ sources, documents, medicines, legacySubjects, ca
       documentsWithTextReusePermission: 0,
       documentsWithIndividualCurrentValidityCheck: 0,
       completeClinicallyReviewedProtocols: 0,
-      medicinesWithConfirmedAnvisaRegistration: medicines.filter((medicine) => medicine.verificationStatus === 'confirmed').length,
-      medicinesCataloged: medicines.length,
-      recordsPendingVerification: documents.length + medicines.filter((medicine) => medicine.verificationStatus !== 'confirmed').length,
+      medicinesWithConfirmedAnvisaRegistration: medicines.filter((medicine) => medicine.verificationStatus === 'confirmed').length
+        + (medicineImport?.individuallyVerifiedRegistrationCount ?? 0),
+      medicinesCataloged: medicines.length + (medicineImport?.recordsImported ?? 0),
+      medicinesWithRegistrationNumber: medicineImport?.recordsWithRegistrationNumber ?? 0,
+      medicinesUniqueRegistrationNumbers: medicineImport?.uniqueRegistrationNumbers ?? 0,
+      recordsPendingVerification: documents.length + medicines.filter((medicine) => medicine.verificationStatus !== 'confirmed').length
+        + (medicineImport?.recordsImported ?? 0),
     },
     specialties: specialtySummaries,
     sourcesPath: 'sources.json',
-    medicinesPath: 'medicines.json',
+    medicinesPath: 'medicines/manifest.json',
+    medicineSearchIndexPath: medicineImport?.searchIndexPath ?? 'medicines/search-index.json',
     searchEntries,
   }
 
@@ -155,6 +187,7 @@ export function buildCatalog({ sources, documents, medicines, legacySubjects, ca
     ['sources.json', sources],
     ['medicines.json', medicines],
   ])
+  if (medicineImport) outputFiles.set('medicines/manifest.json', medicineImport)
 
   for (const [key, packDocuments] of packs) {
     const specialtySubjects = [...new Set(
@@ -181,6 +214,8 @@ export function buildCatalog({ sources, documents, medicines, legacySubjects, ca
     ['Protocolos completos com revisão clínica', index.counts.completeClinicallyReviewedProtocols],
     ['Medicamentos com registro Anvisa individualmente confirmado', index.counts.medicinesWithConfirmedAnvisaRegistration],
     ['Medicamentos catalogados', index.counts.medicinesCataloged],
+    ['Medicamentos com número de registro preenchido na base', index.counts.medicinesWithRegistrationNumber],
+    ['Números de registro distintos na base', index.counts.medicinesUniqueRegistrationNumbers],
     ['Registros pendentes de verificação individual', index.counts.recordsPendingVerification],
   ]
   const specialtyRows = specialtySummaries

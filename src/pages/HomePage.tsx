@@ -92,7 +92,7 @@ export function HomePage() {
                     const entry = documentEntries.get(documentId)
                     return (
                       <Link key={id} className="home-history-row" to={`/diretrizes?document=${encodeURIComponent(documentId)}`}>
-                        <span><strong>{entry?.title ?? 'Documento oficial'}</strong><small>{entry ? `Documento · ${entry.specialty} · ${entry.publicationYear}` : 'Documento salvo no histórico'}</small></span>
+                        <span><strong>{entry?.title ?? 'Documento oficial'}</strong><small>{entry ? `Documento · ${entry.specialty} · ${entry.publicationYear ?? 'ano não informado'}` : 'Documento salvo no histórico'}</small></span>
                         <ArrowRight size={15} aria-hidden="true" />
                       </Link>
                     )

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Cardiologia",
+  "subjects": [
+    {
+      "id": "hipertensao-arterial-sistemica",
+      "title": "Hipertensão Arterial Sistêmica",
+      "specialty": "Cardiologia",
+      "documentIds": [
+        "pcdt-hipertensao-arterial-sistemica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "imunossupressao-no-transplante-cardiaco",
+      "title": "Imunossupressão no Transplante Cardíaco",
+      "specialty": "Cardiologia",
+      "documentIds": [
+        "pcdt-imunossupressao-no-transplante-cardiaco"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "insuficiencia-cardiaca-com-fracao-de-ejecao-reduzida",
+      "title": "Insuficiência Cardíaca com Fração de Ejeção Reduzida",
+      "specialty": "Cardiologia",
+      "documentIds": [
+        "pcdt-insuficiencia-cardiaca-com-fracao-de-ejecao-reduzida"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

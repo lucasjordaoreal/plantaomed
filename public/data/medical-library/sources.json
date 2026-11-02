@@ -97,5 +97,14 @@
     "checkedAt": "2026-11-02",
     "access": "page_accessible_dynamic_content",
     "reuse": "O portal respondeu com conteúdo gerado dinamicamente; não foram importados documentos."
+  },
+  {
+    "id": "anvisa-open-medicines-csv",
+    "title": "Dados Abertos de Medicamentos Registrados no Brasil",
+    "organization": "Agência Nacional de Vigilância Sanitária (Anvisa)",
+    "url": "https://dados.anvisa.gov.br/dados/DADOS_ABERTOS_MEDICAMENTOS.csv",
+    "checkedAt": "2026-11-02",
+    "access": "official_open_dataset_csv",
+    "reuse": "CSV e dicionário oficiais; campos regulatórios catalogados sem inferir indicação, prescrição ou disponibilidade comercial."
   }
 ]

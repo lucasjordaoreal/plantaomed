@@ -28,6 +28,51 @@
         "pcdt-artrite-reumatoide"
       ],
       "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "esclerose-sistemica",
+      "title": "Esclerose Sistêmica",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-esclerose-sistemica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "espondilite-ancilosante",
+      "title": "Espondilite Ancilosante",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-espondilite-ancilosante"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "lupus-eritematoso-sistemico",
+      "title": "Lúpus Eritematoso Sistêmico",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-lupus-eritematoso-sistemico"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "miopatias-inflamatorias",
+      "title": "Miopatias Inflamatórias",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-miopatias-inflamatorias"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "vasculite-associada-aos-anticorpos-anti-citoplasma-de-neutrofilos",
+      "title": "Vasculite Associada aos Anticorpos Anti-citoplasma de Neutrófilos",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-vasculite-associada-aos-anticorpos-anti-citoplasma-de-neutrofilos"
+      ],
+      "recordType": "bibliographic_subject"
     }
   ]
 }

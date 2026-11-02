@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Anestesiologia / Medicina da Dor",
+  "documents": [
+    {
+      "id": "pcdt-dor-cronica",
+      "title": "Dor Crônica",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Anestesiologia / Medicina da Dor",
+      "specialtyClassification": "title_keyword_match",
+      "type": "PCDT",
+      "publicationDate": "2024-08-23",
+      "portariaDate": "2024-08-22",
+      "version": "Portaria Conjunta SAES/SAPS/SECTICS nº 1 - 22/08/2024 (Publicada em 23/08/2024 )",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/dorcronica-1.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

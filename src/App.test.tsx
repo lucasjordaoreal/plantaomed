@@ -36,6 +36,8 @@ describe('PlantãoMed independent routes', () => {
   it('redirects the root and renders only the dashboard page', () => {
     renderRoute('/')
     expect(screen.getByRole('heading', { name: 'PlantãoMed' })).toBeInTheDocument()
+    expect(within(screen.getByRole('banner')).queryByRole('searchbox')).not.toBeInTheDocument()
+    expect(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Biblioteca' })).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: 'Favoritos' })).not.toBeInTheDocument()
     expect(document.querySelector('.protocol-list')).toBeNull()
@@ -47,7 +49,6 @@ describe('PlantãoMed independent routes', () => {
     ['/protocolos', 'Biblioteca'],
     ['/sinais-e-sintomas', 'Sinais e sintomas'],
     ['/diretrizes', 'Diretrizes e documentos'],
-    ['/medicamentos', 'Medicamentos'],
     ['/calculadoras', 'Calculadoras'],
     ['/favoritos', 'Favoritos'],
     ['/historico', 'Histórico'],
@@ -55,6 +56,78 @@ describe('PlantãoMed independent routes', () => {
   ])('renders independent route %s', (route, heading) => {
     renderRoute(route)
     expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument()
+  })
+
+  it('searches Anvisa records by active ingredient and registration and opens source fields', async () => {
+    const manifest = {
+      schemaVersion: 1,
+      sourceId: 'anvisa-open-medicines-csv',
+      sourceUrl: 'https://dados.anvisa.gov.br/dados/DADOS_ABERTOS_MEDICAMENTOS.csv',
+      dictionaryUrl: 'https://dados.anvisa.gov.br/dados/Documentacao_e_Dicionario_de_Dados_Registros_Validos_Medicamento_V1.pdf',
+      retrievedAt: '2026-11-02',
+      recordsRead: 1,
+      recordsImported: 1,
+      duplicateRowsRemoved: 0,
+      rejectedRows: 0,
+      recordsWithRegistrationNumber: 1,
+      uniqueRegistrationNumbers: 1,
+      searchIndexPath: 'medicines/search-index.json',
+      shards: [{ id: 'n', path: 'medicines/packs/n.json', recordCount: 1 }],
+    }
+    const searchRecord = {
+      id: 'anvisa-1',
+      productName: 'NOVALGINA',
+      activeIngredient: 'dipirona monoidratada',
+      registrationNumber: '186200018',
+      holder: 'OPELLA HEALTHCARE BRAZIL LTDA',
+      regulatoryCategory: 'Novo',
+      therapeuticClass: 'ANALGESICOS NAO NARCOTICOS',
+      registrationSituation: 'Ativo',
+      pack: 'medicines/packs/n.json',
+    }
+    const fullRecord = {
+      ...searchRecord,
+      processNumber: '25351617747202347',
+      holderCnpj: '38391432000143',
+      processFinalizedAt: '13/11/2023',
+      registrationExpirationField: '042028',
+      productType: 'MEDICAMENTO',
+      sourceId: manifest.sourceId,
+    }
+    const response = (data: unknown) => ({ ok: true, status: 200, json: async () => data }) as Response
+    const fetchMock = vi.fn((input: RequestInfo | URL) => {
+      const url = String(input)
+      if (url.endsWith('medicines/manifest.json')) return Promise.resolve(response(manifest))
+      if (url.endsWith('medicines/search-index.json')) return Promise.resolve(response({
+        schemaVersion: 1,
+        sourceId: manifest.sourceId,
+        retrievedAt: manifest.retrievedAt,
+        recordCount: 1,
+        records: [searchRecord],
+      }))
+      if (url.endsWith('medicines/packs/n.json')) return Promise.resolve(response({
+        schemaVersion: 1,
+        sourceId: manifest.sourceId,
+        retrievedAt: manifest.retrievedAt,
+        records: [fullRecord],
+      }))
+      return Promise.resolve({ ok: false, status: 404, json: async () => ({}) } as Response)
+    })
+    window.fetch = fetchMock
+    vi.stubGlobal('fetch', fetchMock)
+
+    renderRoute('/medicamentos')
+    const search = await screen.findByRole('searchbox', { name: 'Buscar medicamentos por nome, princípio ativo ou número de registro' })
+    await screen.findByText(/1 registros catalogados/)
+    fireEvent.change(search, { target: { value: 'dípirona monoidratada' } })
+    fireEvent.click(await screen.findByRole('button', { name: /NOVALGINA/ }))
+    expect(await screen.findByRole('heading', { name: 'NOVALGINA' })).toBeInTheDocument()
+    expect(screen.getByText('Ativo')).toBeInTheDocument()
+    expect(screen.getByText('186200018')).toBeInTheDocument()
+    expect(screen.queryByText(/dose recomendada/i)).not.toBeInTheDocument()
+
+    fireEvent.change(search, { target: { value: '186200018' } })
+    expect(await screen.findByRole('button', { name: /NOVALGINA/ })).toBeInTheDocument()
   })
 
   it('redirects the legacy documents fragment route to the guidelines page', () => {
@@ -170,9 +243,7 @@ describe('PlantãoMed independent routes', () => {
 
   it('searches accent-insensitive presentation terms from global search', async () => {
     renderRoute('/inicio')
-    const header = document.querySelector<HTMLElement>('.app-header')
-    if (!header) throw new Error('The shared app header is missing.')
-    fireEvent.change(within(header).getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'sibilancia' } })
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'sibilancia' } })
     fireEvent.click(await screen.findByRole('option', { name: /Sibilância.*Apresentação clínica/ }))
     expect(await screen.findByRole('heading', { name: 'Sibilância' })).toBeInTheDocument()
   })
@@ -183,7 +254,7 @@ describe('PlantãoMed independent routes', () => {
     expect(screen.queryByText(/resultado:/i)).not.toBeInTheDocument()
   })
 
-  it('includes a shared global search that opens a matching protocol route', async () => {
+  it('includes a global search outside the header that opens a matching protocol route', async () => {
     renderRoute('/sobre')
     fireEvent.change(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'asma aguda' } })
     await screen.findByRole('alert')
@@ -235,11 +306,14 @@ describe('PlantãoMed independent routes', () => {
         completeClinicallyReviewedProtocols: 0,
         medicinesWithConfirmedAnvisaRegistration: 0,
         medicinesCataloged: 0,
+        medicinesWithRegistrationNumber: 0,
+        medicinesUniqueRegistrationNumbers: 0,
         recordsPendingVerification: 1,
       },
       specialties: [{ id: 'reumatologia', name: 'Reumatologia', documentCount: 1, subjectCount: 1, documentPack: entry.pack, subjectPack: 'subjects/reumatologia.json' }],
       sourcesPath: 'sources.json',
-      medicinesPath: 'medicines.json',
+      medicinesPath: 'medicines/manifest.json',
+      medicineSearchIndexPath: 'medicines/search-index.json',
       searchEntries: [entry],
     }
     const response = (data: unknown) => ({ ok: true, status: 200, json: async () => data }) as Response
@@ -254,9 +328,7 @@ describe('PlantãoMed independent routes', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     renderRoute('/inicio')
-    const header = document.querySelector<HTMLElement>('.app-header')
-    if (!header) throw new Error('The shared app header is missing.')
-    fireEvent.change(within(header).getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'lombalgia' } })
+    fireEvent.change(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'lombalgia' } })
     fireEvent.click(await screen.findByRole('option', { name: /PCDT Lombalgia/ }))
     fireEvent.click(await screen.findByRole('button', { name: 'Carregar documentos' }))
     expect(await screen.findByRole('heading', { name: 'PCDT Lombalgia' })).toBeInTheDocument()

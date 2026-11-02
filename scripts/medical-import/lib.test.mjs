@@ -7,23 +7,27 @@ const readJson = async (name) => JSON.parse(await readFile(new URL(name, dataDir
 
 describe('medical library catalog', () => {
   it('validates the source records and static catalog data', async () => {
-    const [sources, documents, medicines, legacySubjects] = await Promise.all([
+    const [sources, documents, medicines, legacySubjects, medicineImport] = await Promise.all([
       readJson('sources.json'),
       readJson('documents.json'),
       readJson('medicines.json'),
       readJson('legacy-subjects.json'),
+      readJson('anvisa-import-manifest.json'),
     ])
 
-    expect(validateCatalog({ sources, documents, medicines, legacySubjects })).toEqual([])
+    expect(validateCatalog({ sources, documents, medicines, legacySubjects, medicineImport })).toEqual([])
 
     const { index, outputFiles } = buildCatalog({
       sources,
       documents,
       medicines,
       legacySubjects,
+      medicineImport,
       catalogDate: '2026-11-02',
     })
     expect(index.counts.documentsCataloged).toBe(documents.length)
+    expect(index.counts.medicinesCataloged).toBe(medicines.length + medicineImport.recordsImported)
+    expect(index.counts.medicinesWithRegistrationNumber).toBe(medicineImport.recordsWithRegistrationNumber)
     expect(index.counts.legacySubjectsWithoutVerifiedDocumentLink).toBe(legacySubjects.length)
     expect(index.searchEntries).toHaveLength(documents.length)
     expect(index.counts.completeClinicallyReviewedProtocols).toBe(0)
@@ -31,6 +35,7 @@ describe('medical library catalog', () => {
     expect(outputFiles.has('catalog-index.json')).toBe(true)
     expect(outputFiles.has('sources.json')).toBe(true)
     expect(outputFiles.has('medicines.json')).toBe(true)
+    expect(outputFiles.has('medicines/manifest.json')).toBe(true)
   })
 
   it('reports malformed document URLs without throwing during validation', () => {

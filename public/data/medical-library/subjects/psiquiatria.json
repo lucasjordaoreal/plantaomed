@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Psiquiatria",
+  "subjects": [
+    {
+      "id": "comportamento-agressivo-no-transtorno-do-espectro-do-autismo",
+      "title": "Comportamento Agressivo no Transtorno do Espectro do Autismo",
+      "specialty": "Psiquiatria",
+      "documentIds": [
+        "pcdt-comportamento-agressivo-no-transtorno-do-espectro-do-autismo"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "esquizofrenia",
+      "title": "Esquizofrenia",
+      "specialty": "Psiquiatria",
+      "documentIds": [
+        "pcdt-esquizofrenia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "transtorno-afetivo-bipolar-do-tipo-i",
+      "title": "Transtorno Afetivo Bipolar do tipo I",
+      "specialty": "Psiquiatria",
+      "documentIds": [
+        "pcdt-transtorno-afetivo-bipolar-do-tipo-i"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "transtorno-do-deficit-de-atencao-com-hiperatividade",
+      "title": "Transtorno do Déficit de Atenção com Hiperatividade",
+      "specialty": "Psiquiatria",
+      "documentIds": [
+        "pcdt-transtorno-do-deficit-de-atencao-com-hiperatividade"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "transtorno-esquizoafetivo",
+      "title": "Transtorno Esquizoafetivo",
+      "specialty": "Psiquiatria",
+      "documentIds": [
+        "pcdt-transtorno-esquizoafetivo"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

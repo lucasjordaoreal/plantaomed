@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Dermatologia",
+  "subjects": [
+    {
+      "id": "dermatite-atopica",
+      "title": "Dermatite Atópica",
+      "specialty": "Dermatologia",
+      "documentIds": [
+        "pcdt-dermatite-atopica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "hidradenite-supurativa",
+      "title": "Hidradenite Supurativa",
+      "specialty": "Dermatologia",
+      "documentIds": [
+        "pcdt-hidradenite-supurativa"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "ictioses-hereditarias",
+      "title": "Ictioses Hereditárias",
+      "specialty": "Dermatologia",
+      "documentIds": [
+        "pcdt-ictioses-hereditarias"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "psoriase",
+      "title": "Psoríase",
+      "specialty": "Dermatologia",
+      "documentIds": [
+        "pcdt-psoriase"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

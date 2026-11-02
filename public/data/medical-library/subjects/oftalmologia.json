@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Oftalmologia",
+  "subjects": [
+    {
+      "id": "degeneracao-macular-relacionada-a-idade-forma-neovascular",
+      "title": "Degeneração Macular Relacionada à Idade (forma neovascular)",
+      "specialty": "Oftalmologia",
+      "documentIds": [
+        "pcdt-degeneracao-macular-relacionada-a-idade-forma-neovascular"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "glaucoma",
+      "title": "Glaucoma",
+      "specialty": "Oftalmologia",
+      "documentIds": [
+        "pcdt-glaucoma"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "retinopatia-diabetica",
+      "title": "Retinopatia Diabética",
+      "specialty": "Oftalmologia",
+      "documentIds": [
+        "pcdt-retinopatia-diabetica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "uveites-nao-infecciosas",
+      "title": "Uveítes Não-Infecciosas",
+      "specialty": "Oftalmologia",
+      "documentIds": [
+        "pcdt-uveites-nao-infecciosas"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

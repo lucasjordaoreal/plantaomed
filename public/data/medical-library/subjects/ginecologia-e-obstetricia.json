@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Ginecologia e Obstetrícia",
+  "subjects": [
+    {
+      "id": "endometriose",
+      "title": "Endometriose",
+      "specialty": "Ginecologia e Obstetrícia",
+      "documentIds": [
+        "pcdt-endometriose"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "leiomioma-de-utero",
+      "title": "Leiomioma de útero",
+      "specialty": "Ginecologia e Obstetrícia",
+      "documentIds": [
+        "pcdt-leiomioma-de-utero"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "prevencao-de-tromboembolismo-venoso-em-gestantes-com-trombofilia",
+      "title": "Prevenção de Tromboembolismo Venoso em Gestantes com Trombofilia",
+      "specialty": "Ginecologia e Obstetrícia",
+      "documentIds": [
+        "pcdt-prevencao-de-tromboembolismo-venoso-em-gestantes-com-trombofilia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "sindrome-de-ovarios-policisticos",
+      "title": "Síndrome de Ovários Policísticos",
+      "specialty": "Ginecologia e Obstetrícia",
+      "documentIds": [
+        "pcdt-sindrome-de-ovarios-policisticos"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

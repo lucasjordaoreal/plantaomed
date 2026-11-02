@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Imunologia e Alergologia",
+  "subjects": [
+    {
+      "id": "angioedema-associado-a-deficiencia-de-c1-esterase",
+      "title": "Angioedema associado à deficiência de C1 esterase",
+      "specialty": "Imunologia e Alergologia",
+      "documentIds": [
+        "pcdt-angioedema-associado-a-deficiencia-de-c1-esterase"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "imunodeficiencia-primaria-com-predominancia-de-defeitos-de-anticorpos",
+      "title": "Imunodeficiência Primária com predominância de defeitos de anticorpos",
+      "specialty": "Imunologia e Alergologia",
+      "documentIds": [
+        "pcdt-imunodeficiencia-primaria-com-predominancia-de-defeitos-de-anticorpos"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}
