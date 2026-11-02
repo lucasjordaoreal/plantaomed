@@ -4,6 +4,7 @@ import { Link, NavLink, useLocation, useNavigationType } from 'react-router-dom'
 import { branding } from '../config/branding'
 import { useIdentityAuth } from '../auth/useIdentityAuth'
 import { RouteTransition } from '../components/transitions/RouteTransition'
+import { calculateMobileTabBarOffset } from './mobileTabBarAvoidance'
 
 type NavigationLink = {
   to: string
@@ -76,6 +77,118 @@ export function AppLayout() {
   const moreMenuRef = useRef<HTMLDivElement>(null)
   const moreActive = ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre', clinicalAssistantLink.to]
     .some((path) => location.pathname === path || location.pathname.startsWith(`${path}/`))
+
+  useEffect(() => {
+    const appShell = document.querySelector<HTMLElement>('.app-shell')
+    const tabBar = appShell?.querySelector<HTMLElement>('.mobile-tab-bar')
+    if (!appShell || !tabBar) return
+
+    const overlaySelector = 'iframe, [id^="nl-"], [class*="nl-"], [id*="netlify"], [class*="netlify"]'
+    let scheduledFrame: number | null = null
+    const usesAnimationFrame = typeof window.requestAnimationFrame === 'function'
+    const resizeObserver = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(scheduleMeasurement)
+
+    const getOverlayElements = () => {
+      const tabZIndex = Number.parseInt(window.getComputedStyle(tabBar).zIndex, 10) || 0
+      const overlays = new Set<Element>()
+
+      document.querySelectorAll(overlaySelector).forEach((element) => {
+        if (tabBar.contains(element)) return
+
+        let fixedElement: Element | null = element
+        while (fixedElement && fixedElement !== document.body && window.getComputedStyle(fixedElement).position !== 'fixed') {
+          fixedElement = fixedElement.parentElement
+        }
+        if (!fixedElement || fixedElement === document.body) return
+
+        const elementStyle = window.getComputedStyle(element)
+        const fixedStyle = window.getComputedStyle(fixedElement)
+        const zIndex = Number.parseInt(fixedStyle.zIndex, 10)
+        const opacity = Number.parseFloat(fixedStyle.opacity)
+        if (
+          elementStyle.pointerEvents === 'none'
+          || fixedStyle.display === 'none'
+          || fixedStyle.visibility === 'hidden'
+          || opacity === 0
+          || !Number.isFinite(zIndex)
+          || zIndex <= tabZIndex
+        ) return
+
+        overlays.add(fixedElement)
+      })
+
+      return [...overlays]
+    }
+
+    const updateAvoidance = () => {
+      scheduledFrame = null
+      const currentOffset = appShell.style.getPropertyValue('--mobile-tab-obstruction')
+      const inlineTransition = tabBar.style.transition
+      tabBar.style.transition = 'none'
+      appShell.style.setProperty('--mobile-tab-obstruction', '0px')
+      const tabRect = tabBar.getBoundingClientRect()
+      if (currentOffset) appShell.style.setProperty('--mobile-tab-obstruction', currentOffset)
+      else appShell.style.removeProperty('--mobile-tab-obstruction')
+      tabBar.style.transition = inlineTransition
+      const offset = window.innerWidth <= 920
+        ? calculateMobileTabBarOffset(tabRect, getOverlayElements().map((element) => element.getBoundingClientRect()))
+        : 0
+      appShell.style.setProperty('--mobile-tab-obstruction', `${offset}px`)
+    }
+
+    function scheduleMeasurement() {
+      if (scheduledFrame !== null) return
+      scheduledFrame = usesAnimationFrame
+        ? window.requestAnimationFrame(updateAvoidance)
+        : window.setTimeout(updateAvoidance, 0)
+    }
+
+    const hasOverlayCandidate = (node: Node) => {
+      if (!(node instanceof Element)) return false
+      return node.matches(overlaySelector) || Boolean(node.querySelector(overlaySelector))
+    }
+
+    const refreshObservedElements = () => {
+      resizeObserver?.disconnect()
+      resizeObserver?.observe(tabBar)
+      getOverlayElements().forEach((element) => resizeObserver?.observe(element))
+      scheduleMeasurement()
+    }
+
+    const mutationObserver = new MutationObserver((records) => {
+      const overlayChanged = records.some((record) => {
+        if (record.type === 'attributes') return hasOverlayCandidate(record.target)
+        return [...record.addedNodes, ...record.removedNodes].some(hasOverlayCandidate)
+      })
+      if (overlayChanged) refreshObservedElements()
+    })
+
+    mutationObserver.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'hidden', 'id', 'style'],
+    })
+    refreshObservedElements()
+    window.addEventListener('resize', scheduleMeasurement)
+    window.addEventListener('orientationchange', scheduleMeasurement)
+    window.visualViewport?.addEventListener('resize', scheduleMeasurement)
+
+    return () => {
+      mutationObserver.disconnect()
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', scheduleMeasurement)
+      window.removeEventListener('orientationchange', scheduleMeasurement)
+      window.visualViewport?.removeEventListener('resize', scheduleMeasurement)
+      if (scheduledFrame !== null) {
+        if (usesAnimationFrame) window.cancelAnimationFrame(scheduledFrame)
+        else window.clearTimeout(scheduledFrame)
+      }
+      appShell.style.removeProperty('--mobile-tab-obstruction')
+    }
+  }, [])
 
   useEffect(() => {
     if (!window.matchMedia) return

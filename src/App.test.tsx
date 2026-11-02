@@ -11,6 +11,7 @@ import { clinicalPresentations } from './data/clinicalPresentations'
 import { protocols } from './data/protocols'
 
 let originalWindowFetch: typeof window.fetch
+let originalWindowInnerWidth: PropertyDescriptor | undefined
 
 const identity = vi.hoisted(() => ({
   acceptInvite: vi.fn(),
@@ -36,6 +37,7 @@ function renderRoute(initialEntry = '/inicio') {
 
 describe('PlantãoMed independent routes', () => {
   beforeEach(() => {
+    originalWindowInnerWidth = Object.getOwnPropertyDescriptor(window, 'innerWidth')
     sessionStorage.clear()
     window.history.replaceState(null, '', '/')
     identity.acceptInvite.mockResolvedValue(null)
@@ -51,9 +53,11 @@ describe('PlantãoMed independent routes', () => {
   })
   afterEach(() => {
     cleanup()
+    document.querySelectorAll('#nl-badge-frame').forEach((frame) => frame.remove())
     vi.restoreAllMocks()
     vi.unstubAllEnvs()
     vi.unstubAllGlobals()
+    if (originalWindowInnerWidth) Object.defineProperty(window, 'innerWidth', originalWindowInnerWidth)
     window.fetch = originalWindowFetch
     window.history.replaceState(null, '', '/')
   })
@@ -125,6 +129,34 @@ describe('PlantãoMed independent routes', () => {
 
     expect(await screen.findByRole('heading', { name: 'Medicamentos' })).toBeInTheDocument()
     expect(screen.queryByRole('menu', { name: 'Mais páginas' })).not.toBeInTheDocument()
+  })
+
+  it('moves the mobile tab bar when a Netlify iframe is injected after mount and restores its position when removed', async () => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 })
+    renderRoute('/inicio')
+
+    const appShell = document.querySelector<HTMLElement>('.app-shell')
+    const mobileNavigation = screen.getByRole('navigation', { name: 'Navegação inferior' })
+    vi.spyOn(mobileNavigation, 'getBoundingClientRect').mockReturnValue({
+      x: 12, y: 770, left: 12, top: 770, right: 378, bottom: 834, width: 366, height: 64, toJSON: () => ({}),
+    })
+
+    const badgeFrame = document.createElement('iframe')
+    badgeFrame.id = 'nl-badge-frame'
+    badgeFrame.style.position = 'fixed'
+    badgeFrame.style.zIndex = '2147483645'
+    badgeFrame.style.pointerEvents = 'auto'
+    vi.spyOn(badgeFrame, 'getBoundingClientRect').mockReturnValue({
+      x: 199, y: 780, left: 199, top: 780, right: 390, bottom: 844, width: 191, height: 64, toJSON: () => ({}),
+    })
+    document.body.append(badgeFrame)
+
+    await waitFor(() => expect(appShell).toHaveStyle('--mobile-tab-obstruction: 62px'))
+    expect(mobileNavigation).toHaveClass('glass-surface')
+    expect(mobileNavigation.children).toHaveLength(5)
+
+    badgeFrame.remove()
+    await waitFor(() => expect(appShell).toHaveStyle('--mobile-tab-obstruction: 0px'))
   })
 
   it.each([
