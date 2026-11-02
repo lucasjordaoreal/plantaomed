@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { useIdentityAuth, hasClinicalAssistantAccess } from '../auth/useIdentityAuth'
 import { AppLayout } from './AppLayout'
 import { AboutPage } from '../pages/AboutPage'
 import { CalculatorsPage } from '../pages/CalculatorsPage'
 import { ClinicalAssistantPage } from '../pages/ClinicalAssistantPage'
+import { ClinicalAssistantLoginPage } from '../pages/ClinicalAssistantLoginPage'
 import { FavoritesPage } from '../pages/FavoritesPage'
 import { GuidelinesPage } from '../pages/GuidelinesPage'
 import { HistoryPage } from '../pages/HistoryPage'
@@ -16,6 +18,50 @@ import { PresentationDetailPage } from '../pages/PresentationDetailPage'
 import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
 import { SymptomsPage } from '../pages/SymptomsPage'
 import { getOnboardingCompleted } from '../lib/storage'
+
+function IdentityCallbackRedirect() {
+  const { recoveryToken } = useIdentityAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (recoveryToken && location.pathname !== '/recuperar-senha') {
+      navigate('/recuperar-senha', { replace: true })
+    }
+  }, [recoveryToken, location.pathname, navigate])
+
+  return null
+}
+
+function ProtectedClinicalAssistant() {
+  const { user, status, logout } = useIdentityAuth()
+  const location = useLocation()
+
+  if (status === 'loading') {
+    return <div className="page-stack" role="status">Verificando sessão do Assistente Clínico...</div>
+  }
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location.pathname }} replace />
+  }
+  if (!hasClinicalAssistantAccess(user)) {
+    return (
+      <div className="page-stack">
+        <header className="page-heading">
+          <h1 data-page-heading tabIndex={-1}>Acesso não habilitado</h1>
+          <p>Esta conta não possui a permissão necessária para o Assistente Clínico.</p>
+        </header>
+        <section className="clinical-assistant__notice" role="alert">
+          <div>
+            <strong>Área restrita</strong>
+            <p>Solicite ao administrador que habilite a função clínica para sua conta. Biblioteca, Medicamentos e Diretrizes continuam acessíveis.</p>
+            <button type="button" className="clinical-assistant__secondary-button" onClick={() => void logout()}>Sair</button>
+          </div>
+        </section>
+      </div>
+    )
+  }
+  return <ClinicalAssistantPage />
+}
 
 export function AppRouter() {
   const location = useLocation()
@@ -62,25 +108,30 @@ export function AppRouter() {
   }, [location.pathname, navigate])
 
   return (
-    <Routes>
-      <Route path="boas-vindas" element={<OnboardingPage />} />
-      <Route element={<AppLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path="inicio" element={<HomePage />} />
-        <Route path="protocolos" element={<LibraryPage />} />
-        <Route path="protocolos/:protocolId" element={<ProtocolDetailPage />} />
-        <Route path="sinais-e-sintomas" element={<SymptomsPage />} />
-        <Route path="sinais-e-sintomas/:presentationId" element={<PresentationDetailPage />} />
-        <Route path="diretrizes" element={<GuidelinesPage />} />
-        <Route path="medicamentos" element={<MedicationsPage />} />
-        <Route path="calculadoras" element={<CalculatorsPage />} />
-        <Route path="assistente-clinico" element={<ClinicalAssistantPage />} />
-        <Route path="favoritos" element={<FavoritesPage />} />
-        <Route path="historico" element={<HistoryPage />} />
-        <Route path="sobre" element={<AboutPage />} />
-        <Route path="documentos" element={<Navigate to="/diretrizes" replace />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+    <>
+      <IdentityCallbackRedirect />
+      <Routes>
+        <Route path="boas-vindas" element={<OnboardingPage />} />
+        <Route path="login" element={<ClinicalAssistantLoginPage />} />
+        <Route path="recuperar-senha" element={<ClinicalAssistantLoginPage />} />
+        <Route element={<AppLayout />}>
+          <Route index element={<HomePage />} />
+          <Route path="inicio" element={<HomePage />} />
+          <Route path="protocolos" element={<LibraryPage />} />
+          <Route path="protocolos/:protocolId" element={<ProtocolDetailPage />} />
+          <Route path="sinais-e-sintomas" element={<SymptomsPage />} />
+          <Route path="sinais-e-sintomas/:presentationId" element={<PresentationDetailPage />} />
+          <Route path="diretrizes" element={<GuidelinesPage />} />
+          <Route path="medicamentos" element={<MedicationsPage />} />
+          <Route path="calculadoras" element={<CalculatorsPage />} />
+          <Route path="assistente-clinico" element={<ProtectedClinicalAssistant />} />
+          <Route path="favoritos" element={<FavoritesPage />} />
+          <Route path="historico" element={<HistoryPage />} />
+          <Route path="sobre" element={<AboutPage />} />
+          <Route path="documentos" element={<Navigate to="/diretrizes" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </>
   )
 }

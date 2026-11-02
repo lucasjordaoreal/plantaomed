@@ -60,13 +60,20 @@ Cada fluxo precisa de documento brasileiro vigente identificado por título, ver
 
 Testes técnicos incluem fixtures sintéticas exclusivas do software para regras elegíveis/inativas, perguntas por dados ausentes, integridade de relações e fontes, bloqueio terapêutico com segurança desconhecida, e ausência de conversão de unidades. Testes com fixtures não são casos clínicos validados e não constituem validação clínica. Builds, lint e testes são executados conforme os scripts em `package.json`.
 
-## Conexão Gemini e limites atuais
+## Conexão Gemini e autenticação Netlify Identity
 
-- O Assistente Clínico inclui um campo de descrição livre, confirmação obrigatória de caso, estruturação editável dos achados, estado de carregamento/cancelamento e uma área de perguntas contextuais. O resultado não atualiza o motor clínico nem campos objetivos automaticamente; o profissional precisa revisar e preencher o formulário existente.
-- A Function aceita somente ações de estruturação ou esclarecimento textual. Instruções de sistema são fixas no servidor; o modelo só pode ser `gemini-2.5-flash`. Respostas usam JSON estruturado, limites de tamanho e validação estrita; referências não recuperadas são rejeitadas. Falhas e erros do provedor não são repassados ao navegador.
-- A Function fica fechada até que `AI_ASSISTANT_ENABLED=true`, `AI_PROVIDER=google`, `AI_PROVIDER_API_KEY`, `AI_MODEL=gemini-2.5-flash`, `NETLIFY_IDENTITY_JWT_SECRET` e `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` estejam configurados no ambiente Netlify. A autenticação valida JWT HS256 assinado pelo segredo do Netlify Identity e papel `authenticated`. Este repositório não implementa login/Identity no frontend; portanto, sem essa integração e provisionamento, a chamada permanece indisponível.
-- O limite atômico no Redis é de 5 chamadas/minuto e 20/dia por usuário autenticado, mais 300/dia globalmente. Cada entrada tem no máximo 12 KB, a descrição é limitada, a saída é limitada a 900 tokens e a chamada ao provedor expira em 12 segundos. Falha do Redis fecha a chamada; 429 do Redis/Gemini retorna uma resposta genérica de limite.
-- A interface pede confirmação de caso e bloqueia padrões comuns de identificadores (e-mail, telefone e CPF), mas isso não garante que texto livre seja sintético. Não habilitar o provedor para casos reais sem contratos, controles de privacidade/LGPD, avaliação jurídica e conformidade aplicável.
-- A integração não implementa RAG: o catálogo Conitec contém metadados e links, sem trechos documentais extraídos/indexados. Consultas de critérios, referências e conteúdo recuperado são recusadas; a IA não pode inventar fontes. O PCDT AVC já auditado não está transformado em índice RAG nem aprovado para respostas automatizadas.
-- O catálogo Anvisa permite consultas regulatórias existentes, mas registros não comprovam indicação terapêutica. O assistente não consulta esse catálogo como evidência clínica e não gera prescrição ou posologia.
-- Estado conhecido nesta entrega: 0 regras clínicas executáveis/revisadas, 0 hipóteses, 0 investigações e 0 opções terapêuticas habilitadas. A chamada real ao Gemini e a validação visual em navegador dependem de ambiente Netlify autenticado, Redis, chave de provedor e navegador disponíveis; testes locais usam somente caso sintético e respostas controladas.
+- Login, logout, callback, sessão, renovação de token e recuperação de senha usam o pacote oficial `@netlify/identity`. O Assistente Clínico é a única rota protegida; as demais páginas públicas continuam acessíveis.
+- A Function chama `getUser()` e `refreshSession()` do SDK no servidor e exige o papel de aplicação `clinical-assistant` em `user.roles`. Esse papel deve ser atribuído pelo administrador no `app_metadata`; não há cadastro público no app.
+- A Function aceita `AI_PROVIDER=gemini`, `AI_MODEL=gemini-3.8-flash` (modelo estável listado pela documentação Google consultada em 2026-11-02), `AI_PROVIDER_API_KEY` e `AI_ASSISTANT_ENABLED=true`. O modelo permanece em allowlist; o cliente não pode escolher modelo nem instrução de sistema.
+- A proteção nativa Netlify é de 10 chamadas/minuto por domínio e IP. Upstash continua necessário para cotas compartilhadas: 5 chamadas/minuto e 20/dia por usuário, além de 300/dia global. A cota por IP não substitui cota global. Limite de entrada, saída/token, timeout e respostas 429 também são aplicados.
+- As chamadas da UI exigem confirmação de caso fictício e enviam um marcador de teste; a Function rejeita casos sem o marcador e bloqueia padrões comuns de identificadores. Isso é defesa em profundidade, não prova de desidentificação. Não enviar casos reais sem contratos, análise de privacidade/LGPD, retenção/transferência aprovadas e regularização aplicável.
+- O catálogo Conitec segue como metadados e links; não existe índice RAG de trechos. Critérios, referências e perguntas sobre documentos continuam indisponíveis. O catálogo Anvisa é regulatório e não valida indicação ou prescrição.
+- Não há regras, hipóteses, investigações ou tratamentos clínicos revisados habilitados. A interpretação textual não confirma diagnóstico e não modifica o motor clínico.
+
+## Provisionamento manual antes de uma chamada real
+
+1. Habilitar Netlify Identity no site e desativar signup público.
+2. Convidar médicos aprovados e atribuir `clinical-assistant` em `app_metadata.roles` somente após aprovação administrativa.
+3. Configurar no painel Netlify as variáveis Gemini e Upstash indicadas acima; não cadastrar segredo JWT próprio.
+4. Usar Node.js 22.12 ou superior no build e nas Functions, requisito do SDK oficial instalado.
+5. Autenticar/vincular o Netlify CLI (`netlify login`, `netlify link`) para `netlify dev` acessar a configuração do site. A chamada real não foi executada neste workspace: o CLI informa que não está autenticado, nenhum site está vinculado e as variáveis locais não estão definidas.

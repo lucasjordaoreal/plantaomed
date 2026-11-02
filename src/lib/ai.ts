@@ -1,3 +1,7 @@
+import { refreshSession } from '@netlify/identity'
+
+const allowedModels = new Set(['gemini-3.8-flash'])
+
 export type ClinicalQuestionType = 'clarify' | 'criteria' | 'references' | 'recovered_content'
 
 export type AiFindingExtraction = {
@@ -102,12 +106,19 @@ export async function requestAssistantReply(
   payload: AiRequest,
   options: { signal?: AbortSignal } = {},
 ): Promise<{ result: AiAssistantResult; model: string }> {
-  const response = await fetch('/.netlify/functions/ai-assistant', {
+  const request = () => fetch('/.netlify/functions/ai-assistant', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
+    credentials: 'same-origin',
     signal: options.signal,
   })
+
+  let response = await request()
+  if (response.status === 401 && !options.signal?.aborted) {
+    await refreshSession()
+    response = await request()
+  }
 
   let data: unknown
   try {
@@ -123,7 +134,7 @@ export async function requestAssistantReply(
     throw new AiRequestError(message, response.status)
   }
 
-  if (!isRecord(data) || !validateResult(data.result) || !isString(data.model, 80)) {
+  if (!isRecord(data) || !validateResult(data.result) || !isString(data.model, 80) || !allowedModels.has(data.model)) {
     throw new AiRequestError('A resposta do Assistente Clínico não passou pela validação.', response.status)
   }
 

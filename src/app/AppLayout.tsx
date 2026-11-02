@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Activity, BookOpen, Bookmark, Clock3, Home, Info, Menu, Pill, Search, Stethoscope } from 'lucide-react'
+import { Activity, BookOpen, Bookmark, Clock3, Home, Info, LogOut, Menu, Pill, Search, Stethoscope } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation, useNavigationType } from 'react-router-dom'
 import { branding } from '../config/branding'
 import { GlobalSearch } from '../components/GlobalSearch'
+import { useIdentityAuth } from '../auth/useIdentityAuth'
 
 type NavigationLink = {
   to: string
@@ -71,6 +72,7 @@ function RouteEffects() {
 export function AppLayout() {
   const location = useLocation()
   const [moreOpen, setMoreOpen] = useState(false)
+  const { user, logout, error: authError } = useIdentityAuth()
   const moreMenuRef = useRef<HTMLDivElement>(null)
   const moreActive = ['/diretrizes', '/medicamentos', '/calculadoras', '/historico', '/sobre', clinicalAssistantLink.to].includes(location.pathname)
 
@@ -91,8 +93,18 @@ export function AppLayout() {
           <Link className="brand-lockup" to="/inicio" aria-label={`${branding.commercialName} - início`}>
             <span className="brand-name">{branding.commercialName}</span>
           </Link>
+          {user && (
+            <div className="identity-session">
+              <span className="identity-session__email">{user.email ?? 'Sessão autenticada'}</span>
+              <button type="button" className="identity-session__logout" onClick={() => void logout()} aria-label="Encerrar sessão">
+                <LogOut size={16} aria-hidden="true" />
+                <span>Sair</span>
+              </button>
+            </div>
+          )}
         </div>
       </header>
+      {authError && <p className="identity-session__error" role="alert">{authError}</p>}
 
       <div className="app-frame">
         <aside className="desktop-sidebar glass-surface" aria-label="Navegação principal">

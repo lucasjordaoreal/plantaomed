@@ -114,7 +114,7 @@ describe('ClinicalAssistantPage', () => {
       evidenceSummary: 'Nenhum documento foi recuperado.',
       limitations: ['Não constitui diagnóstico.'],
     }
-    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ result, model: 'gemini-2.5-flash' }), { status: 200 }))
+    const fetchMock = vi.fn(async () => new Response(JSON.stringify({ result, model: 'gemini-3.8-flash' }), { status: 200 }))
     vi.stubGlobal('fetch', fetchMock)
     renderAssistant()
 

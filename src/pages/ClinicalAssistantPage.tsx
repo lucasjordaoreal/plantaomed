@@ -213,9 +213,10 @@ export function ClinicalAssistantPage() {
           : value.slice(0, 5).map((item) => item.slice(0, 120)),
       ])))
       : ''
-    const description = action === 'contextual' && aiResult
+    const clinicalDescription = action === 'contextual' && aiResult
       ? `${aiDescription}\n\nAchados revisados pelo médico:\n${confirmedSummary}`
       : aiDescription
+    const description = `[PLANTAOMED SYNTHETIC CASE]\n${clinicalDescription}`
     const controller = new AbortController()
     aiRequestController.current = controller
     setAiStatus('analyzing')
@@ -244,6 +245,9 @@ export function ClinicalAssistantPage() {
       } else if (error instanceof AiRequestError && error.status === 429) {
         setAiStatus('limited')
         setAiError(error.message)
+      } else if (error instanceof AiRequestError && error.status === 401) {
+        setAiStatus('failed')
+        setAiError('Sua sessão expirou. Entre novamente para continuar.')
       } else {
         setAiStatus('failed')
         setAiError(error instanceof Error ? error.message : 'Falha ao consultar o Assistente Clínico.')
@@ -293,7 +297,7 @@ export function ClinicalAssistantPage() {
           </div>
         </div>
         <label className={fieldClass}>
-          <span>Descrição clínica sintética</span>
+          <span>Descrição clínica</span>
           <textarea
             rows={4}
             maxLength={5_000}

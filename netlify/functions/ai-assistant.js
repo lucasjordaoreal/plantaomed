@@ -1,12 +1,24 @@
-import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
+import { createHash } from 'node:crypto'
+import { ApiError, GoogleGenAI } from '@google/genai'
+import { getUser, refreshSession } from '@netlify/identity'
+
+export const config = {
+  path: '/.netlify/functions/ai-assistant',
+  rateLimit: {
+    windowLimit: 10,
+    windowSize: 60,
+    aggregateBy: ['ip', 'domain'],
+  },
+}
 
 const MAX_BODY_BYTES = 12_000
 const MAX_DESCRIPTION_LENGTH = 9_000
 const MAX_QUESTION_LENGTH = 500
 const REQUEST_TIMEOUT_MS = 12_000
 const MAX_OUTPUT_TOKENS = 900
-const ALLOWED_MODELS = new Set(['gemini-2.5-flash'])
+const ALLOWED_MODELS = new Set(['gemini-3.8-flash'])
 const DOCUMENT_ACTIONS = new Set(['criteria', 'references', 'recovered_content'])
+const SYNTHETIC_CASE_PREFIX = '[PLANTAOMED SYNTHETIC CASE]\n'
 
 const responseJson = (body, statusCode = 200, headers = {}) => new Response(JSON.stringify(body), {
   status: statusCode,
@@ -118,41 +130,6 @@ function validateModelResult(value) {
     && !unknown.some((item) => positive.has(item) || negatives.includes(item))
 }
 
-function decodeBase64Url(value) {
-  if (!/^[\w-]+$/.test(value)) throw new Error('invalid token')
-  return Buffer.from(value, 'base64url')
-}
-
-function authenticate(request, secret) {
-  const authorization = request.headers.get('authorization') ?? ''
-  const match = /^Bearer ([\w.-]+)$/.exec(authorization)
-  if (!match) return null
-
-  const parts = match[1].split('.')
-  if (parts.length !== 3) return null
-  try {
-    const header = JSON.parse(decodeBase64Url(parts[0]).toString('utf8'))
-    const claims = JSON.parse(decodeBase64Url(parts[1]).toString('utf8'))
-    if (header.alg !== 'HS256' || typeof claims.sub !== 'string' || !claims.sub.trim()) return null
-    if (!Number.isInteger(claims.exp) || claims.exp <= Math.floor(Date.now() / 1_000)) return null
-    if (claims.exp > Math.floor(Date.now() / 1_000) + 24 * 60 * 60) return null
-
-    const roles = [
-      claims.role,
-      ...(Array.isArray(claims.roles) ? claims.roles : []),
-      ...(Array.isArray(claims.app_metadata?.roles) ? claims.app_metadata.roles : []),
-    ]
-    if (!roles.includes('authenticated')) return null
-
-    const expected = createHmac('sha256', secret).update(`${parts[0]}.${parts[1]}`).digest()
-    const supplied = decodeBase64Url(parts[2])
-    if (expected.length !== supplied.length || !timingSafeEqual(expected, supplied)) return null
-    return createHash('sha256').update(claims.sub).digest('hex')
-  } catch {
-    return null
-  }
-}
-
 async function readJsonBody(request) {
   const declaredLength = Number(request.headers.get('content-length'))
   if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) return null
@@ -189,7 +166,9 @@ function validRequest(payload) {
   const allowedKeys = ['action', 'description', 'question', 'questionType', 'syntheticOnly']
   if (Object.keys(payload).some((key) => !allowedKeys.includes(key))) return false
   if (!['structure', 'contextual'].includes(payload.action) || payload.syntheticOnly !== true) return false
-  if (!isBoundedString(payload.description, MAX_DESCRIPTION_LENGTH) || !payload.description.trim()) return false
+  if (!isBoundedString(payload.description, MAX_DESCRIPTION_LENGTH)
+    || !payload.description.startsWith(SYNTHETIC_CASE_PREFIX)
+    || !payload.description.slice(SYNTHETIC_CASE_PREFIX.length).trim()) return false
   if (payload.action === 'contextual') {
     if (!isBoundedString(payload.question, MAX_QUESTION_LENGTH) || !payload.question.trim()) return false
     if (!['clarify', 'criteria', 'references', 'recovered_content'].includes(payload.questionType)) return false
@@ -234,15 +213,16 @@ async function enforceRateLimit({ baseUrl, token, userIdHash }) {
 }
 
 function modelPrompt(payload) {
+  const description = payload.description.slice(SYNTHETIC_CASE_PREFIX.length)
   if (payload.action === 'structure') {
-    return `Estruture os fatos da descrição clínica sintética abaixo sem completar lacunas.\n\nDescrição:\n${payload.description}`
+    return `Estruture os fatos da descrição clínica sintética abaixo sem completar lacunas.\n\nDescrição:\n${description}`
   }
 
   if (DOCUMENT_ACTIONS.has(payload.questionType)) {
     return null
   }
 
-  return `Esclareça apenas a dúvida textual abaixo usando a descrição sintética como contexto. Não diagnostique nem recomende conduta.\n\nDescrição:\n${payload.description}\n\nDúvida:\n${payload.question}`
+  return `Esclareça apenas a dúvida textual abaixo usando a descrição sintética como contexto. Não diagnostique nem recomende conduta.\n\nDescrição:\n${description}\n\nDúvida:\n${payload.question}`
 }
 
 export default async function handler(request) {
@@ -252,14 +232,12 @@ export default async function handler(request) {
 
   const model = process.env.AI_MODEL
   const apiKey = process.env.AI_PROVIDER_API_KEY
-  const identitySecret = process.env.NETLIFY_IDENTITY_JWT_SECRET
   const rateLimitUrl = process.env.UPSTASH_REDIS_REST_URL
   const rateLimitToken = process.env.UPSTASH_REDIS_REST_TOKEN
   if (
     process.env.AI_ASSISTANT_ENABLED !== 'true'
-    || process.env.AI_PROVIDER !== 'google'
+    || process.env.AI_PROVIDER !== 'gemini'
     || !apiKey
-    || !identitySecret
     || !rateLimitUrl
     || !rateLimitToken
     || !model
@@ -268,8 +246,24 @@ export default async function handler(request) {
     return unavailable()
   }
 
-  const userIdHash = authenticate(request, identitySecret)
-  if (!userIdHash) return responseJson({ error: 'Autenticação necessária.' }, 401)
+  let user
+  try {
+    await refreshSession()
+    user = await getUser()
+  } catch {
+    try {
+      user = await getUser()
+    } catch {
+      return unavailable()
+    }
+    if (!user) return responseJson({ error: 'Autenticação necessária.' }, 401)
+    return unavailable()
+  }
+  if (!user) return responseJson({ error: 'Autenticação necessária.' }, 401)
+  if (!user.roles?.includes('clinical-assistant')) {
+    return responseJson({ error: 'Acesso não habilitado para o Assistente Clínico.' }, 403)
+  }
+  const userIdHash = createHash('sha256').update(user.id).digest('hex')
 
   if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type') ?? '')) {
     return responseJson({ error: 'Formato de requisição inválido.' }, 415)
@@ -299,42 +293,27 @@ export default async function handler(request) {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
   const abortRequest = () => controller.abort()
-  request.signal.addEventListener('abort', abortRequest, { once: true })
+  if (request.signal.aborted) controller.abort()
+  else request.signal.addEventListener('abort', abortRequest, { once: true })
 
   try {
-    const modelResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-        body: JSON.stringify({
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: 'application/json',
-            responseSchema,
-            maxOutputTokens: MAX_OUTPUT_TOKENS,
-            temperature: 0.1,
-          },
-        }),
-        signal: controller.signal,
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: { timeout: REQUEST_TIMEOUT_MS },
+    })
+    const modelResponse = await ai.models.generateContent({
+      model,
+      contents: prompt,
+      config: {
+        systemInstruction,
+        responseMimeType: 'application/json',
+        responseSchema,
+        maxOutputTokens: MAX_OUTPUT_TOKENS,
+        temperature: 0.1,
+        abortSignal: controller.signal,
       },
-    )
-
-    if (modelResponse.status === 429) {
-      return responseJson({ error: 'Limite do provedor de IA atingido. Tente novamente mais tarde.' }, 429, { 'Retry-After': '60' })
-    }
-    if (!modelResponse.ok) {
-      return responseJson({ error: 'Não foi possível concluir a consulta de IA.' }, 502)
-    }
-
-    let providerPayload
-    try {
-      providerPayload = await modelResponse.json()
-    } catch {
-      return responseJson({ error: 'A resposta do provedor não pôde ser validada.' }, 502)
-    }
-    const answerText = providerPayload?.candidates?.[0]?.content?.parts?.[0]?.text
+    })
+    const answerText = modelResponse.text
     if (typeof answerText !== 'string') {
       return responseJson({ error: 'A resposta do provedor não pôde ser validada.' }, 502)
     }
@@ -350,7 +329,10 @@ export default async function handler(request) {
     }
 
     return responseJson({ result, model })
-  } catch {
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 429) {
+      return responseJson({ error: 'Limite do provedor de IA atingido. Tente novamente mais tarde.' }, 429, { 'Retry-After': '60' })
+    }
     return responseJson(
       { error: controller.signal.aborted ? 'Consulta cancelada ou excedeu o tempo limite.' : 'Não foi possível concluir a consulta de IA.' },
       controller.signal.aborted ? 504 : 502,

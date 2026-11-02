@@ -2243,6 +2243,167 @@
   color: var(--color-blue-hover);
 }
 
+.identity-session {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.identity-session__email {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.identity-session__logout,
+.identity-access-text-button,
+.identity-access-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  color: var(--color-blue-hover);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.identity-session__error {
+  width: min(1180px, calc(100% - 32px));
+  margin: 8px auto 0;
+  color: #a53131;
+  font-size: 12px;
+}
+
+.identity-access-page {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 87% 14%, rgb(234 243 255 / 55%), transparent 25rem),
+    var(--color-background);
+}
+
+.identity-access-card {
+  display: grid;
+  gap: 16px;
+  width: min(100%, 440px);
+  padding: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: rgb(255 255 255 / 88%);
+  box-shadow: var(--shadow-float);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+}
+
+.identity-access-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--color-blue-soft);
+  color: var(--color-blue-hover);
+}
+
+.identity-access-card h1 {
+  margin: 0;
+  font-size: 25px;
+  letter-spacing: -0.045em;
+}
+
+.identity-access-card > p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.identity-access-card form {
+  display: grid;
+  gap: 14px;
+}
+
+.identity-access-field {
+  display: grid;
+  gap: 6px;
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.identity-access-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 450;
+}
+
+.identity-access-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--color-blue);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.identity-access-submit:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.identity-access-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.identity-access-text-button,
+.identity-access-back {
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.identity-access-error,
+.identity-access-message {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.identity-access-error {
+  color: #a53131;
+}
+
+.identity-access-message {
+  color: #17653a;
+}
+
 .clinical-assistant__steps {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2852,9 +3013,14 @@
 
   .clinical-assistant__panel,
   .clinical-assistant__aside,
-  .clinical-assistant__ai-panel {
+  .clinical-assistant__ai-panel,
+  .identity-access-card {
     padding: 16px;
     border-radius: 18px;
+  }
+
+  .identity-session__email {
+    display: none;
   }
 
   .clinical-assistant__ai-findings {

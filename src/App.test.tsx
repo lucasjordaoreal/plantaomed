@@ -5,22 +5,40 @@ import '@testing-library/jest-dom/vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { AppRouter } from './app/AppRouter'
 import { LibraryStateProvider } from './app/LibraryState'
+import { IdentityAuthProvider } from './auth/IdentityAuthContext'
 import App from './App'
 import { clinicalPresentations } from './data/clinicalPresentations'
 import { protocols } from './data/protocols'
 
 let originalWindowFetch: typeof window.fetch
 
+const identity = vi.hoisted(() => ({
+  getUser: vi.fn(),
+  handleAuthCallback: vi.fn(),
+  login: vi.fn(),
+  logout: vi.fn(),
+  onAuthChange: vi.fn(),
+  recoverPassword: vi.fn(),
+  requestPasswordRecovery: vi.fn(),
+}))
+
+vi.mock('@netlify/identity', () => identity)
+
 function renderRoute(initialEntry = '/inicio') {
   return render(
     <MemoryRouter initialEntries={[initialEntry]}>
-      <LibraryStateProvider><AppRouter /></LibraryStateProvider>
+      <IdentityAuthProvider><LibraryStateProvider><AppRouter /></LibraryStateProvider></IdentityAuthProvider>
     </MemoryRouter>,
   )
 }
 
 describe('PlantãoMed independent routes', () => {
   beforeEach(() => {
+    identity.getUser.mockResolvedValue(null)
+    identity.handleAuthCallback.mockResolvedValue(null)
+    identity.login.mockResolvedValue(null)
+    identity.logout.mockResolvedValue(undefined)
+    identity.onAuthChange.mockReturnValue(vi.fn())
     localStorage.clear()
     originalWindowFetch = window.fetch
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
@@ -51,15 +69,15 @@ describe('PlantãoMed independent routes', () => {
     ['/inicio', 'PlantãoMed'],
     ['/protocolos', 'Biblioteca'],
     ['/sinais-e-sintomas', 'Sinais e sintomas'],
-    ['/assistente-clinico', 'Assistente Clínico'],
+    ['/assistente-clinico', 'Acesso ao Assistente Clínico'],
     ['/diretrizes', 'Diretrizes e documentos'],
     ['/calculadoras', 'Calculadoras'],
     ['/favoritos', 'Favoritos'],
     ['/historico', 'Histórico'],
     ['/sobre', /Sobre o PlantãoMed/i],
-  ])('renders independent route %s', (route, heading) => {
+  ])('renders independent route %s', async (route, heading) => {
     renderRoute(route)
-    expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: heading })).toBeInTheDocument()
   })
 
   it('searches Anvisa records by active ingredient and registration and opens source fields', async () => {
