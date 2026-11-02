@@ -1,10 +1,11 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 
 const identity = vi.hoisted(() => ({
+  acceptInvite: vi.fn(),
   getUser: vi.fn(),
   handleAuthCallback: vi.fn(),
   login: vi.fn(),
@@ -12,6 +13,7 @@ const identity = vi.hoisted(() => ({
   onAuthChange: vi.fn(),
   recoverPassword: vi.fn(),
   requestPasswordRecovery: vi.fn(),
+  updateUser: vi.fn(),
 }))
 
 vi.mock('@netlify/identity', () => identity)
@@ -36,6 +38,8 @@ function renderLogin(path = '/login') {
 }
 
 beforeEach(() => {
+  sessionStorage.clear()
+  window.history.replaceState(null, '', '/')
   identity.getUser.mockResolvedValue(null)
   identity.handleAuthCallback.mockResolvedValue(null)
   identity.login.mockResolvedValue(authorizedUser)
@@ -43,10 +47,14 @@ beforeEach(() => {
   identity.onAuthChange.mockReturnValue(vi.fn())
   identity.recoverPassword.mockResolvedValue(authorizedUser)
   identity.requestPasswordRecovery.mockResolvedValue(undefined)
+  identity.acceptInvite.mockResolvedValue(authorizedUser)
+  identity.updateUser.mockResolvedValue(authorizedUser)
 })
 
 afterEach(() => {
   cleanup()
+  sessionStorage.clear()
+  window.history.replaceState(null, '', '/')
   vi.clearAllMocks()
 })
 
@@ -83,13 +91,4 @@ describe('Clinical assistant Identity access page', () => {
     expect(identity.requestPasswordRecovery).toHaveBeenCalledWith('doctor@example.test')
   })
 
-  it('accepts a recovery callback and resets the password through Identity', async () => {
-    identity.handleAuthCallback.mockResolvedValue({ type: 'recovery', token: 'synthetic-token', user: null })
-    renderLogin('/recuperar-senha')
-    fireEvent.change(await screen.findByLabelText('Nova senha'), { target: { value: 'new-synthetic-password' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Salvar nova senha' }))
-
-    await waitFor(() => expect(identity.recoverPassword).toHaveBeenCalledWith('synthetic-token', 'new-synthetic-password'))
-    expect(await screen.findByRole('heading', { name: 'Assistente habilitado' })).toBeInTheDocument()
-  })
 })

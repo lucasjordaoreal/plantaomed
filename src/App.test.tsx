@@ -13,6 +13,7 @@ import { protocols } from './data/protocols'
 let originalWindowFetch: typeof window.fetch
 
 const identity = vi.hoisted(() => ({
+  acceptInvite: vi.fn(),
   getUser: vi.fn(),
   handleAuthCallback: vi.fn(),
   login: vi.fn(),
@@ -20,6 +21,7 @@ const identity = vi.hoisted(() => ({
   onAuthChange: vi.fn(),
   recoverPassword: vi.fn(),
   requestPasswordRecovery: vi.fn(),
+  updateUser: vi.fn(),
 }))
 
 vi.mock('@netlify/identity', () => identity)
@@ -34,11 +36,15 @@ function renderRoute(initialEntry = '/inicio') {
 
 describe('PlantãoMed independent routes', () => {
   beforeEach(() => {
+    sessionStorage.clear()
+    window.history.replaceState(null, '', '/')
+    identity.acceptInvite.mockResolvedValue(null)
     identity.getUser.mockResolvedValue(null)
     identity.handleAuthCallback.mockResolvedValue(null)
     identity.login.mockResolvedValue(null)
     identity.logout.mockResolvedValue(undefined)
     identity.onAuthChange.mockReturnValue(vi.fn())
+    identity.updateUser.mockResolvedValue(null)
     localStorage.clear()
     originalWindowFetch = window.fetch
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
@@ -51,16 +57,16 @@ describe('PlantãoMed independent routes', () => {
     window.history.replaceState(null, '', '/')
   })
 
-  it('redirects the root to the onboarding page on a first visit', () => {
+  it('redirects the root to the onboarding page on a first visit', async () => {
     renderRoute('/')
-    expect(screen.getByRole('heading', { name: /PlantãoMed\. Conhecimento clínico/i })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: /PlantãoMed\. Conhecimento clínico/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Entrar no PlantãoMed/i })).toBeInTheDocument()
     expect(screen.queryByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).not.toBeInTheDocument()
   })
 
   it('stores onboarding completion and skips the welcome page later', async () => {
     renderRoute('/')
-    fireEvent.click(screen.getByRole('button', { name: /Entrar no PlantãoMed/i }))
+    fireEvent.click(await screen.findByRole('button', { name: /Entrar no PlantãoMed/i }))
     expect(localStorage.getItem('plantaomed.onboarding.completed')).toBe('true')
     expect(screen.getByRole('heading', { name: 'PlantãoMed' })).toBeInTheDocument()
   })
@@ -78,6 +84,46 @@ describe('PlantãoMed independent routes', () => {
   ])('renders independent route %s', async (route, heading) => {
     renderRoute(route)
     expect(await screen.findByRole('heading', { name: heading })).toBeInTheDocument()
+  })
+
+  it('routes an invitation callback before onboarding or legacy hash redirects run', async () => {
+    window.history.replaceState(null, '', '/#invite_token=app-invite-test-20261102')
+    identity.handleAuthCallback.mockImplementation(async () => {
+      window.history.replaceState(null, '', '/')
+      return { type: 'invite', user: null, token: 'app-invite-test-20261102' }
+    })
+    renderRoute('/')
+
+    expect(await screen.findByRole('heading', { name: 'Defina sua senha' })).toBeInTheDocument()
+    expect(window.location.hash).toBe('')
+    expect(screen.queryByRole('heading', { name: /Conhecimento clínico/i })).not.toBeInTheDocument()
+  })
+
+  it('lets the user navigate away from the invitation form without callback redirects trapping the route', async () => {
+    window.history.replaceState(null, '', '/#invite_token=navigation-invite-test-20261102')
+    identity.handleAuthCallback.mockImplementation(async () => {
+      window.history.replaceState(null, '', '/')
+      return { type: 'invite', user: null, token: 'navigation-invite-test-20261102' }
+    })
+    renderRoute('/')
+    await screen.findByRole('heading', { name: 'Defina sua senha' })
+    fireEvent.click(screen.getByRole('link', { name: /Voltar ao login/i }))
+
+    expect(await screen.findByRole('heading', { name: 'Acesso ao Assistente Clínico' })).toBeInTheDocument()
+  })
+
+  it('routes recovery callbacks to the password form without an early redirect', async () => {
+    const recoveryUser = { id: 'recovery-user', email: 'recovery@example.test', roles: [] }
+    window.history.replaceState(null, '', '/#recovery_token=app-recovery-test-20261102')
+    identity.handleAuthCallback.mockImplementation(async () => {
+      window.history.replaceState(null, '', '/')
+      return { type: 'recovery', user: recoveryUser }
+    })
+    renderRoute('/')
+
+    expect(await screen.findByRole('heading', { name: 'Redefina sua senha' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Nova senha')).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'PlantãoMed' })).not.toBeInTheDocument()
   })
 
   it('searches Anvisa records by active ingredient and registration and opens source fields', async () => {

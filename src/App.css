@@ -2355,6 +2355,53 @@
   font-weight: 450;
 }
 
+.identity-access-field input:focus-visible {
+  border-color: var(--color-blue);
+  outline: 3px solid rgb(53 120 229 / 18%);
+  outline-offset: 1px;
+}
+
+.identity-access-password {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.identity-access-password input {
+  padding-right: 46px;
+}
+
+.identity-access-password-toggle {
+  position: absolute;
+  right: 7px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.identity-access-password-toggle:hover,
+.identity-access-password-toggle:focus-visible {
+  background: var(--color-blue-soft);
+  color: var(--color-blue-hover);
+}
+
+.identity-access-validation {
+  min-height: 16px;
+  margin: -10px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+}
+
+.identity-access-validation.is-invalid {
+  color: #a53131;
+}
+
 .identity-access-submit {
   display: inline-flex;
   align-items: center;
@@ -2374,6 +2421,17 @@
 .identity-access-submit:disabled {
   cursor: wait;
   opacity: 0.65;
+}
+
+.identity-access-submit:focus-visible,
+.identity-access-text-button:focus-visible,
+.identity-access-back:focus-visible {
+  outline: 3px solid rgb(53 120 229 / 22%);
+  outline-offset: 3px;
+}
+
+.identity-access-submit--link {
+  text-decoration: none;
 }
 
 .identity-access-actions {

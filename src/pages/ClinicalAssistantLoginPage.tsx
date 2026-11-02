@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { ArrowLeft, KeyRound, LogIn } from 'lucide-react'
+import { ArrowLeft, LogIn } from 'lucide-react'
 import { useIdentityAuth, hasClinicalAssistantAccess } from '../auth/useIdentityAuth'
 
 function getRedirectPath(state: unknown) {
@@ -18,15 +18,14 @@ export function ClinicalAssistantLoginPage() {
     user,
     status,
     error,
-    recoveryToken,
+    callbackError,
+    callbackErrorType,
     login,
     logout,
     requestRecovery,
-    resetPassword,
   } = useIdentityAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
   const [message, setMessage] = useState('')
   const [formError, setFormError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -35,10 +34,10 @@ export function ClinicalAssistantLoginPage() {
   const redirectPath = getRedirectPath(location.state)
 
   useEffect(() => {
-    if (status === 'ready' && !recoveryToken && hasClinicalAssistantAccess(user)) {
+    if (status === 'ready' && hasClinicalAssistantAccess(user)) {
       navigate(redirectPath, { replace: true })
     }
-  }, [status, recoveryToken, user, navigate, redirectPath])
+  }, [status, user, navigate, redirectPath])
 
   const submitLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -73,47 +72,8 @@ export function ClinicalAssistantLoginPage() {
     }
   }
 
-  const submitPasswordReset = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    if (newPassword.length < 8) {
-      setFormError('A nova senha deve ter pelo menos 8 caracteres.')
-      return
-    }
-    setBusy(true)
-    setFormError('')
-    try {
-      await resetPassword(newPassword)
-      setMessage('Senha redefinida. A sessão foi atualizada.')
-      navigate(redirectPath, { replace: true })
-    } catch {
-      setFormError('O link de recuperação expirou ou não é válido. Solicite outro link.')
-    } finally {
-      setBusy(false)
-    }
-  }
-
   if (status === 'loading') {
     return <main className="identity-access-page" role="status">Verificando sessão...</main>
-  }
-
-  if (recoveryToken) {
-    return (
-      <main className="identity-access-page">
-        <section className="identity-access-card">
-          <span className="identity-access-icon"><KeyRound size={20} aria-hidden="true" /></span>
-          <h1>Redefinir senha</h1>
-          <p>Crie uma nova senha para sua conta do Netlify Identity.</p>
-          <form onSubmit={submitPasswordReset}>
-            <label className="identity-access-field">
-              <span>Nova senha</span>
-              <input type="password" autoComplete="new-password" minLength={8} required value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
-            </label>
-            {formError && <p className="identity-access-error" role="alert">{formError}</p>}
-            <button type="submit" className="identity-access-submit" disabled={busy}>{busy ? 'Salvando...' : 'Salvar nova senha'}</button>
-          </form>
-        </section>
-      </main>
-    )
   }
 
   if (user && !hasClinicalAssistantAccess(user)) {
@@ -137,6 +97,9 @@ export function ClinicalAssistantLoginPage() {
         <h1>Acesso ao Assistente Clínico</h1>
         <p>Entre com uma conta Netlify Identity previamente habilitada pela equipe PlantãoMed. Não há cadastro público.</p>
         {status === 'error' && <p className="identity-access-error" role="alert">{error}</p>}
+        {callbackError && callbackErrorType !== 'invite' && callbackErrorType !== 'recovery' && (
+          <p className="identity-access-error" role="alert">{callbackError}</p>
+        )}
         <form onSubmit={recovering ? submitRecovery : submitLogin}>
           <label className="identity-access-field">
             <span>E-mail</span>

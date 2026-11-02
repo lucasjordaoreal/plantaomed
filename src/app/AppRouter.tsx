@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { useIdentityAuth, hasClinicalAssistantAccess } from '../auth/useIdentityAuth'
+import { isIdentityCallbackHash } from '../auth/identityCallback'
 import { AppLayout } from './AppLayout'
 import { AboutPage } from '../pages/AboutPage'
 import { CalculatorsPage } from '../pages/CalculatorsPage'
 import { ClinicalAssistantPage } from '../pages/ClinicalAssistantPage'
 import { ClinicalAssistantLoginPage } from '../pages/ClinicalAssistantLoginPage'
+import { InviteAcceptancePage, PasswordResetPage } from '../pages/IdentityCredentialPages'
 import { FavoritesPage } from '../pages/FavoritesPage'
 import { GuidelinesPage } from '../pages/GuidelinesPage'
 import { HistoryPage } from '../pages/HistoryPage'
@@ -18,20 +20,6 @@ import { PresentationDetailPage } from '../pages/PresentationDetailPage'
 import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
 import { SymptomsPage } from '../pages/SymptomsPage'
 import { getOnboardingCompleted } from '../lib/storage'
-
-function IdentityCallbackRedirect() {
-  const { recoveryToken } = useIdentityAuth()
-  const location = useLocation()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (recoveryToken && location.pathname !== '/recuperar-senha') {
-      navigate('/recuperar-senha', { replace: true })
-    }
-  }, [recoveryToken, location.pathname, navigate])
-
-  return null
-}
 
 function ProtectedClinicalAssistant() {
   const { user, status, logout } = useIdentityAuth()
@@ -66,10 +54,24 @@ function ProtectedClinicalAssistant() {
 export function AppRouter() {
   const location = useLocation()
   const navigate = useNavigate()
+  const callbackRedirectHandled = useRef(false)
+  const { status, callbackType, callbackErrorType, callbackError } = useIdentityAuth()
 
   useEffect(() => {
+    if (status === 'loading') return
+
+    const activeCallback = callbackType ?? callbackErrorType
+    if (activeCallback === 'invite' || activeCallback === 'recovery') {
+      if (callbackRedirectHandled.current) return
+      callbackRedirectHandled.current = true
+      const callbackPath = activeCallback === 'invite' ? '/aceitar-convite' : '/redefinir-senha'
+      if (location.pathname !== callbackPath) navigate(callbackPath, { replace: true })
+      return
+    }
+
     const hash = window.location.hash
     if (hash) {
+      if (isIdentityCallbackHash(hash)) return
       const legacyRoute = hash.slice(1)
 
       if (legacyRoute.startsWith('/')) {
@@ -105,15 +107,19 @@ export function AppRouter() {
     if (location.pathname === '/') {
       navigate(getOnboardingCompleted() ? '/inicio' : '/boas-vindas', { replace: true })
     }
-  }, [location.pathname, navigate])
+  }, [status, callbackType, callbackErrorType, location.pathname, navigate])
 
   return (
     <>
-      <IdentityCallbackRedirect />
+      {callbackError && callbackErrorType !== 'invite' && callbackErrorType !== 'recovery' && (
+        <p className="identity-session__error" role="alert">{callbackError}</p>
+      )}
       <Routes>
         <Route path="boas-vindas" element={<OnboardingPage />} />
         <Route path="login" element={<ClinicalAssistantLoginPage />} />
         <Route path="recuperar-senha" element={<ClinicalAssistantLoginPage />} />
+        <Route path="aceitar-convite" element={<InviteAcceptancePage />} />
+        <Route path="redefinir-senha" element={<PasswordResetPage />} />
         <Route element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="inicio" element={<HomePage />} />

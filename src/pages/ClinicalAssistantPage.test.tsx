@@ -146,7 +146,7 @@ describe('ClinicalAssistantPage', () => {
       { status: 503 },
     )))
     renderAssistant()
-    fireEvent.change(screen.getByLabelText('Descrição clínica '), { target: { value: 'Caso clínico' } })
+    fireEvent.change(screen.getByLabelText('Descrição clínica'), { target: { value: 'Caso clínico' } })
     fireEvent.click(screen.getByLabelText(/Confirmo que não me devo basear nas informações fornecidas/))
     fireEvent.click(screen.getByRole('button', { name: 'Analisar descrição' }))
 

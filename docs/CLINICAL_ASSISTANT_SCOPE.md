@@ -63,6 +63,10 @@ Testes técnicos incluem fixtures sintéticas exclusivas do software para regras
 ## Conexão Gemini e autenticação Netlify Identity
 
 - Login, logout, callback, sessão, renovação de token e recuperação de senha usam o pacote oficial `@netlify/identity`. O Assistente Clínico é a única rota protegida; as demais páginas públicas continuam acessíveis.
+- O callback Identity é processado no provider antes de redirects e onboarding; fragments de convite, recuperação, confirmação, OAuth e alteração de e-mail nunca são interpretados como rotas antigas. Um único processamento em andamento é compartilhado durante remontagens do StrictMode.
+- Convites são concluídos em `/aceitar-convite` via `acceptInvite(token, password)`. O token é mantido somente em `sessionStorage` na aba atual, por até 30 minutos, para sobreviver a reloads no formulário; é removido ao concluir, falhar ou expirar. Não é colocado em `localStorage`, logs ou em uma nova URL.
+- Recuperação é concluída em `/redefinir-senha`: o callback estabelece a sessão e a página só mostra o formulário quando o SDK confirma usuário autenticado. Um marcador temporário de 30 minutos em `sessionStorage` permite reconstruir o fluxo após reload sem armazenar o token; a senha só muda após `updateUser({ password })` confirmar sucesso.
+- As duas páginas de senha exigem no mínimo 8 caracteres, confirmação coincidente, oferecem mostrar/ocultar senha e exibem erros sem detalhes internos. Falhas e links inválidos orientam a solicitar um novo convite ou link de recuperação.
 - A Function chama `getUser()` e `refreshSession()` do SDK no servidor e exige o papel de aplicação `clinical-assistant` em `user.roles`. Esse papel deve ser atribuído pelo administrador no `app_metadata`; não há cadastro público no app.
 - A Function aceita `AI_PROVIDER=gemini`, `AI_MODEL=gemini-3.8-flash` (modelo estável listado pela documentação Google consultada em 2026-11-02), `AI_PROVIDER_API_KEY` e `AI_ASSISTANT_ENABLED=true`. O modelo permanece em allowlist; o cliente não pode escolher modelo nem instrução de sistema.
 - A proteção nativa Netlify é de 10 chamadas/minuto por domínio e IP. Upstash continua necessário para cotas compartilhadas: 5 chamadas/minuto e 20/dia por usuário, além de 300/dia global. A cota por IP não substitui cota global. Limite de entrada, saída/token, timeout e respostas 429 também são aplicados.
@@ -74,6 +78,7 @@ Testes técnicos incluem fixtures sintéticas exclusivas do software para regras
 
 1. Habilitar Netlify Identity no site e desativar signup público.
 2. Convidar médicos aprovados e atribuir `clinical-assistant` em `app_metadata.roles` somente após aprovação administrativa.
-3. Configurar no painel Netlify as variáveis Gemini e Upstash indicadas acima; não cadastrar segredo JWT próprio.
-4. Usar Node.js 22.12 ou superior no build e nas Functions, requisito do SDK oficial instalado.
-5. Autenticar/vincular o Netlify CLI (`netlify login`, `netlify link`) para `netlify dev` acessar a configuração do site. A chamada real não foi executada neste workspace: o CLI informa que não está autenticado, nenhum site está vinculado e as variáveis locais não estão definidas.
+3. Confirmar que os templates de convite, confirmação e recuperação apontam para o domínio HTTPS do site PlantãoMed e preservam os fragmentos gerados pelo Identity; não acrescente tokens em parâmetros de query.
+4. Configurar no painel Netlify as variáveis Gemini e Upstash indicadas acima; não cadastrar segredo JWT próprio.
+5. Usar Node.js 22.12 ou superior no build e nas Functions, requisito do SDK oficial instalado.
+6. Autenticar/vincular o Netlify CLI (`netlify login`, `netlify link`) para `netlify dev` acessar a configuração do site. A chamada real não foi executada neste workspace: o CLI informa que não está autenticado, nenhum site está vinculado e as variáveis locais não estão definidas.
