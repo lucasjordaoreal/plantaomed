@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Neurologia",
+  "subjects": [
+    {
+      "id": "avc-isquemico-agudo",
+      "title": "Acidente Vascular Cerebral (AVC) Isquêmico Agudo",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-avc-isquemico-agudo"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "atrofia-muscular-espinhal",
+      "title": "Atrofia Muscular Espinhal 5q Tipos I e II",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-atrofia-muscular-espinhal"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-alzheimer",
+      "title": "Doença de Alzheimer",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-doenca-alzheimer"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-parkinson",
+      "title": "Doença de Parkinson",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-doenca-parkinson"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-pompe",
+      "title": "Doença de Pompe",
+      "specialty": "Neurologia",
+      "documentIds": [
+        "pcdt-doenca-pompe"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

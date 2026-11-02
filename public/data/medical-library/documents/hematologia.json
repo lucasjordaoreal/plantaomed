@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Hematologia",
+  "documents": [
+    {
+      "id": "pcdt-anemia-hemolitica-autoimune",
+      "title": "Anemia Hemolítica Autoimune",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Hematologia",
+      "type": "PCDT",
+      "publicationDate": "2025-07-14",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 7, de 1º de julho de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-anemia-hemolitica-autoimune.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-doenca-gaucher",
+      "title": "Doença de Gaucher",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Hematologia",
+      "type": "PCDT",
+      "publicationDate": "2025-07-14",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 10, de julho de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-10-pcdt-doenca-de-gaucher.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-doenca-falciforme",
+      "title": "Doença Falciforme",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Hematologia",
+      "type": "PCDT",
+      "publicationDate": "2024-11-22",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 16, de 1º de novembro de 2024",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-doenca-falciforme/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

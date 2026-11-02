@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Gastroenterologia",
+  "documents": [
+    {
+      "id": "pcdt-doenca-celiaca",
+      "title": "Doença Celíaca",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Gastroenterologia",
+      "type": "PCDT",
+      "publicationDate": "2025-07-14",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 8, de 1º de julho de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-8-pcdt-doenca-celiaca.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-doenca-crohn",
+      "title": "Doença de Crohn",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Gastroenterologia",
+      "type": "PCDT",
+      "publicationDate": "2026-07-26",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 51, de 18 de maio de 2026",
+      "updatedAt": "2026-08-20",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-51-pcdt-doenca-de-crohn_19.08/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-doenca-wilson",
+      "title": "Doença de Wilson",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Gastroenterologia",
+      "type": "PCDT",
+      "publicationDate": "2024-12-06",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 15, de 1º de novembro de 2024",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/protocolo-clinico-e-diretrizes-terapeuticas-da-doenca-de-wilson/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

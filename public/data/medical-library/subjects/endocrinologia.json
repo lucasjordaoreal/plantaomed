@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Endocrinologia",
+  "subjects": [
+    {
+      "id": "acromegalia",
+      "title": "Acromegalia",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-acromegalia"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "carcinoma-tireoide",
+      "title": "Carcinoma Diferenciado da Tireoide",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-carcinoma-tireoide"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "diabetes-insipido",
+      "title": "Diabetes Insípido",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-diabetes-insipido"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "diabetes-mellitus-tipo-1",
+      "title": "Diabete Melito Tipo 1",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-diabetes-mellitus-tipo-1"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "diabetes-mellitus-tipo-2",
+      "title": "Diabete Melito Tipo 2",
+      "specialty": "Endocrinologia",
+      "documentIds": [
+        "pcdt-diabetes-mellitus-tipo-2"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

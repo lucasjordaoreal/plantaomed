@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Reumatologia",
+  "documents": [
+    {
+      "id": "pcdt-artrite-psoriasica",
+      "title": "Artrite Psoriásica",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Reumatologia",
+      "type": "PCDT",
+      "publicationDate": "2026-01-23",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 37, de 21 de janeiro de 2026",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-artrite-psoriasica/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-artrite-reativa",
+      "title": "Artrite Reativa",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Reumatologia",
+      "type": "PCDT",
+      "publicationDate": "2021-04-26",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 6, de 22 de abril de 2021",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/20210428_pcdt_artrite_reativa.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-artrite-reumatoide",
+      "title": "Artrite Reumatoide",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Reumatologia",
+      "type": "PCDT",
+      "publicationDate": "2026-01-23",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 33, de 19 de janeiro de 2026",
+      "updatedAt": "2026-05-20",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-artrite-reumatoide/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

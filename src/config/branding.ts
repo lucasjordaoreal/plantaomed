@@ -1,24 +1,25 @@
 export const branding = {
   commercialName: 'PlantãoMed',
+  appVersion: '0.0.0',
   shortName: 'PlantãoMed',
   description:
-    'Consulta rápida de condutas, protocolos e medicamentos para profissionais em plantão.',
-  slogan: 'Informação clínica rápida quando a decisão precisa ser certeira.',
-  primaryColor: '#0f172a',
-  secondaryColor: '#2dd4bf',
-  accentColor: '#ef4444',
+    'Biblioteca de referências clínicas com status editorial para profissionais de saúde.',
+  slogan: 'Pesquise temas clínicos e encontre documentos de fontes oficiais.',
+  primaryColor: '#101114',
+  secondaryColor: '#007aff',
+  accentColor: '#b45309',
   logoText: 'PM',
   pwaName: 'PlantãoMed',
   shareTitle: 'PlantãoMed',
   shareDescription:
-    'Biblioteca prática de condutas e protocolos para atendimento emergencial e ambulatorial.',
+    'Biblioteca de referências clínicas com status editorial e fontes rastreáveis.',
   theme: {
     light: {
-      background: '#f8fafc',
+      background: '#ffffff',
       surface: '#ffffff',
-      muted: '#dbeafe',
-      text: '#0f172a',
-      textMuted: '#475569',
+      muted: '#eaf3ff',
+      text: '#101114',
+      textMuted: '#5c6470',
     },
     dark: {
       background: '#020817',
@@ -35,7 +36,7 @@ export const appMetadata = {
   basePath: './',
   documentationFiles: [
     'README.md',
-    '.github/workflows/deploy.yml',
-    'public/manifest.webmanifest',
+    'docs/CONTENT_AUDIT.md',
+    'vite.config.ts',
   ],
 } as const

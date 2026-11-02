@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Pneumologia",
+  "subjects": [
+    {
+      "id": "asma",
+      "title": "Asma",
+      "specialty": "Pneumologia",
+      "documentIds": [
+        "pcdt-asma"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Gastroenterologia",
+  "subjects": [
+    {
+      "id": "doenca-celiaca",
+      "title": "Doença Celíaca",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-doenca-celiaca"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-crohn",
+      "title": "Doença de Crohn",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-doenca-crohn"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-wilson",
+      "title": "Doença de Wilson",
+      "specialty": "Gastroenterologia",
+      "documentIds": [
+        "pcdt-doenca-wilson"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

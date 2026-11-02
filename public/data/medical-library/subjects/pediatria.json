@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Pediatria",
+  "subjects": [
+    {
+      "id": "artrite-idiopatica-juvenil",
+      "title": "Artrite Idiopática Juvenil (AIJ)",
+      "specialty": "Pediatria",
+      "documentIds": [
+        "pcdt-artrite-idiopatica-juvenil"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

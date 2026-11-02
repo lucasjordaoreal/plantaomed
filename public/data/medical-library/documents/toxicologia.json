@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Toxicologia",
+  "documents": [
+    {
+      "id": "pcdt-acidentes-escorpionicos",
+      "title": "Acidentes Escorpiônicos",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Toxicologia",
+      "type": "PCDT",
+      "publicationDate": "2025-08-05",
+      "version": "Portaria SECTICS/MS nº 59, de 1º de agosto de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-acidentes-escorpionicos/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-acidentes-ofidicos",
+      "title": "Acidentes Ofídicos",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Toxicologia",
+      "type": "PCDT",
+      "publicationDate": "2025-10-09",
+      "version": "Portaria SECTICS/MS nº 83, de 7 de outubro de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt_acidentes_ofidicos_final.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

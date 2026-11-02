@@ -1,0 +1,101 @@
+[
+  {
+    "id": "conitec-pcdt-catalog",
+    "title": "Protocolos Clínicos e Diretrizes Terapêuticas (PCDT)",
+    "organization": "Ministério da Saúde / Conitec",
+    "url": "https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/protocolos-clinicos-e-diretrizes-terapeuticas/pcdt",
+    "checkedAt": "2026-11-02",
+    "access": "catalog_page",
+    "reuse": "Somente metadados bibliográficos e links; não foi reproduzido o conteúdo dos documentos."
+  },
+  {
+    "id": "ministerio-pcdt-overview",
+    "title": "Protocolos Clínicos e Diretrizes Terapêuticas",
+    "organization": "Ministério da Saúde",
+    "url": "https://www.gov.br/saude/pt-br/assuntos/pcdt",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible",
+    "reuse": "Referência e link institucional."
+  },
+  {
+    "id": "anvisa-consultas",
+    "title": "Sistema de Consultas",
+    "organization": "Anvisa",
+    "url": "https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible",
+    "reuse": "Consulta interativa oficial; nenhum produto foi pesquisado individualmente."
+  },
+  {
+    "id": "anvisa-bulario",
+    "title": "Bulário Eletrônico",
+    "organization": "Anvisa",
+    "url": "https://www.gov.br/anvisa/pt-br/sistemas/bulario-eletronico",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible",
+    "reuse": "Link para a consulta oficial; nenhuma bula foi reproduzida."
+  },
+  {
+    "id": "anvisa-medicines-registration",
+    "title": "Consulta a registro de medicamentos",
+    "organization": "Anvisa",
+    "url": "https://www.gov.br/anvisa/pt-br/sistemas/consulta-a-registro-de-medicamentos",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible",
+    "reuse": "Link para consulta oficial; nenhum registro foi confirmado individualmente."
+  },
+  {
+    "id": "rename",
+    "title": "Relação Nacional de Medicamentos Essenciais (Rename)",
+    "organization": "Ministério da Saúde",
+    "url": "https://www.gov.br/saude/pt-br/composicao/sectics/daf/rename",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible",
+    "reuse": "Referência e link institucional; nenhum produto foi verificado individualmente."
+  },
+  {
+    "id": "sus-open-data",
+    "title": "Dados Abertos do SUS",
+    "organization": "Ministério da Saúde",
+    "url": "https://dadosabertos.saude.gov.br/",
+    "checkedAt": "2026-11-02",
+    "access": "portal_accessible",
+    "reuse": "Catálogo consultado; nenhum conjunto foi importado."
+  },
+  {
+    "id": "sbc-guidelines",
+    "title": "Diretrizes, Posicionamentos e Recomendações",
+    "organization": "Sociedade Brasileira de Cardiologia",
+    "url": "https://www.portal.cardiol.br/diretrizes",
+    "checkedAt": "2026-11-02",
+    "access": "listing_accessible",
+    "reuse": "Apenas links bibliográficos; conteúdo protegido não foi reproduzido."
+  },
+  {
+    "id": "sbp-scientific-documents",
+    "title": "Documentos científicos",
+    "organization": "Sociedade Brasileira de Pediatria",
+    "url": "https://www.sbp.com.br/especiais/documentos-cientificos/",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible_listing_not_extracted",
+    "reuse": "Página acessível; a listagem de documentos não foi exposta pela consulta automatizada."
+  },
+  {
+    "id": "sbpt-guidelines",
+    "title": "Consensos e diretrizes",
+    "organization": "Sociedade Brasileira de Pneumologia e Tisiologia",
+    "url": "https://sbpt.org.br/portal/consensos-e-diretrizes-da-sbpt/",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible_listing_not_extracted",
+    "reuse": "Página acessível; a listagem de documentos não foi exposta pela consulta automatizada."
+  },
+  {
+    "id": "sbd-guidelines",
+    "title": "Diretrizes da Sociedade Brasileira de Diabetes",
+    "organization": "Sociedade Brasileira de Diabetes",
+    "url": "https://diretriz.diabetes.org.br/",
+    "checkedAt": "2026-11-02",
+    "access": "page_accessible_dynamic_content",
+    "reuse": "O portal respondeu com conteúdo gerado dinamicamente; não foram importados documentos."
+  }
+]

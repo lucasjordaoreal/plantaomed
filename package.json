@@ -1,12 +1,17 @@
 {
-  "name": "blantaomed",
+  "name": "plantaomed",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "npm run catalog:validate && npm run catalog:generate",
     "dev": "vite",
+    "prebuild": "npm run catalog:validate && npm run catalog:generate",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "test": "vitest run && npm run catalog:validate",
+    "catalog:validate": "node scripts/medical-import/validate.mjs",
+    "catalog:generate": "node scripts/medical-import/generate.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

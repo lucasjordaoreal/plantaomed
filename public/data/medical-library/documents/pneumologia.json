@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Pneumologia",
+  "documents": [
+    {
+      "id": "pcdt-asma",
+      "title": "Asma",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Pneumologia",
+      "type": "PCDT",
+      "publicationDate": "2026-04-02",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 43, de 24 de março de 2026",
+      "updatedAt": "2026-09-04",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/asma-portaria-conjunta-saes-sctie-no-43.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

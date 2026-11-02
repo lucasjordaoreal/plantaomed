@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Infectologia",
+  "subjects": [
+    {
+      "id": "ist",
+      "title": "Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST)",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-ist"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "brucelose-humana",
+      "title": "Brucelose Humana",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-brucelose-humana"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-chagas",
+      "title": "Doença de Chagas",
+      "specialty": "Infectologia",
+      "documentIds": [
+        "pcdt-doenca-chagas"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

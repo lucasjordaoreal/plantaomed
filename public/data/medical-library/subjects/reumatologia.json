@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Reumatologia",
+  "subjects": [
+    {
+      "id": "artrite-psoriasica",
+      "title": "Artrite Psoriásica",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-artrite-psoriasica"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "artrite-reativa",
+      "title": "Artrite Reativa",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-artrite-reativa"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "artrite-reumatoide",
+      "title": "Artrite Reumatoide",
+      "specialty": "Reumatologia",
+      "documentIds": [
+        "pcdt-artrite-reumatoide"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

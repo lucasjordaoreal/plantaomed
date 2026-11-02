@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Toxicologia",
+  "subjects": [
+    {
+      "id": "acidentes-escorpionicos",
+      "title": "Acidentes Escorpiônicos",
+      "specialty": "Toxicologia",
+      "documentIds": [
+        "pcdt-acidentes-escorpionicos"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "acidentes-ofidicos",
+      "title": "Acidentes Ofídicos",
+      "specialty": "Toxicologia",
+      "documentIds": [
+        "pcdt-acidentes-ofidicos"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

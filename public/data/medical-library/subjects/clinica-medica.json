@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Clínica Médica",
+  "subjects": [
+    {
+      "id": "amiloidose-transtirretina",
+      "title": "Amiloidoses Associadas à Transtirretina",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-amiloidose-transtirretina"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-fabry",
+      "title": "Doença de Fabry",
+      "specialty": "Clínica Médica",
+      "documentIds": [
+        "pcdt-doenca-fabry"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Oncologia",
+  "subjects": [
+    {
+      "id": "adenocarcinoma-colon-reto",
+      "title": "Adenocarcinoma de Cólon e Reto",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-adenocarcinoma-colon-reto"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "adenocarcinoma-estomago",
+      "title": "Adenocarcinoma de Estômago",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-adenocarcinoma-estomago"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "adenocarcinoma-prostata",
+      "title": "Adenocarcinoma de Próstata",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-adenocarcinoma-prostata"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "cancer-mama",
+      "title": "Câncer de Mama",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-cancer-mama"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "carcinoma-esofago",
+      "title": "Carcinoma de Esôfago",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-carcinoma-esofago"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "carcinoma-renal-celulas-claras",
+      "title": "Carcinoma Renal de Células Claras",
+      "specialty": "Oncologia",
+      "documentIds": [
+        "pcdt-carcinoma-renal-celulas-claras"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}

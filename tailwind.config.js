@@ -4,14 +4,14 @@ export default {
   theme: {
     extend: {
       boxShadow: {
-        soft: '0 16px 40px rgba(15, 23, 42, 0.12)',
+        soft: '0 12px 36px rgba(16, 17, 20, 0.08)',
       },
       colors: {
         brand: {
-          50: '#f0fdfa',
-          500: '#2dd4bf',
-          700: '#0f766e',
-          900: '#0f172a',
+          50: '#eaf3ff',
+          500: '#007aff',
+          700: '#0066dd',
+          900: '#101114',
         },
       },
     },

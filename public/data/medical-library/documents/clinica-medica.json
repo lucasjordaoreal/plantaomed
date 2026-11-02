@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Clínica Médica",
+  "documents": [
+    {
+      "id": "pcdt-amiloidose-transtirretina",
+      "title": "Amiloidoses Associadas à Transtirretina",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Clínica Médica",
+      "type": "PCDT",
+      "publicationDate": "2025-08-01",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 12, de julho de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/AmiloidosesAssociadasaTranstirretina.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-doenca-fabry",
+      "title": "Doença de Fabry",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Clínica Médica",
+      "type": "PCDT",
+      "publicationDate": "2025-01-23",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 2, de 15 de janeiro de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/protocolo-clinico-e-diretrizes-terapeuticas-da-doenca-de-fabry/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

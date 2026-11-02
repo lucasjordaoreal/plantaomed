@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sindrome-coronariana-aguda",
+    "title": "Síndrome coronariana aguda",
+    "specialty": "Cardiologia",
+    "kind": "legacy-topic"
+  },
+  {
+    "id": "avc",
+    "title": "Acidente vascular cerebral (AVC)",
+    "specialty": "Neurologia",
+    "kind": "legacy-topic"
+  },
+  {
+    "id": "asma-aguda",
+    "title": "Asma aguda",
+    "specialty": "Pneumologia",
+    "kind": "legacy-topic"
+  },
+  {
+    "id": "sepse",
+    "title": "Sepse",
+    "specialty": "Infectologia",
+    "kind": "legacy-topic"
+  },
+  {
+    "id": "hipoglicemia",
+    "title": "Hipoglicemia",
+    "specialty": "Endocrinologia",
+    "kind": "legacy-topic"
+  },
+  {
+    "id": "anafilaxia",
+    "title": "Anafilaxia",
+    "specialty": "Emergências",
+    "kind": "legacy-topic"
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Infectologia",
+  "documents": [
+    {
+      "id": "pcdt-ist",
+      "title": "Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST)",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Infectologia",
+      "type": "PCDT",
+      "publicationDate": "2021-04-22",
+      "version": "Portaria SCTIE/MS nº 12, de 19 de abril de 2021",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/20210429_pcdt-ist_588.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-brucelose-humana",
+      "title": "Brucelose Humana",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Infectologia",
+      "type": "PCDT",
+      "publicationDate": "2025-05-27",
+      "version": "Portaria SECTICS/MS nº 22, de 12 de maio de 2025",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-brucelose-humana/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    },
+    {
+      "id": "pcdt-doenca-chagas",
+      "title": "Doença de Chagas",
+      "organization": "Ministério da Saúde / Conitec",
+      "specialty": "Infectologia",
+      "type": "PCDT",
+      "publicationDate": "2018-10-31",
+      "version": "Portaria SCTIE/MS nº 57/2018, de 30 de outubro de 2018",
+      "updatedAt": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt_doenca_de_chagas.pdf/@@display-file/file",
+      "sourceId": "conitec-pcdt-catalog",
+      "catalogStatus": "listed_in_official_catalog",
+      "validityStatus": "not_individually_verified",
+      "reuseStatus": "metadata_and_link_only",
+      "catalogedAt": "2026-11-02"
+    }
+  ]
+}

@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "catalogDate": "2026-11-02",
+  "counts": {
+    "identifiedLegacySubjects": 6,
+    "subjectsWithOfficialDocuments": 34,
+    "legacySubjectsWithoutVerifiedDocumentLink": 6,
+    "documentsCataloged": 34,
+    "documentsWithTextReusePermission": 0,
+    "documentsWithIndividualCurrentValidityCheck": 0,
+    "completeClinicallyReviewedProtocols": 0,
+    "medicinesWithConfirmedAnvisaRegistration": 0,
+    "medicinesCataloged": 0,
+    "recordsPendingVerification": 34
+  },
+  "specialties": [
+    {
+      "id": "clinica-medica",
+      "name": "Clínica Médica",
+      "documentCount": 2,
+      "subjectCount": 2,
+      "documentPack": "documents/clinica-medica.json",
+      "subjectPack": "subjects/clinica-medica.json"
+    },
+    {
+      "id": "endocrinologia",
+      "name": "Endocrinologia",
+      "documentCount": 5,
+      "subjectCount": 5,
+      "documentPack": "documents/endocrinologia.json",
+      "subjectPack": "subjects/endocrinologia.json"
+    },
+    {
+      "id": "gastroenterologia",
+      "name": "Gastroenterologia",
+      "documentCount": 3,
+      "subjectCount": 3,
+      "documentPack": "documents/gastroenterologia.json",
+      "subjectPack": "subjects/gastroenterologia.json"
+    },
+    {
+      "id": "hematologia",
+      "name": "Hematologia",
+      "documentCount": 3,
+      "subjectCount": 3,
+      "documentPack": "documents/hematologia.json",
+      "subjectPack": "subjects/hematologia.json"
+    },
+    {
+      "id": "infectologia",
+      "name": "Infectologia",
+      "documentCount": 3,
+      "subjectCount": 3,
+      "documentPack": "documents/infectologia.json",
+      "subjectPack": "subjects/infectologia.json"
+    },
+    {
+      "id": "neurologia",
+      "name": "Neurologia",
+      "documentCount": 5,
+      "subjectCount": 5,
+      "documentPack": "documents/neurologia.json",
+      "subjectPack": "subjects/neurologia.json"
+    },
+    {
+      "id": "oncologia",
+      "name": "Oncologia",
+      "documentCount": 6,
+      "subjectCount": 6,
+      "documentPack": "documents/oncologia.json",
+      "subjectPack": "subjects/oncologia.json"
+    },
+    {
+      "id": "pediatria",
+      "name": "Pediatria",
+      "documentCount": 1,
+      "subjectCount": 1,
+      "documentPack": "documents/pediatria.json",
+      "subjectPack": "subjects/pediatria.json"
+    },
+    {
+      "id": "pneumologia",
+      "name": "Pneumologia",
+      "documentCount": 1,
+      "subjectCount": 1,
+      "documentPack": "documents/pneumologia.json",
+      "subjectPack": "subjects/pneumologia.json"
+    },
+    {
+      "id": "reumatologia",
+      "name": "Reumatologia",
+      "documentCount": 3,
+      "subjectCount": 3,
+      "documentPack": "documents/reumatologia.json",
+      "subjectPack": "subjects/reumatologia.json"
+    },
+    {
+      "id": "toxicologia",
+      "name": "Toxicologia",
+      "documentCount": 2,
+      "subjectCount": 2,
+      "documentPack": "documents/toxicologia.json",
+      "subjectPack": "subjects/toxicologia.json"
+    }
+  ],
+  "sourcesPath": "sources.json",
+  "medicinesPath": "medicines.json",
+  "searchEntries": [
+    {
+      "id": "pcdt-avc-isquemico-agudo",
+      "title": "Acidente Vascular Cerebral (AVC) Isquêmico Agudo",
+      "specialty": "Neurologia",
+      "type": "PCDT",
+      "publicationYear": "2023",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 29, de 12 de dezembro de 2023",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/tromb-lise-no-acidente-vascular-cerebral-isqu-mico-agudo.pdf/@@display-file/file",
+      "pack": "documents/neurologia.json"
+    },
+    {
+      "id": "pcdt-acidentes-escorpionicos",
+      "title": "Acidentes Escorpiônicos",
+      "specialty": "Toxicologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SECTICS/MS nº 59, de 1º de agosto de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-acidentes-escorpionicos/@@display-file/file",
+      "pack": "documents/toxicologia.json"
+    },
+    {
+      "id": "pcdt-acidentes-ofidicos",
+      "title": "Acidentes Ofídicos",
+      "specialty": "Toxicologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SECTICS/MS nº 83, de 7 de outubro de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt_acidentes_ofidicos_final.pdf/@@display-file/file",
+      "pack": "documents/toxicologia.json"
+    },
+    {
+      "id": "pcdt-acromegalia",
+      "title": "Acromegalia",
+      "specialty": "Endocrinologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 23, de 22 de outubro de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-23-pcdt-acromegalia.pdf/@@display-file/file",
+      "pack": "documents/endocrinologia.json"
+    },
+    {
+      "id": "pcdt-adenocarcinoma-colon-reto",
+      "title": "Adenocarcinoma de Cólon e Reto",
+      "specialty": "Oncologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": null,
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/adenocarcinoma-de-colon-e-de-reto-pcdt/@@display-file/file",
+      "pack": "documents/oncologia.json"
+    },
+    {
+      "id": "pcdt-adenocarcinoma-estomago",
+      "title": "Adenocarcinoma de Estômago",
+      "specialty": "Oncologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 100, de 20 de outubro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt_adenocarcinoma-de-estomago.pdf",
+      "pack": "documents/oncologia.json"
+    },
+    {
+      "id": "pcdt-adenocarcinoma-prostata",
+      "title": "Adenocarcinoma de Próstata",
+      "specialty": "Oncologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SAES/SCTIE/MS nº 97, listada como publicada em 28 de outubro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt_adenocarcinoma-de-prostata.pdf",
+      "pack": "documents/oncologia.json"
+    },
+    {
+      "id": "pcdt-amiloidose-transtirretina",
+      "title": "Amiloidoses Associadas à Transtirretina",
+      "specialty": "Clínica Médica",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 12, de julho de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/AmiloidosesAssociadasaTranstirretina.pdf/@@display-file/file",
+      "pack": "documents/clinica-medica.json"
+    },
+    {
+      "id": "pcdt-anemia-hemolitica-autoimune",
+      "title": "Anemia Hemolítica Autoimune",
+      "specialty": "Hematologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 7, de 1º de julho de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-anemia-hemolitica-autoimune.pdf/@@display-file/file",
+      "pack": "documents/hematologia.json"
+    },
+    {
+      "id": "pcdt-artrite-idiopatica-juvenil",
+      "title": "Artrite Idiopática Juvenil (AIJ)",
+      "specialty": "Pediatria",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 34, de 19 de janeiro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-artrite-idiopatica-juvenil/@@display-file/file",
+      "pack": "documents/pediatria.json"
+    },
+    {
+      "id": "pcdt-artrite-psoriasica",
+      "title": "Artrite Psoriásica",
+      "specialty": "Reumatologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 37, de 21 de janeiro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-artrite-psoriasica/@@display-file/file",
+      "pack": "documents/reumatologia.json"
+    },
+    {
+      "id": "pcdt-artrite-reativa",
+      "title": "Artrite Reativa",
+      "specialty": "Reumatologia",
+      "type": "PCDT",
+      "publicationYear": "2021",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 6, de 22 de abril de 2021",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/20210428_pcdt_artrite_reativa.pdf/@@display-file/file",
+      "pack": "documents/reumatologia.json"
+    },
+    {
+      "id": "pcdt-artrite-reumatoide",
+      "title": "Artrite Reumatoide",
+      "specialty": "Reumatologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 33, de 19 de janeiro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-artrite-reumatoide/@@display-file/file",
+      "pack": "documents/reumatologia.json"
+    },
+    {
+      "id": "pcdt-asma",
+      "title": "Asma",
+      "specialty": "Pneumologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 43, de 24 de março de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/asma-portaria-conjunta-saes-sctie-no-43.pdf/@@display-file/file",
+      "pack": "documents/pneumologia.json"
+    },
+    {
+      "id": "pcdt-ist",
+      "title": "Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST)",
+      "specialty": "Infectologia",
+      "type": "PCDT",
+      "publicationYear": "2021",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SCTIE/MS nº 12, de 19 de abril de 2021",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/20210429_pcdt-ist_588.pdf/@@display-file/file",
+      "pack": "documents/infectologia.json"
+    },
+    {
+      "id": "pcdt-atrofia-muscular-espinhal",
+      "title": "Atrofia Muscular Espinhal 5q Tipos I e II",
+      "specialty": "Neurologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 3, de 21 de março de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/20230522_portariaconjuntano6atrofiamuscularespinhal5qtipos1e2.pdf/@@display-file/file",
+      "pack": "documents/neurologia.json"
+    },
+    {
+      "id": "pcdt-brucelose-humana",
+      "title": "Brucelose Humana",
+      "specialty": "Infectologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SECTICS/MS nº 22, de 12 de maio de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-brucelose-humana/@@display-file/file",
+      "pack": "documents/infectologia.json"
+    },
+    {
+      "id": "pcdt-cancer-mama",
+      "title": "Câncer de Mama",
+      "specialty": "Oncologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 106, de 20 de outubro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt_cancer-de-mama.pdf",
+      "pack": "documents/oncologia.json"
+    },
+    {
+      "id": "pcdt-carcinoma-esofago",
+      "title": "Carcinoma de Esôfago",
+      "specialty": "Oncologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SAES/SCTIE/MS nº 96, de 20 de outubro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt-carcinoma-de-esofago.pdf",
+      "pack": "documents/oncologia.json"
+    },
+    {
+      "id": "pcdt-carcinoma-tireoide",
+      "title": "Carcinoma Diferenciado da Tireoide",
+      "specialty": "Endocrinologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SAES/SCTIE/MS nº 92, de 20 de outubro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt-do-carcinoma-diferenciado-da-tireoide.pdf",
+      "pack": "documents/endocrinologia.json"
+    },
+    {
+      "id": "pcdt-carcinoma-renal-celulas-claras",
+      "title": "Carcinoma Renal de Células Claras",
+      "specialty": "Oncologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SAES/SCTIE/MS nº 103, de 20 de outubro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt_carcinoma-renal-de-celulas-claras.pdf",
+      "pack": "documents/oncologia.json"
+    },
+    {
+      "id": "pcdt-diabetes-mellitus-tipo-1",
+      "title": "Diabete Melito Tipo 1",
+      "specialty": "Endocrinologia",
+      "type": "PCDT",
+      "publicationYear": "2019",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 17, de 12 de novembro de 2019",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-conjunta-pcdt-diabete-melito-1.pdf/@@display-file/file",
+      "pack": "documents/endocrinologia.json"
+    },
+    {
+      "id": "pcdt-diabetes-mellitus-tipo-2",
+      "title": "Diabete Melito Tipo 2",
+      "specialty": "Endocrinologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SCTIE/MS nº 13/2026, de 21 de fevereiro de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/2026/pcdt-diabete-melito-tipo-2/@@display-file/file",
+      "pack": "documents/endocrinologia.json"
+    },
+    {
+      "id": "pcdt-diabetes-insipido",
+      "title": "Diabetes Insípido",
+      "specialty": "Endocrinologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 17, de 5 de agosto de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-diabete-insipido/@@display-file/file",
+      "pack": "documents/endocrinologia.json"
+    },
+    {
+      "id": "pcdt-doenca-celiaca",
+      "title": "Doença Celíaca",
+      "specialty": "Gastroenterologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 8, de 1º de julho de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-8-pcdt-doenca-celiaca.pdf/@@display-file/file",
+      "pack": "documents/gastroenterologia.json"
+    },
+    {
+      "id": "pcdt-doenca-alzheimer",
+      "title": "Doença de Alzheimer",
+      "specialty": "Neurologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 27, de 27 de novembro de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-doenca-de-alzheimer/@@display-file/file",
+      "pack": "documents/neurologia.json"
+    },
+    {
+      "id": "pcdt-doenca-chagas",
+      "title": "Doença de Chagas",
+      "specialty": "Infectologia",
+      "type": "PCDT",
+      "publicationYear": "2018",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria SCTIE/MS nº 57/2018, de 30 de outubro de 2018",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt_doenca_de_chagas.pdf/@@display-file/file",
+      "pack": "documents/infectologia.json"
+    },
+    {
+      "id": "pcdt-doenca-crohn",
+      "title": "Doença de Crohn",
+      "specialty": "Gastroenterologia",
+      "type": "PCDT",
+      "publicationYear": "2026",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 51, de 18 de maio de 2026",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-51-pcdt-doenca-de-crohn_19.08/@@display-file/file",
+      "pack": "documents/gastroenterologia.json"
+    },
+    {
+      "id": "pcdt-doenca-fabry",
+      "title": "Doença de Fabry",
+      "specialty": "Clínica Médica",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 2, de 15 de janeiro de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/protocolo-clinico-e-diretrizes-terapeuticas-da-doenca-de-fabry/@@display-file/file",
+      "pack": "documents/clinica-medica.json"
+    },
+    {
+      "id": "pcdt-doenca-gaucher",
+      "title": "Doença de Gaucher",
+      "specialty": "Hematologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 10, de julho de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/portaria-no-10-pcdt-doenca-de-gaucher.pdf/@@display-file/file",
+      "pack": "documents/hematologia.json"
+    },
+    {
+      "id": "pcdt-doenca-parkinson",
+      "title": "Doença de Parkinson",
+      "specialty": "Neurologia",
+      "type": "PCDT",
+      "publicationYear": "2025",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTIE/MS nº 16, de 1º de agosto de 2025",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-doenca-de-parkinson/@@display-file/file",
+      "pack": "documents/neurologia.json"
+    },
+    {
+      "id": "pcdt-doenca-pompe",
+      "title": "Doença de Pompe",
+      "specialty": "Neurologia",
+      "type": "PCDT",
+      "publicationYear": "2020",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SCTIE/MS nº 12, de 3 de agosto de 2020",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/protocolo_uso/portaria-conjunta-pcdt-doena-de-pompe10-08-2020.pdf/@@display-file/file",
+      "pack": "documents/neurologia.json"
+    },
+    {
+      "id": "pcdt-doenca-wilson",
+      "title": "Doença de Wilson",
+      "specialty": "Gastroenterologia",
+      "type": "PCDT",
+      "publicationYear": "2024",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 15, de 1º de novembro de 2024",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/protocolo-clinico-e-diretrizes-terapeuticas-da-doenca-de-wilson/@@display-file/file",
+      "pack": "documents/gastroenterologia.json"
+    },
+    {
+      "id": "pcdt-doenca-falciforme",
+      "title": "Doença Falciforme",
+      "specialty": "Hematologia",
+      "type": "PCDT",
+      "publicationYear": "2024",
+      "organization": "Ministério da Saúde / Conitec",
+      "version": "Portaria Conjunta SAES/SECTICS/MS nº 16, de 1º de novembro de 2024",
+      "officialUrl": "https://www.gov.br/conitec/pt-br/midias/protocolos/pcdt-da-doenca-falciforme/@@display-file/file",
+      "pack": "documents/hematologia.json"
+    }
+  ]
+}

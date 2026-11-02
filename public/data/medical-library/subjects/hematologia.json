@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "specialty": "Hematologia",
+  "subjects": [
+    {
+      "id": "anemia-hemolitica-autoimune",
+      "title": "Anemia Hemolítica Autoimune",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-anemia-hemolitica-autoimune"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-gaucher",
+      "title": "Doença de Gaucher",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-doenca-gaucher"
+      ],
+      "recordType": "bibliographic_subject"
+    },
+    {
+      "id": "doenca-falciforme",
+      "title": "Doença Falciforme",
+      "specialty": "Hematologia",
+      "documentIds": [
+        "pcdt-doenca-falciforme"
+      ],
+      "recordType": "bibliographic_subject"
+    }
+  ]
+}
