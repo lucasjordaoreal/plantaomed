@@ -96,7 +96,7 @@ describe('ClinicalAssistantPage', () => {
     expect(screen.getByRole('combobox', { name: 'Queixa principal' })).toBeInTheDocument()
     expect(screen.getByLabelText('Descrição clínica')).toBeInTheDocument()
     expect(screen.getByText('Ferramenta de organização, não de decisão clínica')).toBeInTheDocument()
-    expect(screen.getByText(/aceita somente casos clínicos/)).toBeInTheDocument()
+    expect(screen.getByText(/aceita somente casos sintéticos/)).toBeInTheDocument()
   })
 
   it('structures a synthetic description, preserves unknown findings and allows correction', async () => {

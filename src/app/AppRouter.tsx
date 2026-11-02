@@ -1,10 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { useIdentityAuth, hasClinicalAssistantAccess } from '../auth/useIdentityAuth'
 import { isIdentityCallbackHash } from '../auth/identityCallback'
 import { AppLayout } from './AppLayout'
 import { AboutPage } from '../pages/AboutPage'
-import { CalculatorsPage } from '../pages/CalculatorsPage'
 import { ClinicalAssistantPage } from '../pages/ClinicalAssistantPage'
 import { ClinicalAssistantLoginPage } from '../pages/ClinicalAssistantLoginPage'
 import { InviteAcceptancePage, PasswordResetPage } from '../pages/IdentityCredentialPages'
@@ -20,6 +19,8 @@ import { PresentationDetailPage } from '../pages/PresentationDetailPage'
 import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
 import { SymptomsPage } from '../pages/SymptomsPage'
 import { getOnboardingCompleted } from '../lib/storage'
+
+const CalculatorsPage = lazy(() => import('../pages/CalculatorsPage').then(({ CalculatorsPage: page }) => ({ default: page })))
 
 function ProtectedClinicalAssistant() {
   const { user, status, logout } = useIdentityAuth()
@@ -129,7 +130,8 @@ export function AppRouter() {
           <Route path="sinais-e-sintomas/:presentationId" element={<PresentationDetailPage />} />
           <Route path="diretrizes" element={<GuidelinesPage />} />
           <Route path="medicamentos" element={<MedicationsPage />} />
-          <Route path="calculadoras" element={<CalculatorsPage />} />
+          <Route path="calculadoras" element={<Suspense fallback={<div className="page-stack" role="status">Carregando calculadoras...</div>}><CalculatorsPage /></Suspense>} />
+          <Route path="calculadoras/:calculatorId" element={<Suspense fallback={<div className="page-stack" role="status">Carregando calculadora...</div>}><CalculatorsPage /></Suspense>} />
           <Route path="assistente-clinico" element={<ProtectedClinicalAssistant />} />
           <Route path="favoritos" element={<FavoritesPage />} />
           <Route path="historico" element={<HistoryPage />} />

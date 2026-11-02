@@ -78,7 +78,7 @@ describe('PlantãoMed independent routes', () => {
     ['/sinais-e-sintomas', 'Sinais e sintomas'],
     ['/assistente-clinico', 'Acesso ao Assistente Clínico'],
     ['/diretrizes', 'Diretrizes e documentos'],
-    ['/calculadoras', 'Calculadoras'],
+    ['/calculadoras', 'Calculadoras Médicas'],
     ['/favoritos', 'Favoritos'],
     ['/historico', 'Histórico'],
     ['/sobre', /Sobre o PlantãoMed/i],
@@ -342,10 +342,53 @@ describe('PlantãoMed independent routes', () => {
     expect(await screen.findByRole('heading', { name: 'Sibilância' })).toBeInTheDocument()
   })
 
-  it('does not expose unimplemented calculators as clinical outputs', () => {
+  it('shows implemented calculator tools and their clinical-review status', async () => {
     renderRoute('/calculadoras')
-    expect(screen.getByRole('heading', { name: 'Nenhuma calculadora catalogada' })).toBeInTheDocument()
-    expect(screen.queryByText(/resultado:/i)).not.toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Calculadoras Médicas' })).toBeInTheDocument()
+    expect(screen.getByLabelText('10 cálculos implementados')).toBeInTheDocument()
+    expect(screen.getByLabelText('10 com testes automatizados')).toBeInTheDocument()
+    expect(screen.getByLabelText('0 com revisão clínica registrada')).toBeInTheDocument()
+    expect(document.querySelector('a[href="/calculadoras/ckd-epi-2021-creatinine"]')).not.toBeNull()
+  })
+
+  it('calculates BMI locally, updates as inputs change, and clears patient values', async () => {
+    renderRoute('/calculadoras/bmi-adult')
+    expect(await screen.findByRole('heading', { name: 'Índice de massa corporal — adultos' })).toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText('Idade · anos'), { target: { value: '42' } })
+    fireEvent.change(screen.getByLabelText('Peso · kg'), { target: { value: '70' } })
+    fireEvent.change(screen.getByLabelText('Estatura · cm'), { target: { value: '175' } })
+    expect(screen.getByText('22,9')).toBeInTheDocument()
+    expect(screen.getByText('Faixa de peso saudável')).toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText('Peso · kg'), { target: { value: '80' } })
+    expect(screen.getByText('26,1')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Limpar' }))
+    expect(screen.queryByText('26,1')).not.toBeInTheDocument()
+    expect(screen.getByText(/O resultado aparecerá quando todos os dados forem preenchidos/)).toBeInTheDocument()
+  })
+
+  it('accepts Brazilian decimal commas and blocks BMI categories outside the adult population', async () => {
+    renderRoute('/calculadoras/bmi-adult')
+    await screen.findByRole('heading', { name: 'Índice de massa corporal — adultos' })
+
+    fireEvent.change(screen.getByLabelText('Idade · anos'), { target: { value: '19' } })
+    fireEvent.change(screen.getByLabelText('Peso · kg'), { target: { value: '70,0' } })
+    fireEvent.change(screen.getByLabelText('Estatura · cm'), { target: { value: '175,0' } })
+    expect(screen.getByRole('alert')).toHaveTextContent('população')
+    expect(screen.queryByText('22,9')).not.toBeInTheDocument()
+
+    fireEvent.change(screen.getByLabelText('Idade · anos'), { target: { value: '20' } })
+    expect(screen.getByText('22,9')).toBeInTheDocument()
+  })
+
+  it('searches calculators by specialty and category', async () => {
+    renderRoute('/calculadoras')
+    const search = await screen.findByRole('searchbox', { name: 'Pesquisar calculadoras por nome, sigla, especialidade ou finalidade' })
+    fireEvent.change(search, { target: { value: 'filtração glomerular' } })
+    expect(screen.getByText('3 calculadoras encontradas')).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('button', { name: 'Pneumologia' }))
+    expect(screen.getByText('0 calculadoras encontradas')).toBeInTheDocument()
   })
 
   it('includes a global search outside the header that opens a matching protocol route', async () => {
