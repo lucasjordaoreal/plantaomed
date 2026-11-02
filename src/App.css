@@ -2247,6 +2247,7 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  margin-left: auto;
   min-width: 0;
   color: var(--color-text-secondary);
   font-size: 11px;
