@@ -94,10 +94,13 @@ describe('PlantãoMed independent routes', () => {
     renderRoute('/inicio')
     const sidebar = screen.getByRole('complementary', { name: 'Navegação principal' })
     const header = screen.getByRole('banner')
+    expect(screen.getByRole('combobox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).toBeInTheDocument()
 
     fireEvent.click(within(sidebar).getByRole('link', { name: 'Biblioteca' }))
 
     expect(await screen.findByRole('heading', { name: 'Biblioteca' })).toBeInTheDocument()
+    expect(document.querySelector('.global-search')).not.toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Buscar por tema ou categoria')).toBeInTheDocument()
     expect(document.querySelector('.route-transition__page')).toHaveAttribute('data-route-transition', 'page')
     expect(screen.getAllByRole('banner')[0]).toBe(header)
     expect(screen.getByRole('complementary', { name: 'Navegação principal' })).toBe(sidebar)
@@ -527,8 +530,8 @@ describe('PlantãoMed independent routes', () => {
     expect(screen.getByText('0 calculadoras encontradas')).toBeInTheDocument()
   })
 
-  it('includes a global search outside the header that opens a matching protocol route', async () => {
-    renderRoute('/sobre')
+  it('searches protocols from the primary home search', async () => {
+    renderRoute('/inicio')
     fireEvent.change(screen.getByRole('combobox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'asma aguda' } })
     await screen.findByRole('alert')
     fireEvent.click(await screen.findByRole('option', { name: /Asma aguda/ }))

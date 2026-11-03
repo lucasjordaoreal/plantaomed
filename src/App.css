@@ -1520,31 +1520,20 @@
 .global-search {
   position: relative;
   z-index: 15;
-  width: min(100%, 430px);
+  width: min(100%, 660px);
   min-width: 0;
-}
-
-.page-content > .global-search {
-  margin-bottom: 24px;
+  margin-top: 22px;
 }
 
 .global-search .search-field {
   margin-top: 0;
-}
-
-.global-search--prominent {
-  width: min(100%, 660px);
-  margin-top: 22px;
-}
-
-.global-search--prominent .search-field {
   min-height: 54px;
   padding-inline: 16px;
   border-radius: 16px;
   box-shadow: 0 10px 30px rgb(22 57 99 / 7%);
 }
 
-.global-search--prominent .search-field input {
+.global-search .search-field input {
   font-size: 14px;
 }
 
@@ -3772,10 +3761,6 @@
 
   .page-heading--actions .action-button {
     min-height: 34px;
-  }
-
-  .global-search--prominent {
-    width: 100%;
   }
 
 }

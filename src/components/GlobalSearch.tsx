@@ -7,10 +7,6 @@ import { getMedicalCatalogIndex } from '../lib/medicalCatalog'
 import { searchProtocols } from '../utils/search'
 import type { CatalogSearchEntry, OfficialCatalogIndex, Protocol } from '../types'
 
-type Props = {
-  prominent?: boolean
-}
-
 function documentMatches(entry: CatalogSearchEntry, query: string): boolean {
   return `${entry.title} ${entry.specialty} ${entry.type} ${entry.publicationYear} ${entry.organization} ${entry.version ?? ''}`
     .toLocaleLowerCase('pt-BR')
@@ -19,7 +15,7 @@ function documentMatches(entry: CatalogSearchEntry, query: string): boolean {
     .includes(query.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
 }
 
-export function GlobalSearch({ prominent = false }: Props) {
+export function GlobalSearch() {
   const navigate = useNavigate()
   const location = useLocation()
   const resultsId = useId()
@@ -100,7 +96,7 @@ export function GlobalSearch({ prominent = false }: Props) {
   }
 
   return (
-    <div className={`global-search${prominent ? ' global-search--prominent' : ''}`}>
+    <div className="global-search">
       <label className="search-field">
         <Search size={18} aria-hidden="true" />
         <span className="sr-only">Pesquisar temas, sinais, sintomas e documentos oficiais</span>
@@ -114,7 +110,7 @@ export function GlobalSearch({ prominent = false }: Props) {
             setError('')
             setActiveResultIndex(-1)
           }}
-          placeholder={prominent ? 'Buscar tema, sinal, sintoma ou documento oficial' : 'Buscar no PlantãoMed'}
+          placeholder="Buscar tema, sinal, sintoma ou documento oficial"
           aria-expanded={resultsOpen}
           aria-controls={resultsOpen ? resultsId : undefined}
           aria-activedescendant={resultsOpen && activeResultIndex >= 0 && activeResultIndex < resultCount

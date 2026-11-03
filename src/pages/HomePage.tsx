@@ -42,7 +42,7 @@ export function HomePage() {
         <span className="eyebrow"><span className="eyebrow-dot" /> Consulta clínica</span>
         <h1 data-page-heading tabIndex={-1}>PlantãoMed</h1>
         <p>Pesquise temas clínicos, apresentações e documentos oficiais.</p>
-        <GlobalSearch prominent />
+        <GlobalSearch />
       </section>
 
       <section className="dashboard-section">

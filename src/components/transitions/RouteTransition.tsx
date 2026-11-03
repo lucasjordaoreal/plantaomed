@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigationType } from 'react-router-dom'
-import { GlobalSearch } from '../GlobalSearch'
 
 type TransitionDirection = 'page' | 'detail-forward' | 'detail-back'
 
@@ -54,7 +53,6 @@ export function RouteTransition() {
         }
       }}
     >
-      {location.pathname !== '/inicio' && <GlobalSearch />}
       <Outlet />
     </div>
   )
