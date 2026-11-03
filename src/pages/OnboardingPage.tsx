@@ -98,29 +98,37 @@ export function OnboardingPage() {
           </div>
 
           <div className="onboarding-showcase" aria-label="Demonstração visual da plataforma">
-            <div className="showcase-card showcase-card--search">
-              <div className="showcase-label">Pesquisar</div>
-              <div className="showcase-search">
-                <Search size={15} aria-hidden="true" />
-                <span>medicina baseada em evidência</span>
+            <div className="showcase-card-entry showcase-card-entry--search">
+              <div className="showcase-card showcase-card--search">
+                <div className="showcase-label">Pesquisar</div>
+                <div className="showcase-search">
+                  <Search size={15} aria-hidden="true" />
+                  <span>medicina baseada em evidência</span>
+                </div>
               </div>
             </div>
-            <div className="showcase-card showcase-card--drug">
-              <div className="showcase-badge">Medicamento</div>
-              <h2>Dipirona</h2>
-              <p>Uso clínico e apresentações gerais</p>
+            <div className="showcase-card-entry showcase-card-entry--drug">
+              <div className="showcase-card showcase-card--drug">
+                <div className="showcase-badge">Medicamento</div>
+                <h2>Dipirona</h2>
+                <p>Uso clínico e apresentações gerais</p>
+              </div>
             </div>
-            <div className="showcase-card showcase-card--reference">
-              <div className="showcase-badge">Referência</div>
-              <p>Diretriz e revisão institucional</p>
+            <div className="showcase-card-entry showcase-card-entry--reference">
+              <div className="showcase-card showcase-card--reference">
+                <div className="showcase-badge">Referência</div>
+                <p>Diretriz e revisão institucional</p>
+              </div>
             </div>
-            <div className="showcase-list">
-              {showcaseItems.map((item) => (
-                <div key={item.label} className={`showcase-pill showcase-pill--${item.kind}`}>
-                  <span className="showcase-pill__dot" aria-hidden="true" />
-                  {item.label}
-                </div>
-              ))}
+            <div className="showcase-card-entry showcase-card-entry--list">
+              <div className="showcase-list">
+                {showcaseItems.map((item) => (
+                  <div key={item.label} className={`showcase-pill showcase-pill--${item.kind}`}>
+                    <span className="showcase-pill__dot" aria-hidden="true" />
+                    {item.label}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

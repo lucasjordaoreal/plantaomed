@@ -70,6 +70,12 @@ describe('PlantãoMed independent routes', () => {
     renderRoute('/')
     expect(await screen.findByRole('heading', { name: /PlantãoMed\. Conhecimento clínico/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Entrar no PlantãoMed/i })).toBeInTheDocument()
+    const showcase = document.querySelector('.onboarding-showcase')
+    expect(showcase?.querySelectorAll('.showcase-card-entry')).toHaveLength(4)
+    expect(showcase?.querySelectorAll('.showcase-card')).toHaveLength(3)
+    expect(screen.getByRole('heading', { name: 'Dipirona' })).toBeInTheDocument()
+    expect(screen.getByText('medicina baseada em evidência')).toBeInTheDocument()
+    expect(screen.getByText('Diretriz e revisão institucional')).toBeInTheDocument()
     expect(screen.queryByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).not.toBeInTheDocument()
     await waitFor(() => {
       expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute('content', 'index, follow')

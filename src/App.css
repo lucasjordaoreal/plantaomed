@@ -144,18 +144,27 @@
 
 .showcase-card,
 .showcase-list {
-  position: absolute;
-  border: 1px solid rgb(228 232 240 / 90%);
-  background: rgb(255 255 255 / 75%);
+  border: 1px solid rgb(228 232 240 / 92%);
+  background: rgb(255 255 255 / 94%);
   box-shadow: 0 26px 52px rgb(32 57 90 / 10%);
-  backdrop-filter: blur(18px) saturate(1.5);
-  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+
+.showcase-card-entry {
+  position: absolute;
+  z-index: 1;
+  width: max-content;
+  max-width: 100%;
+  animation: showcaseCardEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .showcase-card {
   border-radius: 22px;
   padding: 18px 20px;
+  transform: rotate(var(--card-rotation, 0deg));
   animation: floatCard 9s ease-in-out infinite;
+  animation-fill-mode: both;
 }
 
 .showcase-search {
@@ -185,25 +194,43 @@
 
 .showcase-card--search {
   --card-rotation: 2deg;
+}
+
+.showcase-card-entry--search {
   top: 56px;
   right: 42px;
+  z-index: 2;
 }
 
 .showcase-card--drug {
   --card-rotation: -4deg;
+}
+
+.showcase-card-entry--drug {
   left: 20px;
   bottom: 132px;
+  z-index: 3;
+  animation-delay: 80ms;
+}
+
+.showcase-card--drug {
   min-width: 220px;
   padding-bottom: 22px;
-  animation-delay: 0.8s;
 }
 
 .showcase-card--reference {
   --card-rotation: 5deg;
+}
+
+.showcase-card-entry--reference {
   right: 76px;
   bottom: 70px;
+  z-index: 2;
+  animation-delay: 160ms;
+}
+
+.showcase-card--reference {
   min-width: 240px;
-  animation-delay: 1.2s;
 }
 
 .showcase-card--drug h2 {
@@ -220,13 +247,18 @@
 }
 
 .showcase-list {
-  right: 20px;
-  bottom: 20px;
   display: grid;
   gap: 10px;
   padding: 16px 18px;
   border-radius: 18px;
   transform: rotate(-3deg);
+}
+
+.showcase-card-entry--list {
+  right: 20px;
+  bottom: 20px;
+  z-index: 4;
+  animation-delay: 240ms;
 }
 
 .showcase-pill {
@@ -333,6 +365,18 @@
   }
 }
 
+@keyframes showcaseCardEnter {
+  from {
+    opacity: 0.72;
+    transform: translate3d(0, 12px, 0) rotate(-1deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
 @keyframes fadeUp {
   to {
     opacity: 1;
@@ -371,7 +415,11 @@
     min-height: 360px;
   }
 
-  .showcase-card--search {
+  .showcase-card-entry--search {
+    right: 12px;
+  }
+
+  .showcase-card-entry--reference {
     right: 12px;
   }
 
@@ -385,9 +433,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .showcase-card-entry,
   .showcase-card,
   .feature-card {
     animation: none;
+  }
+
+  .showcase-card-entry {
+    opacity: 1;
+    transform: none;
   }
 
   .primary-button,
