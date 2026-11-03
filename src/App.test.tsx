@@ -71,6 +71,10 @@ describe('PlantãoMed independent routes', () => {
     expect(await screen.findByRole('heading', { name: /PlantãoMed\. Conhecimento clínico/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /Entrar no PlantãoMed/i })).toBeInTheDocument()
     expect(screen.queryByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(document.head.querySelector('meta[name="robots"]')).toHaveAttribute('content', 'index, follow')
+      expect(document.head.querySelector('link[rel="canonical"]')).toHaveAttribute('href', 'https://plantaomeds.netlify.app/')
+    })
   })
 
   it('stores onboarding completion and skips the welcome page later', async () => {

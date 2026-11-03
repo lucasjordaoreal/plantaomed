@@ -14,7 +14,7 @@ const vite = await createServer({
 })
 
 try {
-  const { getNetlifyRouteRedirects, getPublicSiteUrl, getSitemapPages, publicPageMetadata } =
+  const { getNetlifyRouteRedirects, getPublicSiteUrl, getRobotsTxt, getSitemapPages, publicPageMetadata } =
     await vite.ssrLoadModule('/src/seo/publicPageMetadata.ts')
   const { renderPageHtml } = await vite.ssrLoadModule('/src/seo/documentMetadata.ts')
   const template = await readFile(path.join(dist, 'index.html'), 'utf8')
@@ -32,11 +32,7 @@ try {
     .join('\n')
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
   await writeFile(path.join(dist, 'sitemap.xml'), sitemap, 'utf8')
-  await writeFile(
-    path.join(dist, 'robots.txt'),
-    `User-agent: *\nAllow: /\nDisallow: /assistente-clinico\nDisallow: /login\nDisallow: /recuperar-senha\nDisallow: /aceitar-convite\nDisallow: /redefinir-senha\nDisallow: /favoritos\nDisallow: /historico\n\nSitemap: ${publicSiteUrl}/sitemap.xml\n`,
-    'utf8',
-  )
+  await writeFile(path.join(dist, 'robots.txt'), getRobotsTxt(), 'utf8')
   await writeFile(path.join(dist, '_redirects'), `${getNetlifyRouteRedirects().join('\n')}\n`, 'utf8')
 
   console.log(`Generated crawler-ready HTML for ${publicPageMetadata.length} routes, ${getSitemapPages().length} sitemap entries, and route-specific rewrites.`)

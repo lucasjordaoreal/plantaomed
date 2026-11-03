@@ -6,6 +6,7 @@ import { calculatorShareMetadata } from './calculatorShareMetadata'
 
 export type PublicPageMetadata = {
   path: string
+  canonicalPath?: string
   title: string
   description: string
   type: 'website' | 'article'
@@ -14,8 +15,8 @@ export type PublicPageMetadata = {
 
 export const defaultPageMetadata: PublicPageMetadata = {
   path: '/',
-  title: 'PlantãoMed — Plataforma Médica',
-  description: 'Biblioteca clínica, medicamentos, diretrizes e calculadoras para profissionais de saúde.',
+  title: 'PlantãoMed — Plataforma Clínica para Médicos',
+  description: 'Conheça o PlantãoMed, uma plataforma clínica para médicos brasileiros com biblioteca de referências, diretrizes, medicamentos e calculadoras.',
   type: 'website',
 }
 
@@ -28,7 +29,7 @@ const fixedPages: PublicPageMetadata[] = [
   { path: '/diretrizes', title: 'Diretrizes Brasileiras | PlantãoMed', description: 'Consulte referências e documentos científicos utilizados na prática médica brasileira.', type: 'website' },
   { path: '/sinais-e-sintomas', title: 'Sinais e Sintomas | PlantãoMed', description: 'Explore manifestações clínicas e referências relacionadas à avaliação médica.', type: 'website' },
   { path: '/sobre', title: 'Sobre o PlantãoMed', description: 'Conheça a plataforma PlantãoMed e seus recursos de consulta clínica.', type: 'website' },
-  { path: '/boas-vindas', title: 'Boas-vindas | PlantãoMed', description: 'Conheça a plataforma PlantãoMed.', type: 'website', noIndex: true },
+  { path: '/boas-vindas', canonicalPath: '/', title: defaultPageMetadata.title, description: defaultPageMetadata.description, type: 'website' },
   { path: '/login', title: 'Acesso ao Assistente Clínico | PlantãoMed', description: 'Acesso restrito ao Assistente Clínico do PlantãoMed.', type: 'website', noIndex: true },
   { path: '/recuperar-senha', title: 'Recuperar senha | PlantãoMed', description: 'Recuperação de acesso ao Assistente Clínico.', type: 'website', noIndex: true },
   { path: '/aceitar-convite', title: 'Aceitar convite | PlantãoMed', description: 'Configuração de acesso ao Assistente Clínico.', type: 'website', noIndex: true },
@@ -90,11 +91,16 @@ export function getPageMetadata(pathname: string): PublicPageMetadata {
 }
 
 export function getCanonicalUrl(pathname: string): string {
-  return getPublicUrl(normalizePublicPath(pathname))
+  const path = normalizePublicPath(pathname)
+  return getPublicUrl(pageMetadataByPath.get(path)?.canonicalPath ?? path)
 }
 
 export function getSitemapPages(): PublicPageMetadata[] {
-  return publicPageMetadata.filter((page) => !page.noIndex)
+  return publicPageMetadata.filter((page) => !page.noIndex && (!page.canonicalPath || page.canonicalPath === page.path))
+}
+
+export function getRobotsTxt(): string {
+  return `User-agent: *\nAllow: /\n\nSitemap: ${PUBLIC_SITE_URL}/sitemap.xml\n`
 }
 
 export function getNetlifyRouteRedirects(): string[] {

@@ -7,7 +7,7 @@
     "predev": "npm run catalog:validate && npm run catalog:generate",
     "dev": "vite",
     "prebuild": "npm run catalog:validate && npm run catalog:generate",
-    "build": "tsc -b && vite build && node scripts/generate-social-pages.mjs",
+    "build": "tsc -b && vite build && node scripts/generate-social-pages.mjs && node scripts/validate-seo-build.mjs",
     "lint": "oxlint",
     "test": "vitest run && npm run catalog:validate",
     "catalog:validate": "node scripts/medical-import/validate.mjs",

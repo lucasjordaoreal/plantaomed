@@ -6,11 +6,12 @@ O build gera HTML estático com metadados para cada rota pública e privada conh
 
 - Domínio canônico: `https://plantaomeds.netlify.app`, centralizado em `src/config/publicSite.ts`.
 - Imagem compartilhada: `public/social/plantao-med-og.jpg` (1200 × 630, JPEG). Para substituir a arte e invalidar caches externos, use um novo nome de arquivo e atualize `PUBLIC_SHARE_IMAGE_PATH`.
-- Cada página mantém seu próprio caminho canônico; query strings e fragments de autenticação não fazem parte do canonical ou do link compartilhado.
+- A apresentação pública em `/` e `/boas-vindas` usa `/` como canonical; `/boas-vindas` permanece acessível para o fluxo de onboarding sem duplicar o endereço institucional no sitemap. `/inicio` mantém canonical próprio para a aplicação.
+- Rotas privadas e registros sem aprovação editorial recebem `noindex, nofollow` no HTML inicial. O `robots.txt` permite rastreamento para que crawlers possam ler essas diretivas; ele não é um controle de acesso. Query strings e fragments de autenticação não fazem parte do canonical ou do link compartilhado.
 
 ## Build e publicação
 
-`npm run build` executa `scripts/generate-social-pages.mjs` após o bundle Vite. O script produz documentos em `dist/<rota>/index.html`, `/sitemap.xml`, `/robots.txt` e `/_redirects`. Rewrites exatos para URLs com e sem barra final enviam cada rota conhecida ao HTML correspondente antes do fallback SPA; caminhos não listados continuam chegando ao BrowserRouter. `netlify.toml` define somente o comando de build e a pasta de publicação, sem um rewrite amplo que pudesse encobrir os arquivos pré-renderizados.
+`npm run build` executa `scripts/generate-social-pages.mjs` após o bundle Vite e valida os HTMLs iniciais, o sitemap, `robots.txt` e a resposta 404 configurada para `/ai-catalog.json` com `scripts/validate-seo-build.mjs`. O gerador produz documentos em `dist/<rota>/index.html`, `/sitemap.xml`, `/robots.txt` e `/_redirects`. Rewrites exatos para URLs com e sem barra final enviam cada rota conhecida ao HTML correspondente antes do fallback SPA; caminhos não listados continuam chegando ao BrowserRouter. `netlify.toml` define somente o comando de build e a pasta de publicação, sem um rewrite amplo que pudesse encobrir os arquivos pré-renderizados.
 
 Não é necessária a instalação de uma extensão de prerenderização no painel Netlify. Publique o `dist` gerado em uma publicação autorizada para ativar os arquivos estáticos e as regras de rewrite. Rotas privadas e protocolos sem aprovação editorial são marcados `noindex`; conteúdos privados também não aparecem no sitemap.
 

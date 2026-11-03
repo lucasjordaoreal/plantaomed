@@ -32,7 +32,7 @@ function escapeHtml(value: string): string {
 }
 
 export function renderMetadataTags(page: PublicPageMetadata): string {
-  const canonicalUrl = getCanonicalUrl(page.path)
+  const canonicalUrl = getCanonicalUrl(page.canonicalPath ?? page.path)
   const values: Record<string, string> = {
     'name:description': page.description,
     'name:robots': page.noIndex ? 'noindex, nofollow' : 'index, follow',
