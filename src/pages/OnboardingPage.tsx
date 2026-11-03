@@ -107,7 +107,7 @@ export function OnboardingPage() {
             </div>
             <div className="showcase-card showcase-card--drug">
               <div className="showcase-badge">Medicamento</div>
-              <h3>Dipirona</h3>
+              <h2>Dipirona</h2>
               <p>Uso clínico e apresentações gerais</p>
             </div>
             <div className="showcase-card showcase-card--reference">

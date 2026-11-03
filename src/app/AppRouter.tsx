@@ -3,24 +3,26 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { useIdentityAuth, hasClinicalAssistantAccess } from '../auth/useIdentityAuth'
 import { isIdentityCallbackHash } from '../auth/identityCallback'
 import { AppLayout } from './AppLayout'
-import { AboutPage } from '../pages/AboutPage'
-import { ClinicalAssistantPage } from '../pages/ClinicalAssistantPage'
-import { ClinicalAssistantLoginPage } from '../pages/ClinicalAssistantLoginPage'
-import { InviteAcceptancePage, PasswordResetPage } from '../pages/IdentityCredentialPages'
-import { FavoritesPage } from '../pages/FavoritesPage'
-import { GuidelinesPage } from '../pages/GuidelinesPage'
-import { HistoryPage } from '../pages/HistoryPage'
 import { HomePage } from '../pages/HomePage'
-import { LibraryPage } from '../pages/LibraryPage'
-import { MedicationsPage } from '../pages/MedicationsPage'
-import { NotFoundPage } from '../pages/NotFoundPage'
 import { OnboardingPage } from '../pages/OnboardingPage'
-import { PresentationDetailPage } from '../pages/PresentationDetailPage'
-import { ProtocolDetailPage } from '../pages/ProtocolDetailPage'
-import { SymptomsPage } from '../pages/SymptomsPage'
 import { getOnboardingCompleted } from '../lib/storage'
 import { OnboardingTransition } from '../components/transitions/OnboardingTransition'
 import { usePageMetadata } from '../seo/usePageMetadata'
+
+const AboutPage = lazy(() => import('../pages/AboutPage').then(({ AboutPage: page }) => ({ default: page })))
+const ClinicalAssistantPage = lazy(() => import('../pages/ClinicalAssistantPage').then(({ ClinicalAssistantPage: page }) => ({ default: page })))
+const ClinicalAssistantLoginPage = lazy(() => import('../pages/ClinicalAssistantLoginPage').then(({ ClinicalAssistantLoginPage: page }) => ({ default: page })))
+const InviteAcceptancePage = lazy(() => import('../pages/IdentityCredentialPages').then(({ InviteAcceptancePage: page }) => ({ default: page })))
+const PasswordResetPage = lazy(() => import('../pages/IdentityCredentialPages').then(({ PasswordResetPage: page }) => ({ default: page })))
+const FavoritesPage = lazy(() => import('../pages/FavoritesPage').then(({ FavoritesPage: page }) => ({ default: page })))
+const GuidelinesPage = lazy(() => import('../pages/GuidelinesPage').then(({ GuidelinesPage: page }) => ({ default: page })))
+const HistoryPage = lazy(() => import('../pages/HistoryPage').then(({ HistoryPage: page }) => ({ default: page })))
+const LibraryPage = lazy(() => import('../pages/LibraryPage').then(({ LibraryPage: page }) => ({ default: page })))
+const MedicationsPage = lazy(() => import('../pages/MedicationsPage').then(({ MedicationsPage: page }) => ({ default: page })))
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage').then(({ NotFoundPage: page }) => ({ default: page })))
+const PresentationDetailPage = lazy(() => import('../pages/PresentationDetailPage').then(({ PresentationDetailPage: page }) => ({ default: page })))
+const ProtocolDetailPage = lazy(() => import('../pages/ProtocolDetailPage').then(({ ProtocolDetailPage: page }) => ({ default: page })))
+const SymptomsPage = lazy(() => import('../pages/SymptomsPage').then(({ SymptomsPage: page }) => ({ default: page })))
 
 function getOnboardingTransition(state: unknown) {
   if (!state || typeof state !== 'object' || !('onboardingTransition' in state)) return null
@@ -48,6 +50,7 @@ function getOnboardingTransition(state: unknown) {
 }
 
 const CalculatorsPage = lazy(() => import('../pages/CalculatorsPage').then(({ CalculatorsPage: page }) => ({ default: page })))
+const pageLoadingFallback = <div className="page-stack" role="status">Carregando página...</div>
 
 function ProtectedClinicalAssistant() {
   const { user, status, logout } = useIdentityAuth()
@@ -146,27 +149,27 @@ export function AppRouter() {
       )}
       <Routes>
         <Route path="boas-vindas" element={<OnboardingPage />} />
-        <Route path="login" element={<ClinicalAssistantLoginPage />} />
-        <Route path="recuperar-senha" element={<ClinicalAssistantLoginPage />} />
-        <Route path="aceitar-convite" element={<InviteAcceptancePage />} />
-        <Route path="redefinir-senha" element={<PasswordResetPage />} />
+        <Route path="login" element={<Suspense fallback={pageLoadingFallback}><ClinicalAssistantLoginPage /></Suspense>} />
+        <Route path="recuperar-senha" element={<Suspense fallback={pageLoadingFallback}><ClinicalAssistantLoginPage /></Suspense>} />
+        <Route path="aceitar-convite" element={<Suspense fallback={pageLoadingFallback}><InviteAcceptancePage /></Suspense>} />
+        <Route path="redefinir-senha" element={<Suspense fallback={pageLoadingFallback}><PasswordResetPage /></Suspense>} />
         <Route element={<AppLayout />}>
           <Route index element={<HomePage />} />
           <Route path="inicio" element={<HomePage />} />
-          <Route path="protocolos" element={<LibraryPage />} />
-          <Route path="protocolos/:protocolId" element={<ProtocolDetailPage />} />
-          <Route path="sinais-e-sintomas" element={<SymptomsPage />} />
-          <Route path="sinais-e-sintomas/:presentationId" element={<PresentationDetailPage />} />
-          <Route path="diretrizes" element={<GuidelinesPage />} />
-          <Route path="medicamentos" element={<MedicationsPage />} />
+          <Route path="protocolos" element={<Suspense fallback={pageLoadingFallback}><LibraryPage /></Suspense>} />
+          <Route path="protocolos/:protocolId" element={<Suspense fallback={pageLoadingFallback}><ProtocolDetailPage /></Suspense>} />
+          <Route path="sinais-e-sintomas" element={<Suspense fallback={pageLoadingFallback}><SymptomsPage /></Suspense>} />
+          <Route path="sinais-e-sintomas/:presentationId" element={<Suspense fallback={pageLoadingFallback}><PresentationDetailPage /></Suspense>} />
+          <Route path="diretrizes" element={<Suspense fallback={pageLoadingFallback}><GuidelinesPage /></Suspense>} />
+          <Route path="medicamentos" element={<Suspense fallback={pageLoadingFallback}><MedicationsPage /></Suspense>} />
           <Route path="calculadoras" element={<Suspense fallback={<div className="page-stack" role="status">Carregando calculadoras...</div>}><CalculatorsPage /></Suspense>} />
           <Route path="calculadoras/:calculatorId" element={<Suspense fallback={<div className="page-stack" role="status">Carregando calculadora...</div>}><CalculatorsPage /></Suspense>} />
-          <Route path="assistente-clinico" element={<ProtectedClinicalAssistant />} />
-          <Route path="favoritos" element={<FavoritesPage />} />
-          <Route path="historico" element={<HistoryPage />} />
-          <Route path="sobre" element={<AboutPage />} />
+          <Route path="assistente-clinico" element={<Suspense fallback={pageLoadingFallback}><ProtectedClinicalAssistant /></Suspense>} />
+          <Route path="favoritos" element={<Suspense fallback={pageLoadingFallback}><FavoritesPage /></Suspense>} />
+          <Route path="historico" element={<Suspense fallback={pageLoadingFallback}><HistoryPage /></Suspense>} />
+          <Route path="sobre" element={<Suspense fallback={pageLoadingFallback}><AboutPage /></Suspense>} />
           <Route path="documentos" element={<Navigate to="/diretrizes" replace />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<Suspense fallback={pageLoadingFallback}><NotFoundPage /></Suspense>} />
         </Route>
       </Routes>
       {onboardingTransition && (

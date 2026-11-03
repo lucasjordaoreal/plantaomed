@@ -86,6 +86,7 @@ export function AppLayout() {
     const overlaySelector = 'iframe, [id^="nl-"], [class*="nl-"], [id*="netlify"], [class*="netlify"]'
     let scheduledFrame: number | null = null
     const usesAnimationFrame = typeof window.requestAnimationFrame === 'function'
+    const supportsTranslate = typeof CSS !== 'undefined' && CSS.supports('translate', '0 1px')
     const resizeObserver = typeof ResizeObserver === 'undefined'
       ? null
       : new ResizeObserver(scheduleMeasurement)
@@ -125,17 +126,24 @@ export function AppLayout() {
     const updateAvoidance = () => {
       scheduledFrame = null
       const currentOffset = appShell.style.getPropertyValue('--mobile-tab-obstruction')
-      const inlineTransition = tabBar.style.transition
-      tabBar.style.transition = 'none'
-      appShell.style.setProperty('--mobile-tab-obstruction', '0px')
-      const tabRect = tabBar.getBoundingClientRect()
-      if (currentOffset) appShell.style.setProperty('--mobile-tab-obstruction', currentOffset)
-      else appShell.style.removeProperty('--mobile-tab-obstruction')
-      tabBar.style.transition = inlineTransition
+      const currentOffsetValue = Number.parseFloat(currentOffset) || 0
+      const currentRect = tabBar.getBoundingClientRect()
+      const translateY = supportsTranslate
+        ? Number.parseFloat(window.getComputedStyle(tabBar).translate.split(/\s+/)[1] ?? '') || 0
+        : -currentOffsetValue
+      const tabRect = {
+        left: currentRect.left,
+        right: currentRect.right,
+        top: currentRect.top - translateY,
+        bottom: currentRect.bottom - translateY,
+        width: currentRect.width,
+        height: currentRect.height,
+      }
       const offset = window.innerWidth <= 920
         ? calculateMobileTabBarOffset(tabRect, getOverlayElements().map((element) => element.getBoundingClientRect()))
         : 0
       appShell.style.setProperty('--mobile-tab-obstruction', `${offset}px`)
+      appShell.style.setProperty('--mobile-tab-obstruction-shift', `${-offset}px`)
     }
 
     function scheduleMeasurement() {
@@ -187,6 +195,7 @@ export function AppLayout() {
         else window.clearTimeout(scheduledFrame)
       }
       appShell.style.removeProperty('--mobile-tab-obstruction')
+      appShell.style.removeProperty('--mobile-tab-obstruction-shift')
     }
   }, [])
 

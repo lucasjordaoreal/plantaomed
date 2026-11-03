@@ -4,23 +4,7 @@
 
 @font-face {
   font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-ExtraLight.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 200;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-Light.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-Regular.ttf') format('truetype');
+  src: url('./fonts/BricolageGrotesque-Regular.woff2') format('woff2');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -28,7 +12,7 @@
 
 @font-face {
   font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-Medium.ttf') format('truetype');
+  src: url('./fonts/BricolageGrotesque-Medium.woff2') format('woff2');
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -36,7 +20,7 @@
 
 @font-face {
   font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-SemiBold.ttf') format('truetype');
+  src: url('./fonts/BricolageGrotesque-SemiBold.woff2') format('woff2');
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -44,7 +28,7 @@
 
 @font-face {
   font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-Bold.ttf') format('truetype');
+  src: url('./fonts/BricolageGrotesque-Bold.woff2') format('woff2');
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -52,7 +36,7 @@
 
 @font-face {
   font-family: 'Bricolage Grotesque';
-  src: url('./fonts/BricolageGrotesque-ExtraBold.ttf') format('truetype');
+  src: url('./fonts/BricolageGrotesque-ExtraBold.woff2') format('woff2');
   font-style: normal;
   font-weight: 800;
   font-display: swap;

@@ -43,6 +43,8 @@ describe('public page metadata', () => {
     expect(redirects).toContain('/protocolos/asma-aguda/ /protocolos/asma-aguda/index.html 200')
     expect(redirects).toContain('/calculadoras/qsofa /calculadoras/qsofa/index.html 200')
     expect(redirects).toContain('/assistente-clinico /assistente-clinico/index.html 200')
+    expect(redirects.indexOf('/ai-catalog.json /index.html 404')).toBeLessThan(redirects.indexOf('/* /index.html 200'))
+    expect(redirects.indexOf('/llms.txt /index.html 404')).toBeLessThan(redirects.indexOf('/* /index.html 200'))
     expect(redirects.at(-1)).toBe('/* /index.html 200')
   })
 })

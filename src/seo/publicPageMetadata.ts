@@ -104,7 +104,12 @@ export function getNetlifyRouteRedirects(): string[] {
       `${path} ${path}/index.html 200`,
       `${path}/ ${path}/index.html 200`,
     ])
-  return [...pageRewrites, '/* /index.html 200']
+  return [
+    ...pageRewrites,
+    '/ai-catalog.json /index.html 404',
+    '/llms.txt /index.html 404',
+    '/* /index.html 200',
+  ]
 }
 
 export function getPublicSiteUrl(): string {

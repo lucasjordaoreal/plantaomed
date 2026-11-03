@@ -183,11 +183,13 @@ describe('PlantãoMed independent routes', () => {
     document.body.append(badgeFrame)
 
     await waitFor(() => expect(appShell).toHaveStyle('--mobile-tab-obstruction: 62px'))
+    await waitFor(() => expect(appShell).toHaveStyle('--mobile-tab-obstruction-shift: -62px'))
     expect(mobileNavigation).toHaveClass('glass-surface')
     expect(mobileNavigation.children).toHaveLength(5)
 
     badgeFrame.remove()
     await waitFor(() => expect(appShell).toHaveStyle('--mobile-tab-obstruction: 0px'))
+    await waitFor(() => expect(appShell).toHaveStyle('--mobile-tab-obstruction-shift: 0px'))
   })
 
   it.each([
@@ -363,9 +365,9 @@ describe('PlantãoMed independent routes', () => {
     expect(window.location.hash).toBe('')
   })
 
-  it('provides a not-found page and a route back to the dashboard', () => {
+  it('provides a not-found page and a route back to the dashboard', async () => {
     renderRoute('/rota-inexistente')
-    expect(screen.getByRole('heading', { name: 'Página não encontrada' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Página não encontrada' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Ir ao Início/ })).toHaveAttribute('href', '/inicio')
   })
 
@@ -380,7 +382,7 @@ describe('PlantãoMed independent routes', () => {
 
   it('opens protocol details by stable id and keeps unverified clinical instructions hidden', async () => {
     renderRoute('/protocolos/asma-aguda')
-    expect(screen.getByRole('heading', { name: 'Asma aguda' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Asma aguda' })).toBeInTheDocument()
     expect(screen.getByText(/Conteúdo não validado para uso assistencial/)).toBeInTheDocument()
     expect(screen.queryByText('Administração de broncodilatador de ação curta')).not.toBeInTheDocument()
     await waitFor(() => expect(localStorage.getItem('plantaomed:history')).toContain('asma-aguda'))
@@ -444,19 +446,35 @@ describe('PlantãoMed independent routes', () => {
     expect(within(menu).getByRole('menuitem', { name: 'Calculadoras' })).toHaveAttribute('href', '/calculadoras')
   })
 
-  it('lists cataloged presentations and opens a stable detail route', () => {
+  it('lists cataloged presentations and opens a stable detail route', async () => {
     renderRoute('/sinais-e-sintomas')
-    expect(screen.getByText(`${clinicalPresentations.length} apresentações catalogadas para pesquisa e organização.`)).toBeInTheDocument()
+    expect(await screen.findByText(`${clinicalPresentations.length} apresentações catalogadas para pesquisa e organização.`)).toBeInTheDocument()
     expect(new Set(clinicalPresentations.map(({ id }) => id)).size).toBe(clinicalPresentations.length)
     fireEvent.click(screen.getByRole('link', { name: 'Dispneia' }))
-    expect(screen.getByRole('heading', { name: 'Dispneia' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Dispneia' })).toBeInTheDocument()
     expect(screen.getByText(/Não há referências, relações diagnósticas, algoritmos ou condutas associados/)).toBeInTheDocument()
   })
 
   it('searches accent-insensitive presentation terms from global search', async () => {
     renderRoute('/inicio')
-    fireEvent.change(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'sibilancia' } })
+    fireEvent.change(screen.getByRole('combobox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'sibilancia' } })
     fireEvent.click(await screen.findByRole('option', { name: /Sibilância.*Apresentação clínica/ }))
+    expect(await screen.findByRole('heading', { name: 'Sibilância' })).toBeInTheDocument()
+  })
+
+  it('navigates and selects global search suggestions with the keyboard', async () => {
+    renderRoute('/inicio')
+    const search = screen.getByRole('combobox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' })
+    expect(search).toHaveAttribute('aria-autocomplete', 'list')
+    fireEvent.change(search, { target: { value: 'sibilancia' } })
+
+    const option = await screen.findByRole('option', { name: /Sibilância.*Apresentação clínica/ })
+    fireEvent.keyDown(search, { key: 'ArrowDown' })
+
+    expect(search).toHaveAttribute('aria-activedescendant', option.id)
+    expect(option).toHaveAttribute('aria-selected', 'true')
+
+    fireEvent.keyDown(search, { key: 'Enter' })
     expect(await screen.findByRole('heading', { name: 'Sibilância' })).toBeInTheDocument()
   })
 
@@ -511,7 +529,7 @@ describe('PlantãoMed independent routes', () => {
 
   it('includes a global search outside the header that opens a matching protocol route', async () => {
     renderRoute('/sobre')
-    fireEvent.change(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'asma aguda' } })
+    fireEvent.change(screen.getByRole('combobox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'asma aguda' } })
     await screen.findByRole('alert')
     fireEvent.click(await screen.findByRole('option', { name: /Asma aguda/ }))
     expect(await screen.findByRole('heading', { name: 'Asma aguda' })).toBeInTheDocument()
@@ -583,7 +601,7 @@ describe('PlantãoMed independent routes', () => {
     vi.stubGlobal('fetch', fetchMock)
 
     renderRoute('/inicio')
-    fireEvent.change(screen.getByRole('searchbox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'lombalgia' } })
+    fireEvent.change(screen.getByRole('combobox', { name: 'Pesquisar temas, sinais, sintomas e documentos oficiais' }), { target: { value: 'lombalgia' } })
     fireEvent.click(await screen.findByRole('option', { name: /PCDT Lombalgia/ }))
     fireEvent.click(await screen.findByRole('button', { name: 'Carregar documentos' }))
     expect(await screen.findByRole('heading', { name: 'PCDT Lombalgia' })).toBeInTheDocument()
