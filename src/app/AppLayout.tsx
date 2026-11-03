@@ -264,6 +264,7 @@ export function AppLayout() {
         </main>
       </div>
 
+      <div className="mobile-bottom-frost" aria-hidden="true" />
       <nav className="mobile-tab-bar glass-surface" aria-label="Navegação inferior">
         {mobileLinks.map(({ to, label, shortLabel, icon: Icon, end }) => (
           <NavLink key={to} to={to} end={end} aria-label={label} className={({ isActive }) => `mobile-tab${isActive ? ' is-active' : ''}`}>

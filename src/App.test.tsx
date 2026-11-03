@@ -171,6 +171,9 @@ describe('PlantãoMed independent routes', () => {
 
     const appShell = document.querySelector<HTMLElement>('.app-shell')
     const mobileNavigation = screen.getByRole('navigation', { name: 'Navegação inferior' })
+    const bottomFrost = appShell?.querySelector('.mobile-bottom-frost')
+    expect(bottomFrost).toHaveAttribute('aria-hidden', 'true')
+    expect(bottomFrost?.nextElementSibling).toBe(mobileNavigation)
     vi.spyOn(mobileNavigation, 'getBoundingClientRect').mockReturnValue({
       x: 12, y: 770, left: 12, top: 770, right: 378, bottom: 834, width: 366, height: 64, toJSON: () => ({}),
     })
